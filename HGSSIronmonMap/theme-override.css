@@ -1,0 +1,105 @@
+/* Gen 4 site theme override for the HGSS IronMON map control panel.
+   Targets MUI Accordion + ToggleButton classes with high specificity. */
+
+:root {
+  --gen4-panel: #141828;
+  --gen4-card: #1a2238;
+  --gen4-border: #243058;
+  --gen4-text: #eceef8;
+  --gen4-muted: #8892cc;
+  --gen4-accent: #E5B928; /* HeartGold */
+  --gen4-accent-fg: #1a1500;
+}
+
+/* Accordion outer paper */
+.control-panel .MuiPaper-root.MuiAccordion-root {
+  background: var(--gen4-panel) !important;
+  color: var(--gen4-text) !important;
+  border: 1px solid var(--gen4-border) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* "Control Panel" summary header */
+.control-panel .MuiAccordionSummary-root {
+  background: linear-gradient(180deg, var(--gen4-card), var(--gen4-panel)) !important;
+  color: var(--gen4-text) !important;
+  border-bottom: 1px solid var(--gen4-border) !important;
+}
+.control-panel .MuiAccordionSummary-content {
+  color: var(--gen4-text) !important;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+.control-panel .MuiAccordionSummary-expandIconWrapper,
+.control-panel .MuiAccordionSummary-expandIconWrapper .MuiIcon-root {
+  color: var(--gen4-accent) !important;
+}
+
+/* Accordion body */
+.control-panel .MuiAccordionDetails-root,
+.control-panel .MuiCollapse-root,
+.control-panel .MuiCollapse-wrapper,
+.control-panel .MuiCollapse-wrapperInner {
+  background: var(--gen4-panel) !important;
+  color: var(--gen4-text) !important;
+}
+
+/* Section headings inside the panel */
+.control-panel .MuiTypography-root,
+.control-panel label,
+.control-panel span {
+  color: var(--gen4-text) !important;
+}
+
+/* Region selector (JOHTO / KANTO) lives in .region-selector, NOT inside
+   .control-panel. Both rule sets are scoped under html body for specificity. */
+html body .region-selector button.MuiToggleButton-root.MuiToggleButtonGroup-grouped {
+  background: var(--gen4-card) !important;
+  color: var(--gen4-muted) !important;
+  border: 1px solid var(--gen4-border) !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+html body .region-selector button.MuiToggleButton-root.MuiToggleButtonGroup-grouped:hover {
+  background: color-mix(in srgb, var(--gen4-accent) 12%, var(--gen4-card)) !important;
+  color: var(--gen4-text) !important;
+  border-color: var(--gen4-accent) !important;
+}
+html body .region-selector button.MuiToggleButton-root.MuiToggleButtonGroup-grouped.Mui-selected,
+html body .region-selector button.MuiToggleButton-root.MuiToggleButtonGroup-grouped.Mui-selected:hover {
+  background: var(--gen4-accent) !important;
+  color: var(--gen4-accent-fg) !important;
+  border-color: var(--gen4-accent) !important;
+  box-shadow: 0 0 12px rgba(229, 185, 40, 0.35) !important;
+}
+
+/* Switches and checkboxes — restyle the track/knob */
+.control-panel .MuiSwitch-root .MuiSwitch-track {
+  background-color: var(--gen4-border) !important;
+}
+.control-panel .MuiSwitch-root .Mui-checked + .MuiSwitch-track {
+  background-color: var(--gen4-accent) !important;
+  opacity: 0.7 !important;
+}
+.control-panel .MuiSwitch-root .Mui-checked .MuiSwitch-thumb {
+  background-color: var(--gen4-accent) !important;
+}
+.control-panel .MuiCheckbox-root.Mui-checked,
+.control-panel .MuiRadio-root.Mui-checked {
+  color: var(--gen4-accent) !important;
+}
+
+/* Disabled state — dim, not invisible */
+.control-panel .Mui-disabled,
+.control-panel label.disabled {
+  opacity: 0.45 !important;
+}
+
+/* IconButton tooltips inside the panel */
+.control-panel .MuiIconButton-root {
+  color: var(--gen4-text) !important;
+}
+.control-panel .MuiIconButton-root:hover {
+  background: color-mix(in srgb, var(--gen4-accent) 18%, transparent) !important;
+}

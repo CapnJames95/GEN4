@@ -1,0 +1,33 @@
+{
+  "files": {
+    "main.css": "./static/css/main.bf289334.css",
+    "main.js": "./static/js/main.0ab13512.js",
+    "static/media/FullJohto.webp": "./static/media/FullJohto.6c7a0cf859f3400fa5d5.webp",
+    "static/media/FullKanto.webp": "./static/media/FullKanto.c35a99a5b450c3ecc831.webp",
+    "static/media/MapPortalsDemo.gif": "./static/media/MapPortalsDemo.dd8aa90ec2c2f21f9679.gif",
+    "static/media/PortalClickDemo.gif": "./static/media/PortalClickDemo.a893001de870427cc2bf.gif",
+    "static/media/TrainerDemo.gif": "./static/media/TrainerDemo.23bc8b2935461fb596ba.gif",
+    "static/media/ItemDemo.gif": "./static/media/ItemDemo.19763aeb8c75ea52d14d.gif",
+    "static/media/MtMortarRoute.webp": "./static/media/MtMortarRoute.35aa3b6e68dbdeabd629.webp",
+    "static/media/pokeball.png": "./static/media/pokeball.a423f307223251ab7bff.png",
+    "static/media/star.png": "./static/media/star.8ee1f0879d78a0f695bf.png",
+    "static/media/MtSilverRoute.webp": "./static/media/MtSilverRoute.66f1564f0fb30d3b308b.webp",
+    "static/media/CeruleanCaveRoute.webp": "./static/media/CeruleanCaveRoute.1d31f0c9097e2afb8ec5.webp",
+    "static/media/checkmark.png": "./static/media/checkmark.d3a535b4929ab14365bf.png",
+    "static/media/SeafoamIslandsRoute.webp": "./static/media/SeafoamIslandsRoute.1c6a585bd2f63e232b8d.webp",
+    "static/media/BellTowerRoute.webp": "./static/media/BellTowerRoute.9fdd76d659cf219e55aa.webp",
+    "static/media/VictoryRoadRoute.webp": "./static/media/VictoryRoadRoute.efdfd9d0e468499223a5.webp",
+    "static/media/WhirlIslandsRoute.webp": "./static/media/WhirlIslandsRoute.f69903e10a7120d5fb81.webp",
+    "static/media/IceCaveRoute.webp": "./static/media/IceCaveRoute.a58daea33221b1069510.webp",
+    "static/media/DarkCaveRoute.webp": "./static/media/DarkCaveRoute.101de1dd95599f8f33e6.webp",
+    "static/media/RockTunnelRoute.webp": "./static/media/RockTunnelRoute.d93db343bd01868aa11e.webp",
+    "static/media/ViridianGymRoute.webp": "./static/media/ViridianGymRoute.09270edd0279a5b358a3.webp",
+    "index.html": "./index.html",
+    "main.bf289334.css.map": "./static/css/main.bf289334.css.map",
+    "main.0ab13512.js.map": "./static/js/main.0ab13512.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.bf289334.css",
+    "static/js/main.0ab13512.js"
+  ]
+}

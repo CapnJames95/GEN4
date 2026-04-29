@@ -1,0 +1,193 @@
+/* Gen 4 site theme override for the DPPt Sinnoh Leaflet map control panel.
+   Restyles #controlscon and its buttons to match the dark Gen 4 site theme. */
+
+:root {
+  --gen4-panel: #141828;
+  --gen4-card: #1a2238;
+  --gen4-border: #243058;
+  --gen4-text: #eceef8;
+  --gen4-muted: #8892cc;
+  --gen4-accent: #4D90E0;       /* Diamond */
+  --gen4-accent-fg: #02101c;
+}
+
+/* Collected-marker state — applied by markers.js click handler when the user
+   marks an item/berry/TM/hidden-item as obtained. Persisted per game in
+   localStorage and re-applied on load. */
+.marker-collected {
+  opacity: 0.30 !important;
+  filter: grayscale(0.7) brightness(0.85);
+  transition: opacity 0.15s, filter 0.15s;
+}
+.marker-collected::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gen4-accent, #4D90E0);
+  transform: rotate(-20deg);
+  pointer-events: none;
+}
+
+/* Whole control bar */
+#controlscon {
+  background: var(--gen4-panel);
+  border: 1px solid var(--gen4-border);
+  border-radius: 8px;
+  padding: 6px 8px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+}
+
+#menu-access {
+  filter: invert(1) brightness(1.1);
+}
+
+/* Default action buttons (Items / Hidden Items / Berries / TMs) */
+#controls button {
+  background: var(--gen4-card);
+  color: var(--gen4-text);
+  border: 1px solid var(--gen4-border);
+  padding: 5px 10px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+}
+#controls button:hover {
+  background: color-mix(in srgb, var(--gen4-accent) 18%, var(--gen4-card));
+  border-color: var(--gen4-accent);
+  color: var(--gen4-text);
+}
+
+/* "Disabled" state — buttons that have been clicked off, denoted by the
+   inline opacity styles set by the original JS — leave a faint outline so
+   the user can still see them. */
+#controls button[style*="opacity"] {
+  background: var(--gen4-panel);
+  border-color: var(--gen4-border);
+  color: var(--gen4-muted);
+}
+
+/* Time-of-day buttons (morning / day / night) — keep the colored background
+   from inline styles but tighten the border + add a subtle ring. */
+#controls button.time {
+  border: 1px solid var(--gen4-border);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  padding: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+#controls button.time:hover {
+  filter: brightness(110%);
+  border-color: var(--gen4-accent);
+}
+
+/* Active time button — Diamond-blue ring */
+#controls button.time.active,
+#controls button.time[data-active="true"] {
+  border-color: var(--gen4-accent);
+  box-shadow: 0 0 10px rgba(77, 144, 224, 0.55);
+}
+
+/* Leaflet info / attribution panel — tone down on dark theme */
+.leaflet-control-attribution,
+.leaflet-control-attribution a {
+  background: rgba(20, 24, 40, 0.7) !important;
+  color: var(--gen4-muted) !important;
+}
+.leaflet-control-attribution a {
+  text-decoration: underline;
+}
+
+/* Leaflet zoom buttons */
+.leaflet-bar a,
+.leaflet-bar a:hover {
+  background: var(--gen4-card);
+  color: var(--gen4-text);
+  border-bottom-color: var(--gen4-border);
+}
+.leaflet-bar a:hover {
+  background: color-mix(in srgb, var(--gen4-accent) 18%, var(--gen4-card));
+}
+
+/* Info panel — the route popup with the Pokémon table.
+   Outer panel uses dark Gen 4 panel; the popup header is dark themed; the
+   inner table cells keep their original white backgrounds (from main.css)
+   so we explicitly set dark text + dark borders on those cells so the data
+   reads correctly. */
+.info.leaflet-control {
+  background: var(--gen4-panel) !important;
+  color: var(--gen4-text) !important;
+  border: 1px solid var(--gen4-border) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+  padding: 0 !important;
+}
+.info.leaflet-control .info-header {
+  background: linear-gradient(180deg, var(--gen4-card), var(--gen4-panel));
+  margin: 0 !important;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--gen4-border);
+}
+.info.leaflet-control .info-header h4 {
+  color: var(--gen4-text) !important;
+  margin: 6px 8px !important;
+  font-weight: 700;
+}
+.info.leaflet-control .info-header button {
+  background: var(--gen4-card);
+  color: var(--gen4-text);
+  border: 1px solid var(--gen4-border);
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 700;
+  padding: 4px 8px;
+}
+.info.leaflet-control .info-header button:hover {
+  background: var(--gen4-accent);
+  color: var(--gen4-accent-fg);
+  border-color: var(--gen4-accent);
+}
+
+/* Table grid — fully dark Gen 4 themed. */
+.info.leaflet-control #pkmn-list {
+  background-color: var(--gen4-border) !important;
+  border-color: var(--gen4-border) !important;
+  margin: 0 8px 8px;
+}
+.info.leaflet-control .pkmn-list-column {
+  color: var(--gen4-text) !important;
+  background-color: var(--gen4-card) !important;
+}
+.info.leaflet-control .pkmn-list-row {
+  font-weight: 700;
+  background-color: var(--gen4-panel) !important;
+  color: var(--gen4-accent) !important;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-size: 11px;
+  border-top: 1px solid var(--gen4-border);
+  border-bottom: 1px solid var(--gen4-border);
+}
+/* Time-of-day highlighted cells — restyle to dark theme with subtle accent
+   tints so the time variant stays visible without breaking the dark look. */
+.info.leaflet-control .time0 {
+  background-color: rgba(255, 165, 90, 0.20) !important;   /* morning — orange tint */
+  color: var(--gen4-text) !important;
+}
+.info.leaflet-control .time1 {
+  background-color: rgba(77, 144, 224, 0.25) !important;   /* day — diamond blue tint */
+  color: var(--gen4-text) !important;
+}
+.info.leaflet-control .time2 {
+  background-color: rgba(150, 120, 200, 0.30) !important;  /* night — purple tint */
+  color: var(--gen4-text) !important;
+}
+.info.leaflet-control .pkmn-nodata {
+  color: var(--gen4-muted) !important;
+  background: var(--gen4-card) !important;
+  padding: 14px !important;
+}
