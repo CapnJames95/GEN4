@@ -9198,6 +9198,7 @@ function exclCard(p, game) {
 var TB_TEAM = [];
 var TB_GAME = 'all';
 var TB_GAME_COLORS = {all:'var(--gold)',FR:'var(--diamond)',LG:'var(--pearl)',R:'var(--platinum)',S:'var(--heartgold)',E:'var(--soulsilver)'};
+var TB_GAME_LABELS = {all:'All games',FR:'Diamond',LG:'Pearl',R:'Platinum',S:'HeartGold',E:'SoulSilver'};
 function tbUpdateTitleColor(g) {
   var t = document.getElementById('tb-page-title');
   if (t) t.style.setProperty('color', TB_GAME_COLORS[g] || 'var(--gold)');
@@ -9320,7 +9321,7 @@ function tbRenderSlots() {
     var abStr = ab ? ab.a1+(ab.a2?' / '+ab.a2:'') : '';
     var cls = av==='na'?'tb-slot-card unavail':av==='trade'?'tb-slot-card trade':'tb-slot-card';
     var badge = av==='na'
-      ? '<div><span class="tb-avail-pill tb-avail-na">⚠ Not in '+TB_GAME+'</span></div>'
+      ? '<div><span class="tb-avail-pill tb-avail-na">⚠ Not in '+(TB_GAME_LABELS[TB_GAME]||TB_GAME)+'</span></div>'
       : av==='trade'
       ? '<div><span class="tb-avail-pill tb-avail-trade">🔄 Trade required</span></div>' : '';
     return '<div class="'+cls+'">'
@@ -9575,11 +9576,11 @@ function tbSectionWarnings() {
     var tradeList=TB_TEAM.filter(function(num){return tbAvail(num)==='trade';});
     if(naList.length){
       var names=naList.map(function(num){var p=POKE.find(function(x){return x.num===num;});return p?'<strong>'+p.name+'</strong>':'#'+num;});
-      warns.push(names.join(', ')+' cannot be obtained in <strong>'+TB_GAME+'</strong> without trading from another game.');
+      warns.push(names.join(', ')+' cannot be obtained in <strong>'+(TB_GAME_LABELS[TB_GAME]||TB_GAME)+'</strong> without trading from another game.');
     }
     if(tradeList.length){
       var names2=tradeList.map(function(num){var p=POKE.find(function(x){return x.num===num;});return p?'<strong>'+p.name+'</strong>':'#'+num;});
-      warns.push(names2.join(', ')+' can only be obtained via trade in <strong>'+TB_GAME+'</strong>.');
+      warns.push(names2.join(', ')+' can only be obtained via trade in <strong>'+(TB_GAME_LABELS[TB_GAME]||TB_GAME)+'</strong>.');
     }
   }
 
