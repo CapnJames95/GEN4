@@ -7,7 +7,6 @@
   // Items recoverable inside the Distortion World, in roughly the order they appear
   // along the linear puzzle path. Sprites pulled from PokeAPI item sprites.
   var ITEMS = [
-    { key:'tm65',          name:'TM65 Shadow Claw',  sprite:'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-ghost.png',  loc:'Handed to you by Cynthia at the very start of the area.', note:'Ghost-type physical move, 70 BP, high crit ratio. Great early Ghost STAB.' },
     { key:'spell-tag',     name:'Spell Tag',         sprite:'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/spell-tag.png', loc:'Early section, on a small floating chunk near the entrance.', note:'Held item that boosts Ghost-type moves by 20%.' },
     { key:'reaper-cloth',  name:'Reaper Cloth',      sprite:'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/reaper-cloth.png', loc:'Main path, mid-section.', note:'Used to evolve Dusclops → Dusknoir via trade while holding it.' },
     { key:'razor-fang',    name:'Razor Fang',        sprite:'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/razor-fang.png', loc:'Mid-area floating chunk after a gravity flip.', note:'Evolves Gligar → Gliscor when held and leveled up at night.' },
@@ -25,7 +24,7 @@
     level: 47,
     type: 'Ghost / Dragon',
     held: 'None (Griseous Orb is given to your bag after capture)',
-    moves: ['Shadow Force','Slash','Earth Power','Dragon Claw'],
+    moves: ['Shadow Force','AncientPower','Dragon Claw','Ominous Wind'],
     sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/487.png'
   };
 

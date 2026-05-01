@@ -12,7 +12,7 @@
   // memorable / iconic species per route — full pools live on Bulbapedia.
   var ROUTES = [
     { name:'Refreshing Field',  cost:'Free',           type:'standard',
-      pool:[{num:16,name:'Pidgey'},{num:19,name:'Rattata'},{num:10,name:'Caterpipe',realName:'Caterpie',realNum:10},{num:161,name:'Sentret'},{num:172,name:'Pichu'}],
+      pool:[{num:16,name:'Pidgey'},{num:19,name:'Rattata'},{num:10,name:'Caterpie'},{num:161,name:'Sentret'},{num:172,name:'Pichu'}],
       items:'Berries, Potion, Antidote' },
     { name:'Noisy Forest',      cost:'Free',           type:'standard',
       pool:[{num:10,name:'Caterpie'},{num:13,name:'Weedle'},{num:265,name:'Wurmple'},{num:165,name:'Ledyba'},{num:167,name:'Spinarak'}],

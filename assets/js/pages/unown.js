@@ -65,8 +65,8 @@
     {f:'X', where:'Inner chambers',                              status:'base'},
     {f:'Y', where:'Inner chambers',                              status:'base'},
     {f:'Z', where:'Inner chambers',                              status:'base'},
-    {f:'!', where:'Appears only after catching ≥25 forms and solving every chamber puzzle.', status:'puzzle'},
-    {f:'?', where:'Appears only after catching ≥25 forms and solving every chamber puzzle.', status:'puzzle'}
+    {f:'!', where:'Appears only after finding all 26 letter forms and solving every chamber puzzle.', status:'puzzle'},
+    {f:'?', where:'Appears only after finding all 26 letter forms and solving every chamber puzzle.', status:'puzzle'}
   ];
 
   function buildUnownPage() {
@@ -125,7 +125,7 @@
       +   'The <strong>!</strong> and <strong>?</strong> forms are the last two and the most restrictive. They will only begin to appear '
       +   'in the Inner Chambers once <strong>both</strong> of the following are true:'
       +   '<ul style="margin:8px 0 8px 18px;padding:0;">'
-      +     '<li>You have caught (or seen) at least <strong>25 of the 26 letter forms</strong>.</li>'
+      +     '<li>You have found all <strong>26 letter forms</strong>.</li>'
       +     '<li>You have solved <strong>every</strong> chamber puzzle in the Ruins of Alph.</li>'
       +   '</ul>'
       +   'Once both conditions are met, ! and ? begin spawning in the Inner Chambers (or via the special-chamber / radio mechanic, '

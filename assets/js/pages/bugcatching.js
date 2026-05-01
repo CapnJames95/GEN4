@@ -10,10 +10,10 @@
   var POOL = [
     {num:10,  name:'Caterpie',   levels:'7-18', tier:'common',     note:'Most common bug. Low score ceiling.'},
     {num:13,  name:'Weedle',     levels:'7-18', tier:'common',     note:'Common filler. Skip unless levels are unusually high.'},
-    {num:46,  name:'Paras',      levels:'7-18', tier:'uncommon',   note:'Decent filler. Spore via evolution comes too late to help here.'},
-    {num:48,  name:'Venonat',    levels:'7-18', tier:'uncommon',   note:'Slightly better mid-tier scoring than Caterpie/Weedle.'},
-    {num:127, name:'Pinsir',     levels:'13-18',tier:'rare',       note:'Top-tier prize. High level + full HP = guaranteed gold.'},
-    {num:123, name:'Scyther',    levels:'13-18',tier:'rare',       note:'Top-tier prize. False Swipe lead can self-catch it cleanly.'},
+    {num:46,  name:'Paras',      levels:'10-17',tier:'uncommon',   note:'Decent filler. Spore via evolution comes too late to help here.'},
+    {num:48,  name:'Venonat',    levels:'10-16',tier:'uncommon',   note:'Slightly better mid-tier scoring than Caterpie/Weedle.'},
+    {num:127, name:'Pinsir',     levels:'13-14',tier:'rare',       note:'Top-tier prize. High level + full HP = guaranteed gold.'},
+    {num:123, name:'Scyther',    levels:'13-14',tier:'rare',       note:'Top-tier prize. False Swipe lead can self-catch it cleanly.'},
     {num:12,  name:'Butterfree', levels:'12-15',tier:'post-NatDex',note:'Only appears after obtaining the National Pokédex.'},
     {num:15,  name:'Beedrill',   levels:'12-15',tier:'post-NatDex',note:'Only appears after obtaining the National Pokédex.'}
   ];

@@ -10,7 +10,7 @@
 
   // PokéGear card summary (Bulbapedia "PokéGear").
   var CARDS = [
-    { name:'Phone',          desc:'Stores up to 50 numbers. Trainers, family, and assorted NPCs (Mom, Professor Elm, Bill, Daisy) call with reminders, swarm tips, gift offers, and rematch requests.' },
+    { name:'Phone',          desc:'Unlimited number storage in HGSS (no cap; numbers cannot be deleted). Trainers, family, and assorted NPCs (Mom, Professor Elm, Bill, Daisy) call with reminders, swarm tips, gift offers, and rematch requests.' },
     { name:'Map Card',       desc:'Regional map of Johto and Kanto. Highlights routes, marks the player, and is used to plan Fly destinations.' },
     { name:'Radio Card',     desc:'Tunes the Goldenrod Radio Tower channels — Music (Pokémon March, Lullaby), Lucky Number (lottery), Pokégear News, Buena\'s Password, and the Pokémon Channel. Some signals reveal hidden Pokémon (Hoenn/Sinnoh Sound).' },
     { name:'Expansion Card', desc:'Given by Mom in the Cherrygrove area in HGSS. Adds extended functionality and is required to unlock all PokéGear features.' }
@@ -133,8 +133,8 @@
       + '<div style="font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.7;">'
       + 'The <strong>PokéGear</strong> is the Johto multi-tool — a wristwatch-style device given by Mom in New Bark Town. '
       + 'Trainers across Johto and Kanto give you their phone numbers; some call back with <strong>rematches</strong>, '
-      + '<strong>gift items</strong>, or <strong>swarm tips</strong>. The PokéGear stores up to 50 numbers, so cull '
-      + 'low-value contacts to keep slots free for berry givers and swarm scouts.'
+      + '<strong>gift items</strong>, or <strong>swarm tips</strong>. In HGSS the phone has no number cap and entries cannot be deleted, '
+      + 'so the only cost of a contact is sifting through their calls.'
       + '</div>'
 
       + '<div class="panel" style="padding:0;margin-bottom:18px;overflow:hidden;">'

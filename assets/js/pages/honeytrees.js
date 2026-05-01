@@ -5,23 +5,35 @@
 // HG/SS do not have honey trees — page hides itself when an HGSS slot is active.
 
 (function(){
-  // Standard encounter pool (DPPt) — applies to every tree.
-  // Rates from Bulbapedia: Combee 40, Cherubi 20, Aipom 15, Wurmple 10,
-  // Silcoon 5, Cascoon 5, Burmy line 5 (totals 100). Preferred trees swap a
-  // 1% slot for Munchlax and bump Heracross from 5% to ~19%.
+  // Standard encounter pool (DPPt) — applies to non-Munchlax-preferred trees (17 of 21).
+  // Rates from Bulbapedia "Honey tree": Wurmple 29, Combee 22, Silcoon 14, Cascoon 14,
+  // Burmy 11, Cherubi 7.5, Aipom 5.5, Heracross 1, no encounter 10 (totals 100).
   var STANDARD_POOL = [
-    {num:415, name:'Combee',     pct:40, note:'Daily honey-tree staple. Females (≈12.5%) evolve into Vespiquen.'},
-    {num:420, name:'Cherubi',    pct:20, note:'Evolves to Cherrim at level 25.'},
-    {num:190, name:'Aipom',      pct:15, note:'Evolves to Ambipom via level-up holding Double Hit.'},
-    {num:265, name:'Wurmple',    pct:10, note:'Branches into Beautifly or Dustox via personality value.'},
-    {num:266, name:'Silcoon',    pct:5,  note:'Wurmple → Beautifly mid-evolution.'},
-    {num:268, name:'Cascoon',    pct:5,  note:'Wurmple → Dustox mid-evolution.'},
-    {num:412, name:'Burmy',      pct:5,  note:'Cloak forme depends on the tree environment when caught.'}
+    {num:265, name:'Wurmple',    pct:29,   note:'Branches into Beautifly or Dustox via personality value.'},
+    {num:415, name:'Combee',     pct:22,   note:'Females (≈12.5%) evolve into Vespiquen at Lv 21.'},
+    {num:266, name:'Silcoon',    pct:14,   note:'Wurmple → Beautifly mid-evolution.'},
+    {num:268, name:'Cascoon',    pct:14,   note:'Wurmple → Dustox mid-evolution.'},
+    {num:412, name:'Burmy',      pct:11,   note:'Cloak forme depends on the tree environment when caught.'},
+    {num:420, name:'Cherubi',    pct:7.5,  note:'Evolves to Cherrim at level 25.'},
+    {num:190, name:'Aipom',      pct:5.5,  note:'Evolves to Ambipom via level-up holding Double Hit.'}
   ];
 
-  var REGULAR_RARE = { num:214, name:'Heracross', pct:5,  note:'Rare on every honey tree. Pre-evolves Tyrogue/Hitmons but Heracross itself does not evolve.' };
-  var PREFERRED_RARE = { num:214, name:'Heracross', pct:19, note:'Boosted on the four preferred trees.' };
-  var PREFERRED_MUNCHLAX = { num:446, name:'Munchlax', pct:1, note:'Only appears on the four preferred trees the game has secretly chosen for your save. Same trees forever — there is no way to re-roll them. Evolves into Snorlax at high friendship.' };
+  var REGULAR_RARE     = { num:214, name:'Heracross', pct:1,   note:'Very rare on standard trees. Bug/Fighting; does not evolve.' };
+  var PREFERRED_RARE   = { num:214, name:'Heracross', pct:3.5, note:'Slightly boosted on the four Munchlax-preferred trees.' };
+  var PREFERRED_MUNCHLAX = { num:446, name:'Munchlax', pct:1,  note:'Only appears on the four preferred trees the game has secretly chosen for your save. Same trees forever — there is no way to re-roll them. Evolves into Snorlax at high friendship.' };
+
+  // Munchlax-preferred pool (4 of 21 trees) — Bulbapedia rates:
+  // Combee 32, Burmy 16, Cherubi 15, Wurmple 11.5, Aipom 8, Silcoon 4, Cascoon 4,
+  // Heracross 3.5, Munchlax 1, no encounter 9 (totals 100).
+  var PREFERRED_POOL = [
+    {num:415, name:'Combee',     pct:32,   note:'Boosted on preferred trees. Females (≈12.5%) → Vespiquen.'},
+    {num:412, name:'Burmy',      pct:16,   note:'Cloak forme depends on the tree environment when caught.'},
+    {num:420, name:'Cherubi',    pct:15,   note:'Evolves to Cherrim at level 25.'},
+    {num:265, name:'Wurmple',    pct:11.5, note:'Branches into Beautifly or Dustox via personality value.'},
+    {num:190, name:'Aipom',      pct:8,    note:'Evolves to Ambipom via level-up holding Double Hit.'},
+    {num:266, name:'Silcoon',    pct:4,    note:'Wurmple → Beautifly mid-evolution.'},
+    {num:268, name:'Cascoon',    pct:4,    note:'Wurmple → Dustox mid-evolution.'}
+  ];
 
   // Bulbapedia honey-tree map (21 trees in DPPt).
   var TREES = [
@@ -83,7 +95,7 @@
       + '</tr></thead><tbody>';
     preferredHtml += poolRow(PREFERRED_MUNCHLAX);
     preferredHtml += poolRow(PREFERRED_RARE);
-    STANDARD_POOL.forEach(function(p){ preferredHtml += poolRow(p); });
+    PREFERRED_POOL.forEach(function(p){ preferredHtml += poolRow(p); });
     preferredHtml += '</tbody></table>';
 
     var treeRows = TREES.map(function(t){

@@ -178,15 +178,15 @@ window.getDistributionEntries = window.getDistributionEntries || function() {
       notes: 'OT "SMR2010". Transferable into HGSS via Pal Park-style transfer? No — HGSS uses the Time Capsule rules differently; this Jirachi is held on a D/P/Pt save.'
     },
     {
-      title: 'Mew (TRU/Toys R Us)',
-      source: 'Retail Event',
-      language: 'English',
+      title: 'Mew (Wi-Fi, Fall 2010)',
+      source: 'Wi-Fi Mystery Gift',
+      language: 'English / French / German',
       kind: 'Single Pokémon',
       obtains: ['Mew (Lv.5)'],
       targets: SINNOH,
-      region: 'NA — Toys "R" Us, Oct 2010',
-      details: 'Mystery Gift Mew for Diamond/Pearl/Platinum. Holds Premier Ribbon.',
-      notes: 'OT "TRU". Known by Pound only at distribution; level/OT verified per Bulbapedia.'
+      region: 'NA / EU — Wi-Fi distribution, Oct 2010',
+      details: 'Mystery Gift Mew for Diamond/Pearl/Platinum, distributed over Nintendo Wi-Fi (not via Toys "R" Us as is sometimes misremembered — TRU\'s Mew distributions were earlier, in 1999–2000). Holds Premier Ribbon.',
+      notes: 'OT "MYSTRY". Known by Pound only at distribution; level/OT verified per Bulbapedia.'
     },
     {
       title: 'Movie 11 Regigigas',

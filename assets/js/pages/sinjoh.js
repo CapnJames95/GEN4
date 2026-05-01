@@ -42,22 +42,25 @@
       num: 382,
       name: 'Kyogre',
       types: ['Water'],
-      plate: 'Splash Plate',
-      blurb: 'Lv 70. Awakens when Arceus holds the Splash Plate.'
+      trigger: 'Blue Orb',
+      version: 'HeartGold only',
+      blurb: 'Lv 50. Appears in HeartGold when the player carries the Blue Orb (received from Mr. Pokémon after defeating Red).'
     },
     {
       num: 383,
       name: 'Groudon',
       types: ['Ground'],
-      plate: 'Earth Plate',
-      blurb: 'Lv 70. Awakens when Arceus holds the Earth Plate.'
+      trigger: 'Red Orb',
+      version: 'SoulSilver only',
+      blurb: 'Lv 50. Appears in SoulSilver when the player carries the Red Orb (received from Mr. Pokémon after defeating Red).'
     },
     {
       num: 384,
       name: 'Rayquaza',
       types: ['Dragon','Flying'],
-      plate: 'Sky Plate',
-      blurb: 'Lv 70. Awakens when Arceus holds the Sky Plate.'
+      trigger: 'Jade Orb',
+      version: 'HG & SS',
+      blurb: 'Lv 50. Appears when the player carries the Jade Orb, awarded by Prof. Oak after showing him both a captured Kyogre and a captured Groudon.'
     }
   ];
 
@@ -71,9 +74,10 @@
   ];
 
   var EMBEDDED_STEPS = [
-    'With a Lv-100 event Arceus in your party, return to the Ruins of Alph at a different point in the post-game — the storyline eventually points you to the Embedded Tower.',
-    'Inside the Embedded Tower, the Plate currently held by Arceus determines which Hoenn legendary awakens at Lv 70.',
-    'You only get one of the three encounters — pick your Plate carefully and save before triggering. With no held plate, no encounter occurs.'
+    'Defeat Red on Mt. Silver, then visit Mr. Pokémon\'s house — he hands over the Blue Orb (HeartGold) or Red Orb (SoulSilver).',
+    'With the Orb in your bag, travel to Route 47 and enter the Embedded Tower — Kyogre (HG) or Groudon (SS) appears at Lv 50.',
+    'After capturing your version\'s legendary, show it to Prof. Oak to receive the Jade Orb. Carrying the Jade Orb at the Embedded Tower triggers Rayquaza at Lv 50.',
+    'No event Arceus is required for Embedded Tower — only the in-game Orbs.'
   ];
 
   function buildSinjohPage() {
@@ -125,17 +129,18 @@
     function towerCard(p) {
       var sprite = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + p.num + '.png';
       var nameClick = "_openDexSearch('" + safe(p.name) + "', " + p.num + ")";
-      var plateClick = "openItemByName('" + safe(p.plate) + "')";
+      var triggerClick = "openItemByName('" + safe(p.trigger) + "')";
       return '<div class="panel" style="padding:0;margin-bottom:12px;overflow:hidden;">'
         + '<div style="display:flex;align-items:center;gap:14px;padding:12px 14px;">'
         + '<img src="' + sprite + '" width="56" height="56" style="image-rendering:pixelated;flex-shrink:0">'
         + '<div style="flex:1;min-width:0;">'
         + '<div onclick="' + nameClick + '" style="cursor:pointer;font-family:\'Press Start 2P\',monospace;font-size:10px;color:' + gameColor + ';letter-spacing:0.5px;margin-bottom:6px;" title="Open in Pokédex">'
         + '#' + p.num + ' ' + p.name.toUpperCase()
+        + ' <span style="font-size:8px;color:var(--muted);font-weight:400;letter-spacing:0;">(' + p.version + ')</span>'
         + '</div>'
         + '<div style="margin-bottom:6px;">' + typeBadges(p.types) + '</div>'
         + '<div style="font-size:11px;color:var(--muted);line-height:1.6;">'
-        + 'Plate required: <span onclick="' + plateClick + '" style="cursor:pointer;font-weight:800;color:' + gameColor + ';" title="Open item">' + p.plate + '</span>'
+        + 'Trigger: <span onclick="' + triggerClick + '" style="cursor:pointer;font-weight:800;color:' + gameColor + ';" title="Open item">' + p.trigger + '</span>'
         + ' — ' + p.blurb
         + '</div>'
         + '</div>'
@@ -182,8 +187,8 @@
       + '<div class="panel" style="padding:0;margin-bottom:18px;overflow:hidden;border-color:rgba(255,215,0,0.4);">'
       + '<div style="padding:10px 14px;background:var(--panel);border-bottom:1px solid var(--border);font-family:\'Press Start 2P\',monospace;font-size:9px;color:#ffd977;letter-spacing:0.5px;">EMBEDDED TOWER — HOENN LEGENDARIES</div>'
       + '<div style="padding:14px 16px 4px;font-size:12px;color:var(--muted);line-height:1.7;">'
-      + 'A separate post-game event also tied to your Lv-100 event Arceus. Inside the Embedded Tower, the '
-      + '<strong>Plate</strong> Arceus is holding decides which Hoenn legendary awakens at <strong>Lv 70</strong>.'
+      + 'A separate post-game event on Route 47 — <strong>does not require an event Arceus</strong>. The '
+      + '<strong>Orb</strong> in your bag (Blue, Red, or Jade) decides which Hoenn legendary awakens at <strong>Lv 50</strong>.'
       + '</div>'
       + '<div style="padding:12px 16px 4px;">' + towerStepsHtml + '</div>'
       + '<div style="padding:0 14px 14px;">' + towerCardsHtml + '</div>'
@@ -193,10 +198,9 @@
       + '<div class="panel" style="padding:14px 16px;border-color:rgba(255,120,120,0.35);">'
       + '<div style="font-family:\'Press Start 2P\',monospace;font-size:9px;color:#ff9c9c;letter-spacing:0.5px;margin-bottom:8px;">NOTE — EVENT GATE</div>'
       + '<div style="font-size:12px;line-height:1.75;color:var(--muted);">'
-      + 'Both the Sinjoh Ruins and Embedded Tower events require an <strong>event-distributed Lv-100 Arceus</strong>. '
-      + 'On a clean cartridge in 2026 — with all official distributions long expired — this content is inaccessible '
-      + 'without trading in an event Arceus from another save or participating in modern fan-run distribution events. '
-      + 'This guide does not recommend cheating; just acknowledging the gate so you know what you\'re looking at.'
+      + 'The <strong>Sinjoh Ruins</strong> egg ceremony requires an <strong>event-distributed Lv-100 Arceus</strong> (Toys "R" Us 2010 etc.) — '
+      + 'on a clean cartridge in 2026, with official distributions long expired, that content is gated behind trading in an event Arceus or fan-run distribution events. '
+      + 'The <strong>Embedded Tower</strong> Hoenn-legendary event is a separate post-game encounter triggered by in-game Orbs and is fully accessible without any event Pokémon.'
       + '</div>'
       + '</div>';
 

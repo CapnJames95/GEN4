@@ -50,14 +50,14 @@
       req:'Same Burned Tower release event. Entei roams Johto with the player.'
     },
     {
-      num:381, name:'Latios', types:['Dragon','Psychic'], level:35,
+      num:381, name:'Latios', types:['Dragon','Psychic'], level:40,
       loc:'Kanto routes (random) — HeartGold',
-      req:'Receive the Enigma Stone via Mystery Gift event, then take it to Mr. Pokémon\'s house (or Pewter Museum / Steven in Pewter City) to trigger the encounter. After it flees, Latios roams Kanto. SoulSilver gets Latias instead — swap via trade or in-game lookup.'
+      req:'Receive the Enigma Stone via Mystery Gift event, then take it to the Pewter City Museum and show it to Steven Stone — he inserts it into the museum\'s meteorite, triggering the Latios encounter. After it flees, Latios roams Kanto at Lv 40. SoulSilver gets Latias instead — swap via trade or in-game lookup.'
     },
     {
-      num:380, name:'Latias', types:['Dragon','Psychic'], level:35,
+      num:380, name:'Latias', types:['Dragon','Psychic'], level:40,
       loc:'Kanto routes (random) — SoulSilver',
-      req:'SoulSilver counterpart to Latios. Same Enigma Stone / Pewter event. Trade across versions to obtain the other.'
+      req:'SoulSilver counterpart to Latios. Same Enigma Stone / Pewter Museum event with Steven. Roams Kanto at Lv 40 after fleeing. Trade across versions to obtain the other.'
     }
   ];
 
@@ -178,7 +178,7 @@
       + '<div class="panel" style="padding:14px 16px;">'
       + '<div style="font-family:\'Press Start 2P\',monospace;font-size:10px;color:' + gameColor + ';margin-bottom:10px;letter-spacing:0.5px;">TRACKING THE ROAMER</div>'
       + '<ul style="margin:0;padding-left:18px;font-size:12px;color:var(--text);line-height:1.8;">'
-      + '<li><strong>Sinnoh (DPPt):</strong> The <strong>Marking Map</strong> Pokétch app pinpoints the roamer\'s current route with a small icon. You earn it from a man in Jubilife TV after meeting Mesprit.</li>'
+      + '<li><strong>Sinnoh (DPPt):</strong> The <strong>Marking Map</strong> Pokétch app pinpoints the roamer\'s current route with a small icon. You earn it in <strong>Pastoria City</strong> after defeating Crasher Wake.</li>'
       + '<li><strong>Johto (HGSS):</strong> Tune the <strong>PokéGear Radio</strong> to the right tower frequency to hear which route the beasts / eon dragons are stalking. The map card also flashes the roamer\'s route.</li>'
       + '<li>Roamers <strong>skip routes you have not visited yet</strong>. If the map shows nothing, walk through any unexplored route to push the roamer back into your travelled area.</li>'
       + '<li>Surfing routes and entering buildings both count as map transitions and re-roll the roamer\'s position.</li>'

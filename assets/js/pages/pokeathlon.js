@@ -49,13 +49,18 @@
                {num:300, name:'Skitty',    note:'Tiny frame jumps cleanly between lamps.'} ]
   };
 
-  // Apricorn flavour → stat mapping (Aprijuice).
+  // Apricorn → flavour → Pokéathlon stat mapping (Aprijuice). Per Bulbapedia,
+  // taste drives the stat gain (Spicy=Power, Sweet=Speed, Dry=Skill, Sour=Stamina,
+  // Bitter=Jump). Only ONE Aprijuice can be active at a time — feeding a new juice
+  // overwrites the previous one's effects.
   var APRIJUICE = [
-    { color:'Red',    swatch:'#e85a5a', stat:'Power',   note:'Mash red apricorns at the Juice Shoppe in Cianwood for Power-boosting juice.' },
-    { color:'Yellow', swatch:'#f4d35e', stat:'Speed',   note:'Yellow apricorns push Speed.' },
-    { color:'Pink',   swatch:'#f5a6c7', stat:'Skill',   note:'Pink apricorns sharpen Skill.' },
-    { color:'White',  swatch:'#f0f0f0', stat:'Stamina', note:'White apricorns boost Stamina.' },
-    { color:'Green',  swatch:'#7fc97f', stat:'Jump',    note:'Green apricorns lift Jump.' }
+    { color:'Red',    swatch:'#e85a5a', stat:'Power',   note:'Spicy juice. Mash red apricorns at the Juice Shoppe in Cianwood.' },
+    { color:'Pink',   swatch:'#f5a6c7', stat:'Speed',   note:'Sweet juice. Pink apricorns push Speed.' },
+    { color:'Blue',   swatch:'#5aa6e8', stat:'Skill',   note:'Dry juice. Blue apricorns sharpen Skill.' },
+    { color:'Yellow', swatch:'#f4d35e', stat:'Stamina', note:'Sour juice. Yellow apricorns boost Stamina.' },
+    { color:'Green',  swatch:'#7fc97f', stat:'Jump',    note:'Bitter juice. Green apricorns lift Jump.' },
+    { color:'White',  swatch:'#f0f0f0', stat:'All (weak)', note:'Mild flavour — small bonuses to all five stats. Useful filler.' },
+    { color:'Black',  swatch:'#3a3a3a', stat:'All (strong)', note:'Intense flavour — bigger gains to all five stats. Hard to source.' }
   ];
 
   function buildPokeathlonPage() {
