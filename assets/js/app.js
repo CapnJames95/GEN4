@@ -14182,49 +14182,87 @@ var OPT_ITEM_RATE_HINTS = {
   'sitrus berry': 50
 };
 
+// Slot codes: FR=Diamond, LG=Pearl, R=Platinum, S=HeartGold, E=SoulSilver
 var OPT_ITEM_OVERRIDES = {
   'leftovers': [
-    { games:['FR','LG'], title:'Repeatable hidden item', location:'S.S. Anne kitchen', method:'Hidden item', heldRate:100, encounterRate:100, note:'Best guaranteed Leftovers route if you have post-game S.S. Anne access.' }
-  ],
-  'metal coat': [
-    { games:['R','S','E'], title:'Guaranteed reward', location:'Rustboro City Devon Researcher', method:'Gift', heldRate:100, encounterRate:100, note:'Faster than wild farming in Hoenn if you have not claimed it yet.' }
-  ],
-  'up-grade': [
-    { games:['FR','LG'], title:'Guaranteed item', location:'Silph Co. 5F', method:'Floor item', heldRate:100, encounterRate:100, note:'One-time but immediate.' },
-    { games:['R','S','E'], title:'Guaranteed item', location:'Mossdeep Space Center Pokemaniac', method:'Gift', heldRate:100, encounterRate:100, note:'No farming required.' }
-  ],
-  "king's rock": [
-    { games:['R','S','E'], title:'Guaranteed item', location:'Shoal Cave low tide', method:'Floor item', heldRate:100, encounterRate:100, note:'Best if you can visit at low tide.' }
+    { games:['FR','LG','R'], title:'Wild hold (rare)', location:'Munchlax — Honey-tree (4 preferred trees, ~1% per slathered tree)', method:'Wild held', heldRate:100, encounterRate:1, note:'100% Munchlax hold rate, but only the 4 preferred trees per save can spawn it. Tedious but guaranteed.' },
+    { games:['FR','LG','R'], title:'Floor item', location:'Victory Road (Pt) / Cycling Road (DP) Leftovers pickup', method:'Floor item', heldRate:100, encounterRate:100, note:'One-time but immediate.' },
+    { games:['S','E'], title:'Wild hold', location:'Snorlax — Routes 12 & 16 (Kanto, post-game)', method:'Wild held', heldRate:100, encounterRate:100, note:'Snorlax is a one-per-save scripted block; wakes with the Poké Flute via Radio in HGSS.' }
   ],
   'lucky egg': [
-    { games:['R','S','E'], title:'Unavailable in wild Hoenn', location:'Trade from FR/LG only', method:'Trade', heldRate:0, encounterRate:0, note:'RSE does not have a native Lucky Egg hunt.' }
+    { games:['FR','LG','R'], title:'Wild hold', location:'Chansey — Trophy Garden (Pt) / Routes 209-210 PokéRadar (DPPt)', method:'Wild held', heldRate:5, encounterRate:5, note:'Use a Thief / Covet user; PokéRadar chains keep the same species locked.' },
+    { games:['S','E'], title:'Wild hold', location:'Chansey — Mt. Silver caves (post-game Kanto)', method:'Wild held', heldRate:5, encounterRate:4, note:'Mt. Silver Chansey are post-Red and the cleanest Lucky Egg farm in HGSS.' }
+  ],
+  'thick club': [
+    { games:['FR','LG','R'], title:'Wild hold', location:'Cubone — Wayward Cave (B1F) / Lost Tower top floor', method:'Wild held', heldRate:50, encounterRate:5, note:'Marowak holds it at 100% but is rarer; Cubone at 50% is the better farm.' },
+    { games:['S','E'], title:'Wild hold', location:'Cubone — Rock Tunnel (Kanto)', method:'Wild held', heldRate:50, encounterRate:10, note:'Standard HGSS Thick Club farm.' }
+  ],
+  'light ball': [
+    { games:['FR','LG','R'], title:'Wild hold', location:'Pikachu — Trophy Garden / Route 220', method:'Wild held', heldRate:5, encounterRate:5, note:'Trophy Garden rotates daily; check before farming.' },
+    { games:['S','E'], title:'Wild hold', location:'Pikachu — Viridian Forest', method:'Wild held', heldRate:5, encounterRate:10, note:'Viridian Forest is one of the few HGSS Pikachu spawns post-Kanto.' }
+  ],
+  'metal coat': [
+    { games:['FR','LG','R'], title:'Wild hold', location:'Magneton / Bronzong — Iron Island & Mt. Coronet', method:'Wild held', heldRate:5, encounterRate:15, note:'Bronzor/Bronzong wild encounters in Mt. Coronet are the densest source.' },
+    { games:['S','E'], title:'Wild hold', location:'Magnemite / Magneton — Power Plant (post-game Kanto)', method:'Wild held', heldRate:5, encounterRate:25, note:'Magneton 5% hold rate; Skarmory wild route 228 also yields it in some patches.' }
+  ],
+  'dragon scale': [
+    { games:['S','E'], title:'Wild hold', location:'Horsea / Seadra — Whirl Islands (Surf/Dive)', method:'Wild held', heldRate:5, encounterRate:10, note:'Required to evolve Seadra → Kingdra via trade.' }
+  ],
+  "king's rock": [
+    { games:['S','E'], title:'Wild hold', location:'Slowpoke — Slowpoke Well (Azalea Town)', method:'Wild held', heldRate:5, encounterRate:30, note:'Required for Slowking trade-evo and for Politoed.' },
+    { games:['FR','LG','R'], title:'Wild hold', location:'Hariyama — Route 225 (post-game)', method:'Wild held', heldRate:5, encounterRate:10, note:'Slowpoke also holds it at 5% in Sinnoh but Hariyama is denser.' }
+  ],
+  'soothe bell': [
+    { games:['FR','LG','R'], title:'Gift', location:'Pokémon Mansion (Route 212) — Mr. Backlot', method:'Gift', heldRate:100, encounterRate:100, note:'One-time gift after sneaking through the back of the mansion.' },
+    { games:['S','E'], title:'Gift', location:'Pokéathlon Dome — daily prize / Goldenrod NPC', method:'Gift', heldRate:100, encounterRate:100, note:'Earned via Pokéathlon points or NPC reward.' }
+  ],
+  'amulet coin': [
+    { games:['FR','LG','R'], title:'Gift', location:'Pokémon Mansion (Route 212) — Mr. Backlot maid', method:'Gift', heldRate:100, encounterRate:100, note:'Doubles prize money when held by lead.' },
+    { games:['S','E'], title:'Gift', location:'Goldenrod Department Store — receptionist (5F)', method:'Gift', heldRate:100, encounterRate:100, note:'Doubles prize money when held by lead.' }
+  ],
+  'quick claw': [
+    { games:['FR','LG','R'], title:'Wild hold', location:'Sandshrew / Sandslash — Route 228 / Wayward Cave', method:'Wild held', heldRate:5, encounterRate:25, note:'5% hold rate but Sandshrew/Sandslash are common in those routes.' },
+    { games:['S','E'], title:'Wild hold', location:'Granbull — Route 38 (day) / Sandshrew Routes 8 & 9', method:'Wild held', heldRate:5, encounterRate:20, note:'Granbull route 38 is the cleanest farm.' }
+  ],
+  'up-grade': [
+    { games:['FR','LG','R'], title:'Gift', location:'Eterna Galactic HQ — scientist (Diamond/Pearl) / Veilstone HQ (Platinum)', method:'Gift', heldRate:100, encounterRate:100, note:'Required to evolve Porygon → Porygon2 via trade. One-time gift after the relevant Galactic raid.' },
+    { games:['S','E'], title:'Gift', location:'Silph Co. — President (post-game Kanto)', method:'Gift', heldRate:100, encounterRate:100, note:'Talk to the Silph Co. president after meeting Copycat in Saffron — receive the Up-Grade.' }
+  ],
+  'dubious disc': [
+    { games:['FR','LG','R'], title:'Floor item', location:'Galactic Veilstone HQ Warehouse / Route 230', method:'Floor item', heldRate:100, encounterRate:100, note:'Required to evolve Porygon2 → Porygon-Z via trade. Found in late post-game.' },
+    { games:['S','E'], title:'Held item', location:'Wild Porygon — Trade-in / Pal Park transfer', method:'Wild held', heldRate:5, encounterRate:5, note:'No standard floor item in HGSS — most players obtain via Pal Park or trade.' }
+  ],
+  'big root': [
+    { games:['FR','LG','R'], title:'Wild hold', location:'Tangela — Route 224 (Pt) / Great Marsh (DP)', method:'Wild held', heldRate:5, encounterRate:10, note:'Boosts HP-drain moves like Giga Drain and Leech Seed by 30%.' },
+    { games:['S','E'], title:'Wild hold', location:'Tangela / Tangrowth — Cerulean Cave (post-game)', method:'Wild held', heldRate:5, encounterRate:10, note:'Cerulean Cave Tangela is the easiest HGSS source.' }
   ]
 };
 
+// Slot codes: FR=Diamond, LG=Pearl, R=Platinum, S=HeartGold, E=SoulSilver
 var OPT_EV_SPOTS = {
   HP: [
-    { games:['R','S','E'], place:'Rusturf Tunnel', targets:'Whismur', yield:'1 HP EV', why:'Clean single-target HP grinding in early Hoenn.' },
-    { games:['FR','LG'], place:'Seafoam Islands', targets:'Slowpoke', yield:'1 HP EV', why:'One of the cleaner repeatable HP options in Kanto.' }
+    { games:['FR','LG','R'], place:'Route 213 / Lake Valor surroundings', targets:'Marill', yield:'1 HP EV', why:'Common Marill encounters; Power Weight + Pokérus stacks fast in Gen 4.' },
+    { games:['S','E'], place:'Route 32 / Mt. Mortar', targets:'Wooper / Marill', yield:'1 HP EV', why:'Both yield 1 HP and are abundant in early/mid Johto.' }
   ],
   Atk: [
-    { games:['R','S','E'], place:'Route 101 / 102', targets:'Poochyena', yield:'1 Attack EV', why:'Fast early-game Attack grinding with common encounters.' },
-    { games:['FR','LG'], place:'Route 22 / Rock Tunnel', targets:'Mankey / Machop', yield:'1 Attack EV', why:'Simple, accessible Attack training before post-game.' }
+    { games:['FR','LG','R'], place:'Victory Road / Mt. Coronet B1F', targets:'Machoke', yield:'2 Attack EVs', why:'Best 2-Atk yield in Sinnoh — high-density Machoke encounters in late-game caves.' },
+    { games:['S','E'], place:'Mt. Mortar / Cerulean Cave', targets:'Machoke', yield:'2 Attack EVs', why:'Mt. Mortar Machoke (post-Surf) is the cleanest 2-Atk grind in HGSS.' }
   ],
   Def: [
-    { games:['R','S','E'], place:'Granite Cave', targets:'Geodude / Aron', yield:'1 Defense EV', why:'Very stable Defense training with high encounter density.' },
-    { games:['FR','LG'], place:'Mt. Moon / Rock Tunnel', targets:'Geodude / Onix', yield:'1 Defense EV', why:'Classic Kanto Defense grind route.' }
+    { games:['FR','LG','R'], place:'Iron Island / Oreburgh Gate', targets:'Graveler', yield:'2 Defense EVs', why:'Graveler yields 2 Def and is dense in Iron Island and Mt. Coronet.' },
+    { games:['S','E'], place:'Mt. Mortar / Cliff Edge Gate', targets:'Graveler / Onix', yield:'1-2 Defense EVs', why:'Graveler 2 Def, Onix 1 Def — both common in HGSS caves.' }
   ],
   SpA: [
-    { games:['R','S','E'], place:'Route 113', targets:'Spinda', yield:'1 Sp. Atk EV', why:'Easy overworld access and no Surf requirement.' },
-    { games:['FR','LG'], place:'Pokémon Tower', targets:'Gastly / Haunter', yield:'1-2 Sp. Atk EVs', why:'Reliable special-attacker grind with strong density.' }
+    { games:['FR','LG','R'], place:'Mt. Coronet (interior) / Stark Mountain', targets:'Golbat', yield:'2 Sp. Atk EVs', why:'Golbat = 2 SpA. Mt. Coronet has the highest Golbat encounter density in Sinnoh.' },
+    { games:['S','E'], place:'Whirl Islands / Mt. Mortar', targets:'Golbat', yield:'2 Sp. Atk EVs', why:'Whirl Islands Golbat post-Surf is the cleanest 2-SpA route in HGSS.' }
   ],
   SpD: [
-    { games:['R','S','E'], place:'Any Surf route', targets:'Tentacool / Tentacruel', yield:'1-2 Sp. Def EVs', why:'One of the cleanest Sp. Def grinds in Gen 3.' },
-    { games:['FR','LG'], place:'Routes 19-21 Surf', targets:'Tentacool / Tentacruel', yield:'1-2 Sp. Def EVs', why:'Convenient Kanto surf route with steady Sp. Def gains.' }
+    { games:['FR','LG','R'], place:'Any Surf route (Routes 218-230)', targets:'Tentacruel', yield:'2 Sp. Def EVs', why:'Tentacruel = 2 SpD. Surf any Sinnoh water route — encounter density is excellent.' },
+    { games:['S','E'], place:'Any Surf route / Whirl Islands', targets:'Tentacruel', yield:'2 Sp. Def EVs', why:'Tentacruel surfs are the standard Sp. Def grind in Johto/Kanto post-Surf.' }
   ],
   Spe: [
-    { games:['R','S','E'], place:'Granite Cave / Old Rod anywhere', targets:'Zubat / Magikarp', yield:'1 Speed EV', why:'Very fast Speed farming from common low-bulk targets.' },
-    { games:['FR','LG'], place:'Mt. Moon / Diglett\'s Cave', targets:'Zubat / Diglett', yield:'1 Speed EV', why:'Accessible Speed routes without post-game setup.' }
+    { games:['FR','LG','R'], place:'Valor Lakefront Surf (Pt) / Route 213 Surf', targets:'Floatzel', yield:'2 Speed EVs', why:'Floatzel = 2 Spe and dominates Valor Lakefront water — fastest 2-Spe grind in Sinnoh.' },
+    { games:['S','E'], place:'Mt. Mortar / Whirl Islands', targets:'Crobat / Golbat', yield:'2 Speed EVs', why:'Crobat = 2 Spe at high level; Golbat alternates. Mt. Mortar is dense after Strength.' }
   ]
 };
 
