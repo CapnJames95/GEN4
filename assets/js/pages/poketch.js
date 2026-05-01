@@ -20,7 +20,7 @@
     { id:10, name:'Pokémon History',    unlock:'Solaceon Town — NPC inside one of the houses.',                                     use:'Logs the most recent Pokémon you\'ve seen, caught, or obtained.' },
     { id:11, name:'Counter',            unlock:'Veilstone City — man inside the Game Corner.',                                      use:'Tally counter (tap to increment).' },
     { id:12, name:'Analog Watch',       unlock:'Veilstone Department Store — top-floor lottery prize.',                             use:'Tells the time on an analog face.' },
-    { id:13, name:'Marking Map',        unlock:'Pastoria City — given after defeating Crasher Wake.',                               use:'Shows Sinnoh map with markers; tracks roaming legendaries (Mesprit / Cresselia / Articuno / Zapdos / Moltres / Latios / Latias).' },
+    { id:13, name:'Marking Map',        unlock:'Pastoria City — given after defeating Crasher Wake.',                               use:'Shows Sinnoh map with markers; tracks Sinnoh roamers (Mesprit / Cresselia and, in Platinum, Articuno / Zapdos / Moltres). Latios / Latias only roam in HGSS, not DPPt.' },
     { id:14, name:'Link Searcher',      unlock:'Canalave City — Pokémon Center.',                                                  use:'Scans for nearby wireless players.' },
     { id:15, name:'Coin Toss',          unlock:'Veilstone Game Corner — same man, after taking the Counter.',                       use:'Flip a coin on the touch screen.' },
     { id:16, name:'Move Tester',        unlock:'Canalave Library.',                                                                 use:'Calculates type effectiveness for a move against any defender type combo.' },
