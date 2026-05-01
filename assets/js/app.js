@@ -14235,7 +14235,7 @@ function optResolveGames() {
 }
 
 function optGameLabel(game) {
-  return ({FR:'FR',LG:'LG',R:'Ruby',S:'Sapphire',E:'Emerald'})[game] || game;
+  return ({FR:'Diamond',LG:'Pearl',R:'Platinum',S:'HeartGold',E:'SoulSilver'})[game] || game;
 }
 
 function optAvgLevel(levelText) {
