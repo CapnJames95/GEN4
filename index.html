@@ -61,9 +61,9 @@
       <div class="feat-section">
         <div class="feat-section-title">Pokédex</div>
         <ul>
-          <li>All 493 Pokémon with real encounter rates across all 5 GBA games</li>
+          <li>All 493 Pokémon with real encounter rates across all 5 Gen 4 DS games</li>
           <li>Per-game or All-Games view — toggle between Diamond, Pearl, Platinum, HeartGold &amp; SoulSilver</li>
-          <li>Filter by encounter method: Wild, Surf, Fish, Dive, Rock Smash, Safari, Trade, Breed, Fossil, Swarm, Event &amp; more</li>
+          <li>Filter by encounter method: Wild, Surf, Fish, Rock Smash, Headbutt, Safari, Trade, Breed, Fossil, Swarm, Event &amp; more</li>
           <li>Filter by type (up to 2 types simultaneously)</li>
           <li>Full-text search — searches names, types and locations</li>
           <li>Evolution chain grouping — shows chain members alongside search results</li>
@@ -625,8 +625,8 @@
       <button class="filter-btn" onclick="setFilter('wild',this)">🌿 Wild</button>
       <button class="filter-btn" onclick="setFilter('surf',this)">🌊 Surf</button>
       <button class="filter-btn" onclick="setFilter('fish',this)">🎣 Fish</button>
-      <button class="filter-btn" id="diveFilterBtn" onclick="setFilter('dive',this)">🤿 Dive</button>
       <button class="filter-btn" onclick="setFilter('rocksmash',this)">🔨 Rock Smash</button>
+      <button class="filter-btn" onclick="setFilter('headbutt',this)">🪵 Headbutt</button>
       <button class="filter-btn" onclick="setFilter('safari',this)">🌳 Safari</button>
       <button class="filter-btn" onclick="setFilter('evolve',this)">⬆ Evolve</button>
       <button class="filter-btn" onclick="setFilter('trade',this)">🔄 Trade</button>
@@ -1899,7 +1899,7 @@
   <div style="height:calc(100vh - var(--page-top, 115px) - var(--ios-bar-h, 0px));overflow-y:auto;">
     <div style="max-width:960px;margin:0 auto;padding:24px;">
       <div class="page-hd-title" style="font-family:'Press Start 2P',monospace;font-size:9px;letter-spacing:1px;margin-bottom:6px;">RIBBON TRACKER</div>
-      <div style="font-size:12px;color:var(--muted);margin-bottom:18px;line-height:1.7;">All obtainable ribbons across Gen 4 GBA games. Check them off as you earn them — progress saved per-game.</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:18px;line-height:1.7;">All obtainable ribbons across the five Gen 4 DS games. Check them off as you earn them — progress saved per-game.</div>
       <div id="ribbon-game-btns" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;"></div>
       <div id="ribbon-progress-bar" style="margin-bottom:16px;">
         <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:4px;">
@@ -2002,10 +2002,10 @@
   <div id="tradeevo-scroll" style="height:calc(100vh - var(--page-top, 115px) - var(--ios-bar-h, 0px));overflow-y:auto;overflow-x:hidden;">
     <div style="max-width:860px;margin:0 auto;padding:24px;">
       <div class="page-hd-title" style="font-family:'Press Start 2P',monospace;font-size:9px;letter-spacing:1px;margin-bottom:6px;">TRADE EVOLUTION HELPER</div>
-      <div style="font-size:12px;color:var(--muted);margin-bottom:20px;line-height:1.7;">All Pokémon that evolve via trading in Gen 4, including what held item is required and where to obtain it. Pokémon that require trading can only be obtained by linking two GBA systems or using an emulator link cable.</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:20px;line-height:1.7;">All Pokémon that evolve via trading in Gen 4, including what held item is required and where to obtain it. Pokémon that require trading can only be obtained by linking two Nintendo DS systems via DS-to-DS Wireless Communication or the Union Room — no link cable is used in Gen 4.</div>
 
       <div style="background:rgba(255,107,53,0.08);border:1px solid rgba(255,107,53,0.3);border-radius:6px;padding:12px 16px;margin-bottom:20px;font-size:12px;line-height:1.7;">
-        <strong style="color:var(--diamond);">Link Cable Required:</strong> Gen 4 trades require two GBA systems + a Game Boy Advance Link Cable (or a GCN–GBA cable for some interactions). Alternatively, use a single emulator with two ROM instances and a virtual link cable (supported in VBA-M, mGBA, etc.).
+        <strong style="color:var(--diamond);">Two DS Systems Required:</strong> Gen 4 trades use the Union Room (Sinnoh) or the underground / Pokémon Center wireless on a second Nintendo DS — no physical cable. Alternatively, use a single DS emulator with two save files and the emulator's wireless-link feature (DeSmuME local link, melonDS, etc.).
       </div>
 
       <!-- Gen 4 possible trades -->

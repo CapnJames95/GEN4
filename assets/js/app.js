@@ -503,9 +503,9 @@ function buildHomePage() {
   };
   var taglinePool = TAGLINES[GAME] || TAGLINES.all;
 
-  var _mapAction = (GAME === 'FR' || GAME === 'LG')
-    ? "closeNavDropdown('navMapsDropdown');showPage('kantomapview',document.getElementById('navKantoMapView'));if(!window._kantomapviewBuilt){buildKantoMapView();window._kantomapviewBuilt=true;}"
-    : "closeNavDropdown('navMapsDropdown');showPage('emeraldmapview',document.getElementById('navEmeraldMapView'));if(!window._emeraldmapviewBuilt){buildEmeraldMapView();window._emeraldmapviewBuilt=true;}";
+  var _mapAction = (GAME === 'S' || GAME === 'E')
+    ? "closeNavDropdown('navMapsDropdown');showPage('hgssmapview',document.getElementById('navHGSSMapView'));if(!window._hgssmapviewBuilt){buildHGSSMapView();window._hgssmapviewBuilt=true;}"
+    : "closeNavDropdown('navMapsDropdown');showPage('dpptmapview',document.getElementById('navDPPtMapView'));if(!window._dpptmapviewBuilt){buildDPPtMapView();window._dpptmapviewBuilt=true;}";
   var contentsItems = [
     { label: 'Pokédex',      action: "showPage('dex',document.getElementById('navDex'))" },
     { label: 'Walkthrough',  action: "showPage('bulba',document.getElementById('navBulba'));if(!window._bulbaBuilt){buildBulbaGuide();window._bulbaBuilt=true;}bulbaAutoSelectGame();" },
@@ -2197,7 +2197,7 @@ const ALL_ITEMS = [
   [99,"White Herb","Hold","Restores any lowered stats once, then disappears.",{FR:"Not in Gen 4",LG:"Not in Gen 4",R:"Battle Park/Frontier (32 BP)Pickup (Lv. 41-60)",S:"Cinnabar Gym (×3; held by Blaine's Pokémon) / Battle Frontier (32 BP)",E:"Cinnabar Gym (×3; held by Blaine's Pokémon) / Battle Frontier (32 BP)"}],
   [100,"Cleanse Tag","Hold","Reduces wild encounter rate by 50% (first in party).",{FR:"Lost Tower",LG:"Lost Tower",R:"Lost Tower",S:"Route 5",E:"Route 5"}],
   [101,"Smoke Ball","Hold","Guarantees escape from wild Pokémon.",{FR:"Route 210 / Held by wild Koffing and wild Weezing (5% chance each)",LG:"Route 210 / Held by wild Koffing and wild Weezing (5% chance each)",R:"Not in Gen 4",S:"Not in Gen 4",E:"Not in Gen 4"}],
-  [102,"Stick","Hold","Sharply raises Farfetch'd's critical-hit ratio (+2 stages, ~25% crit rate). No effect on other Pokémon. Known as 'Leek' in later generations.",{FR:"Held by wild Farfetch'd (5% chance)",LG:"Held by wild Farfetch'd (5% chance)",R:"Not available (Farfetch'd not in Hoenn dex)",S:"Not available (Farfetch'd not in Hoenn dex)",E:"Not available (Farfetch'd not in Hoenn dex)"}],
+  [102,"Stick","Hold","Sharply raises Farfetch'd's critical-hit ratio (+2 stages, ~25% crit rate). No effect on other Pokémon. Known as 'Leek' in later generations.",{FR:"Held by wild Farfetch'd (5% chance) — Pal Park transfer / NPC trade",LG:"Held by wild Farfetch'd (5% chance) — Pal Park transfer / NPC trade",R:"Held by wild Farfetch'd (5% chance) — Pal Park transfer / NPC trade",S:"Held by wild Farfetch'd (5% chance) — Route 38 (Johto)",E:"Held by wild Farfetch'd (5% chance) — Route 38 (Johto)"}],
   [103,"Scope Lens","Hold","Raises the holder's critical-hit ratio by one stage.",{FR:"Fight Area / Battle Park/Frontier (48 BP)",LG:"Fight Area / Battle Park/Frontier (48 BP)",R:"Fight Area / Battle Park/Frontier (48 BP)",S:"Battle Frontier (48 BP)",E:"Battle Frontier (48 BP)"}],
   [104,"Quick Claw","Hold","Grants a 20% chance to move first each turn, regardless of Speed.",{FR:"Jubilife City (Jubilife Condominiums) / Held by wild Sandshrew, wild Sandslash, wild Meowth, wild Sneasel, and wild Zangoose (5% chance each…",LG:"Jubilife City (Jubilife Condominiums) / Held by wild Sandshrew, wild Sandslash, wild Meowth, wild Sneasel, and wild Zangoose (5% chance each…",R:"Jubilife City (Jubilife Condominiums) / Held by wild Sandshrew, wild Sandslash, wild Meowth, wild Sneasel, and wild Zangoose (5% chance each…",S:"National Park / Held by wild Sandshrew, wild Sandslash, wild Meowth, wild Persian, wild Sneasel, and wild Zangoose (5% chance each)",E:"National Park / Held by wild Sandshrew, wild Sandslash, wild Meowth, wild Persian, wild Sneasel, and wild Zangoose (5% chance each)"}],
   [105,"Bright Powder","Hold","Lowers the opponent's accuracy by 10%.",{FR:"Battle Park/Frontier (48 BP)",LG:"Battle Park/Frontier (48 BP)",R:"Battle Park/Frontier (48 BP)",S:"Goldenrod Radio Tower / Battle Frontier (48 BP)",E:"Goldenrod Radio Tower / Battle Frontier (48 BP)"}],
@@ -2352,22 +2352,22 @@ const ALL_ITEMS = [
   [220,"Oran Berry","Berry","Restores 10 HP when HP drops below 50%.",{FR:"Floaroma Town, Route 205Oreburgh City (in-game trade) / Route 208 (Berry Master's house)Pal Park (score of 0-3000)Held by wild Shuckle (100%…",LG:"Floaroma Town, Route 205Oreburgh City (in-game trade) / Route 208 (Berry Master's house)Pal Park (score of 0-3000)Held by wild Shuckle (100%…",R:"Routes; Berry trees",S:"Routes; Berry trees",E:"Routes; Berry trees"}],
   [221,"Sitrus Berry","Berry","Restores 30 HP when HP drops below 50%.",{FR:"Routes 210, 212, 214, and 224, Fuego Ironworks / Route 208 (Berry Master's house)Pal Park (score of 3300-3499)Held by wild Bibarel (5% chanc…",LG:"Routes 210, 212, 214, and 224, Fuego Ironworks / Route 208 (Berry Master's house)Pal Park (score of 3300-3499)Held by wild Bibarel (5% chanc…",R:"Routes; Berry trees",S:"Routes; Berry trees",E:"Routes; Berry trees"}],
   [222,"Lum Berry","Berry","Cures any status condition (once).",{FR:"Found on routes",LG:"Found on routes",R:"Routes; Berry trees",S:"Routes; Berry trees",E:"Routes; Berry trees"}],
-  [223,"Cheri Berry","Berry","Cures Paralysis.",{FR:"Found on routes",LG:"Found on routes",R:"Routes",S:"Routes",E:"Routes"}],
-  [224,"Chesto Berry","Berry","Cures Sleep.",{FR:"Found on routes",LG:"Found on routes",R:"Routes",S:"Routes",E:"Routes"}],
-  [225,"Pecha Berry","Berry","Cures Poison.",{FR:"Found on routes",LG:"Found on routes",R:"Routes",S:"Routes",E:"Routes"}],
-  [226,"Rawst Berry","Berry","Cures Burn.",{FR:"Found on routes",LG:"Found on routes",R:"Routes",S:"Routes",E:"Routes"}],
-  [227,"Aspear Berry","Berry","Cures Frozen status.",{FR:"Found on routes",LG:"Found on routes",R:"Routes",S:"Routes",E:"Routes"}],
-  [228,"Leppa Berry","Berry","Restores 10 PP to one depleted move.",{FR:"Found",LG:"Found",R:"Routes",S:"Routes",E:"Routes"}],
-  [229,"Figy Berry","Berry","Restores 1/8 HP; confuses if holder dislikes spicy.",{FR:"Route 218, Solaceon Town / Route 208 (Berry Master's house), Veilstone City Department StorePal Park (score of 3001-3299)Spin Trade (2-3 pla…",LG:"Route 218, Solaceon Town / Route 208 (Berry Master's house), Veilstone City Department StorePal Park (score of 3001-3299)Spin Trade (2-3 pla…",R:"Routes",S:"Routes",E:"Routes"}],
-  [230,"Wiki Berry","Berry","Restores 1/8 HP; confuses if holder dislikes dry.",{FR:"Routes 210, 215, and 222 / Route 208 (Berry Master's house), Veilstone City Department StorePal Park (score of 3001-3299)Spin Trade (2-3 pla…",LG:"Routes 210, 215, and 222 / Route 208 (Berry Master's house), Veilstone City Department StorePal Park (score of 3001-3299)Spin Trade (2-3 pla…",R:"Routes",S:"Routes",E:"Routes"}],
-  [231,"Mago Berry","Berry","Restores 1/8 HP; confuses if holder dislikes sweet.",{FR:"Routes 215, 221, and 222 / Route 208 (Berry Master's house), Veilstone City Department StorePal Park (score of 3001-3299)Spin Trade (2-3 pla…",LG:"Routes 215, 221, and 222 / Route 208 (Berry Master's house), Veilstone City Department StorePal Park (score of 3001-3299)Spin Trade (2-3 pla…",R:"Routes",S:"Routes",E:"Routes"}],
-  [232,"Aguav Berry","Berry","Restores 1/8 HP; confuses if holder dislikes bitter.",{FR:"Routes 210, 213, and 222 / Route 208 (Berry Master's house), Veilstone City Department StorePal Park (score of 3001-3299)Spin Trade (2-3 pla…",LG:"Routes 210, 213, and 222 / Route 208 (Berry Master's house), Veilstone City Department StorePal Park (score of 3001-3299)Spin Trade (2-3 pla…",R:"Routes",S:"Routes",E:"Routes"}],
-  [233,"Iapapa Berry","Berry","Restores 1/8 HP; confuses if holder dislikes sour.",{FR:"Routes 211 and 213 / Route 208 (Berry Master's house), Veilstone City Department StorePal Park (score of 3001-3299)Spin Trade (2-3 players)",LG:"Routes 211 and 213 / Route 208 (Berry Master's house), Veilstone City Department StorePal Park (score of 3001-3299)Spin Trade (2-3 players)",R:"Routes",S:"Routes",E:"Routes"}],
-  [234,"Razz Berry","Berry","A spicy Poffin ingredient. Used to make Pokéblocks in Gen 3.",{FR:"Routes 206, 208, 209, and 210, Eterna Forest / Route 208 (Berry Master's house)Pal Park (score of 3300-3499)Spin Trade (4 players)",LG:"Routes 206, 208, 209, and 210, Eterna Forest / Route 208 (Berry Master's house)Pal Park (score of 3300-3499)Spin Trade (4 players)",R:"Routes",S:"Routes",E:"Routes"}],
-  [235,"Bluk Berry","Berry","Raises Cuteness condition for Contests.",{FR:"Routes 207, 208, 215, and 224, Eterna Forest / Route 208 (Berry Master's house)Pal Park (score of 3300-3499)Spin Trade (4 players)",LG:"Routes 207, 208, 215, and 224, Eterna Forest / Route 208 (Berry Master's house)Pal Park (score of 3300-3499)Spin Trade (4 players)",R:"Routes",S:"Routes",E:"Routes"}],
-  [236,"Nanab Berry","Berry","Raises Cuteness condition for Contests.",{FR:"Solaceon Town, Pastoria City, Routes 208 and 224 / Route 208 (Berry Master's house)Pal Park (score of 3300-3499)Spin Trade (4 players)",LG:"Solaceon Town, Pastoria City, Routes 208 and 224 / Route 208 (Berry Master's house)Pal Park (score of 3300-3499)Spin Trade (4 players)",R:"Routes",S:"Routes",E:"Routes"}],
-  [237,"Wepear Berry","Berry","Raises Toughness condition for Contests.",{FR:"Fuego Ironworks, Route 224 / Route 208 (Berry Master's house)Pal Park (score of 3300-3499)Spin Trade (4 players)",LG:"Fuego Ironworks, Route 224 / Route 208 (Berry Master's house)Pal Park (score of 3300-3499)Spin Trade (4 players)",R:"Routes",S:"Routes",E:"Routes"}],
-  [238,"Pinap Berry","Berry","Raises Cleverness condition for Contests.",{FR:"Routes 208, 210, 212, and 218 / Route 208 (Berry Master's house)Pal Park (score of 3300-3499)Spin Trade (4 players)",LG:"Routes 208, 210, 212, and 218 / Route 208 (Berry Master's house)Pal Park (score of 3300-3499)Spin Trade (4 players)",R:"Routes",S:"Routes",E:"Routes"}],
+  [223,"Cheri Berry","Berry","Cures Paralysis.",{FR:"Found on routes",LG:"Found on routes",R:"Routes 206-224, Eterna Forest / Route 208 (Berry Master)",S:"Goldenrod Flower Shop / Route 30-31 / Berry Trees",E:"Goldenrod Flower Shop / Route 30-31 / Berry Trees"}],
+  [224,"Chesto Berry","Berry","Cures Sleep.",{FR:"Found on routes",LG:"Found on routes",R:"Routes 206-224, Eterna Forest / Route 208 (Berry Master)",S:"Goldenrod Flower Shop / Route 30-31 / Berry Trees",E:"Goldenrod Flower Shop / Route 30-31 / Berry Trees"}],
+  [225,"Pecha Berry","Berry","Cures Poison.",{FR:"Found on routes",LG:"Found on routes",R:"Routes 206-224, Eterna Forest / Route 208 (Berry Master)",S:"Goldenrod Flower Shop / Route 30-31 / Berry Trees",E:"Goldenrod Flower Shop / Route 30-31 / Berry Trees"}],
+  [226,"Rawst Berry","Berry","Cures Burn.",{FR:"Found on routes",LG:"Found on routes",R:"Routes 206-224, Eterna Forest / Route 208 (Berry Master)",S:"Goldenrod Flower Shop / Route 30-31 / Berry Trees",E:"Goldenrod Flower Shop / Route 30-31 / Berry Trees"}],
+  [227,"Aspear Berry","Berry","Cures Frozen status.",{FR:"Found on routes",LG:"Found on routes",R:"Routes 206-224, Eterna Forest / Route 208 (Berry Master)",S:"Goldenrod Flower Shop / Route 30-31 / Berry Trees",E:"Goldenrod Flower Shop / Route 30-31 / Berry Trees"}],
+  [228,"Leppa Berry","Berry","Restores 10 PP to one depleted move.",{FR:"Found",LG:"Found",R:"Routes 206-224, Eterna Forest / Route 208 (Berry Master)",S:"Goldenrod Flower Shop / Route 30-31 / Berry Trees",E:"Goldenrod Flower Shop / Route 30-31 / Berry Trees"}],
+  [229,"Figy Berry","Berry","Restores 1/8 HP; confuses if holder dislikes spicy.",{FR:"Route 218, Solaceon Town / Route 208 (Berry Master's house), Veilstone City Department StorePal Park (score of 3001-3299)Spin Trade (2-3 pla…",LG:"Route 218, Solaceon Town / Route 208 (Berry Master's house), Veilstone City Department StorePal Park (score of 3001-3299)Spin Trade (2-3 pla…",R:"Routes 206-224, Eterna Forest / Route 208 (Berry Master)",S:"Goldenrod Flower Shop / Route 30-31 / Berry Trees",E:"Goldenrod Flower Shop / Route 30-31 / Berry Trees"}],
+  [230,"Wiki Berry","Berry","Restores 1/8 HP; confuses if holder dislikes dry.",{FR:"Routes 210, 215, and 222 / Route 208 (Berry Master's house), Veilstone City Department StorePal Park (score of 3001-3299)Spin Trade (2-3 pla…",LG:"Routes 210, 215, and 222 / Route 208 (Berry Master's house), Veilstone City Department StorePal Park (score of 3001-3299)Spin Trade (2-3 pla…",R:"Routes 206-224, Eterna Forest / Route 208 (Berry Master)",S:"Goldenrod Flower Shop / Route 30-31 / Berry Trees",E:"Goldenrod Flower Shop / Route 30-31 / Berry Trees"}],
+  [231,"Mago Berry","Berry","Restores 1/8 HP; confuses if holder dislikes sweet.",{FR:"Routes 215, 221, and 222 / Route 208 (Berry Master's house), Veilstone City Department StorePal Park (score of 3001-3299)Spin Trade (2-3 pla…",LG:"Routes 215, 221, and 222 / Route 208 (Berry Master's house), Veilstone City Department StorePal Park (score of 3001-3299)Spin Trade (2-3 pla…",R:"Routes 206-224, Eterna Forest / Route 208 (Berry Master)",S:"Goldenrod Flower Shop / Route 30-31 / Berry Trees",E:"Goldenrod Flower Shop / Route 30-31 / Berry Trees"}],
+  [232,"Aguav Berry","Berry","Restores 1/8 HP; confuses if holder dislikes bitter.",{FR:"Routes 210, 213, and 222 / Route 208 (Berry Master's house), Veilstone City Department StorePal Park (score of 3001-3299)Spin Trade (2-3 pla…",LG:"Routes 210, 213, and 222 / Route 208 (Berry Master's house), Veilstone City Department StorePal Park (score of 3001-3299)Spin Trade (2-3 pla…",R:"Routes 206-224, Eterna Forest / Route 208 (Berry Master)",S:"Goldenrod Flower Shop / Route 30-31 / Berry Trees",E:"Goldenrod Flower Shop / Route 30-31 / Berry Trees"}],
+  [233,"Iapapa Berry","Berry","Restores 1/8 HP; confuses if holder dislikes sour.",{FR:"Routes 211 and 213 / Route 208 (Berry Master's house), Veilstone City Department StorePal Park (score of 3001-3299)Spin Trade (2-3 players)",LG:"Routes 211 and 213 / Route 208 (Berry Master's house), Veilstone City Department StorePal Park (score of 3001-3299)Spin Trade (2-3 players)",R:"Routes 206-224, Eterna Forest / Route 208 (Berry Master)",S:"Goldenrod Flower Shop / Route 30-31 / Berry Trees",E:"Goldenrod Flower Shop / Route 30-31 / Berry Trees"}],
+  [234,"Razz Berry","Berry","A spicy Poffin ingredient. Used to make Pokéblocks in Gen 3.",{FR:"Routes 206, 208, 209, and 210, Eterna Forest / Route 208 (Berry Master's house)Pal Park (score of 3300-3499)Spin Trade (4 players)",LG:"Routes 206, 208, 209, and 210, Eterna Forest / Route 208 (Berry Master's house)Pal Park (score of 3300-3499)Spin Trade (4 players)",R:"Routes 206-224, Eterna Forest / Route 208 (Berry Master)",S:"Goldenrod Flower Shop / Route 30-31 / Berry Trees",E:"Goldenrod Flower Shop / Route 30-31 / Berry Trees"}],
+  [235,"Bluk Berry","Berry","Raises Cuteness condition for Contests.",{FR:"Routes 207, 208, 215, and 224, Eterna Forest / Route 208 (Berry Master's house)Pal Park (score of 3300-3499)Spin Trade (4 players)",LG:"Routes 207, 208, 215, and 224, Eterna Forest / Route 208 (Berry Master's house)Pal Park (score of 3300-3499)Spin Trade (4 players)",R:"Routes 206-224, Eterna Forest / Route 208 (Berry Master)",S:"Goldenrod Flower Shop / Route 30-31 / Berry Trees",E:"Goldenrod Flower Shop / Route 30-31 / Berry Trees"}],
+  [236,"Nanab Berry","Berry","Raises Cuteness condition for Contests.",{FR:"Solaceon Town, Pastoria City, Routes 208 and 224 / Route 208 (Berry Master's house)Pal Park (score of 3300-3499)Spin Trade (4 players)",LG:"Solaceon Town, Pastoria City, Routes 208 and 224 / Route 208 (Berry Master's house)Pal Park (score of 3300-3499)Spin Trade (4 players)",R:"Routes 206-224, Eterna Forest / Route 208 (Berry Master)",S:"Goldenrod Flower Shop / Route 30-31 / Berry Trees",E:"Goldenrod Flower Shop / Route 30-31 / Berry Trees"}],
+  [237,"Wepear Berry","Berry","Raises Toughness condition for Contests.",{FR:"Fuego Ironworks, Route 224 / Route 208 (Berry Master's house)Pal Park (score of 3300-3499)Spin Trade (4 players)",LG:"Fuego Ironworks, Route 224 / Route 208 (Berry Master's house)Pal Park (score of 3300-3499)Spin Trade (4 players)",R:"Routes 206-224, Eterna Forest / Route 208 (Berry Master)",S:"Goldenrod Flower Shop / Route 30-31 / Berry Trees",E:"Goldenrod Flower Shop / Route 30-31 / Berry Trees"}],
+  [238,"Pinap Berry","Berry","Raises Cleverness condition for Contests.",{FR:"Routes 208, 210, 212, and 218 / Route 208 (Berry Master's house)Pal Park (score of 3300-3499)Spin Trade (4 players)",LG:"Routes 208, 210, 212, and 218 / Route 208 (Berry Master's house)Pal Park (score of 3300-3499)Spin Trade (4 players)",R:"Routes 206-224, Eterna Forest / Route 208 (Berry Master)",S:"Goldenrod Flower Shop / Route 30-31 / Berry Trees",E:"Goldenrod Flower Shop / Route 30-31 / Berry Trees"}],
   [239,"Persim Berry","Berry","Cures a confused Pokémon when held.",{FR:"Solaceon Town, Pastoria City, and Route 218 / Route 208 (Berry Master's house)Pal Park (score of 0-3000)Held by wild Girafarig and wild Kecl…",LG:"Solaceon Town, Pastoria City, and Route 218 / Route 208 (Berry Master's house)Pal Park (score of 0-3000)Held by wild Girafarig and wild Kecl…",R:"Berry patches on various routes",S:"Berry patches on various routes",E:"Berry patches on various routes"}],
   [240,"Pomeg Berry","Berry","Lowers HP EVs by 10 when used on a Pokémon. Also a Poffin ingredient.",{FR:"Not in Gen 4",LG:"Not in Gen 4",R:"Berry patches on various routes",S:"Berry patches on various routes",E:"Berry patches on various routes"}],
   [241,"Kelpsy Berry","Berry","Lowers Attack EVs by 10 when used on a Pokémon. Also a Poffin ingredient.",{FR:"Not in Gen 4",LG:"Not in Gen 4",R:"Berry patches on various routes",S:"Berry patches on various routes",E:"Berry patches on various routes"}],
@@ -10790,8 +10790,8 @@ function tmhmRender() {
   }
 
   var html = '';
-  if (TMHM_TYPE !== 'HM') html += renderSection(tms, 'TECHNICAL MACHINES (TM01–TM50)');
-  if (TMHM_TYPE !== 'TM') html += renderSection(hms, 'HIDDEN MACHINES (HM01–HM0' + (TMHM_REGION === 'rse' ? '8' : '7') + ')');
+  if (TMHM_TYPE !== 'HM') html += renderSection(tms, 'TECHNICAL MACHINES (TM01–TM92)');
+  if (TMHM_TYPE !== 'TM') html += renderSection(hms, 'HIDDEN MACHINES (HM01–HM08)');
   inner.innerHTML = html;
 }
 
@@ -16887,36 +16887,36 @@ function buildContestsPage() {
 
   // Overview
   html += card('OVERVIEW',
-    info('Pokémon Contests are side events available in every Pokémon Center in Hoenn. There are <strong>5 contest categories</strong> and <strong>4 ranks</strong> — earning a ribbon in every rank of every category gives your Pokémon 20 ribbons.')
+    info('Super Contests are the Gen 4 (Diamond/Pearl/Platinum) successor to the Hoenn Contest system. They are held at the <strong>Hearthome City Contest Hall</strong> only. There are <strong>5 contest categories</strong> and <strong>4 ranks</strong>; winning all 20 contest combinations earns a Master Rank ribbon for each category. <em>HGSS does not have Super Contests.</em>')
     +'<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">'
     +Object.keys(condColors).map(condBadge).join('')
     +'</div>'
   );
 
-  // Conditions & Pokéblocks
-  html += card('CONDITIONS &amp; POKÉBLOCKS',
-    info('Each contest category is powered by a <strong>condition stat</strong> raised by feeding Pokéblocks. Higher condition = higher starting appeal score.')
-    +table(['Condition','Raised by','Berry colour','Pokéblock type'],
-      [['Coolness','Red, Blue berries','Red / Blue','Cool'],
-       ['Beauty','Blue, Green berries','Blue / Indigo','Beauty'],
-       ['Cuteness','Pink, Yellow berries','Pink / Yellow','Cute'],
-       ['Cleverness','Green, Yellow berries','Green / Yellow','Smart'],
-       ['Toughness','Yellow, Red berries','Yellow / Red','Tough']],[2])
+  // Conditions & Poffins
+  html += card('CONDITIONS &amp; POFFINS',
+    info('Each contest category is powered by a <strong>condition stat</strong> raised by feeding <strong>Poffins</strong> (Gen 4\'s replacement for Pokéblocks). Higher condition = better Visual round score.')
+    +table(['Condition','Raised by','Berry flavor','Poffin type'],
+      [['Coolness','Spicy berries','Spicy','Spicy / Cool'],
+       ['Beauty','Dry berries','Dry','Dry / Beauty'],
+       ['Cuteness','Sweet berries','Sweet','Sweet / Cute'],
+       ['Cleverness','Bitter berries','Bitter','Bitter / Smart'],
+       ['Toughness','Sour berries','Sour','Sour / Tough']],[2])
     +'<div style="margin-top:10px;padding:10px;background:var(--panel);border-radius:6px;font-size:11px;color:var(--muted);line-height:1.7;">'
-    +'<strong style="color:var(--text);">Pokéblock limit:</strong> Each Pokémon can only eat a limited number of Pokéblocks (based on its <strong>nature</strong>). Natures that "like" a flavor give +2 to that condition; natures that "dislike" give only +1. Jolly/Timid/etc. Pokémon cannot raise some conditions at all.<br>'
-    +'<strong style="color:var(--text);">Sheen:</strong> Each Pokéblock raises Sheen. When Sheen maxes out (255), the Pokémon can eat no more Pokéblocks — plan your Pokéblock diet carefully.'
+    +'<strong style="color:var(--text);">Poffin Cooking:</strong> Made at the <strong>Hearthome Poffin House</strong> by stirring berries in a pot with the stylus. Stir quality determines Poffin Level (10 → 80+). Co-op cooking with multiple players raises the level cap. See the Poffin Optimizer page for the full berry → flavor table.<br>'
+    +'<strong style="color:var(--text);">Sheen:</strong> Each Poffin raises Sheen. When Sheen maxes out (255), the Pokémon refuses further Poffins — plan flavors carefully and use low-Smoothness berries to feed more.'
     +'</div>'
   );
 
   // Contest flow
-  html += card('HOW CONTESTS WORK',
-    info('Each contest round: all contestants pick a move. <strong>Appeal</strong> is generated from the move\'s base appeal value plus crowd bonuses. The Pokémon with the most appeal at the end of 5 rounds wins.')
+  html += card('HOW SUPER CONTESTS WORK',
+    info('Super Contests are split into <strong>three rounds</strong>. Final placement is the sum of all three. Winning three of three usually ranks first.')
     +'<div style="display:flex;flex-direction:column;gap:8px;margin-top:6px;">'
-    +[['Appeal','The main score. Generated by moves. Doubled when the crowd is excited (filled heart meter). Some moves generate more appeal when used after specific other moves.'],
-      ['Jamming','Some moves reduce the appeal of other contestants on that turn. Blocking jamming gives +2 appeal.'],
-      ['Crowd hearts','The audience has 5 hearts. Using moves of the matching contest category fills hearts. Filled = excited crowd → ×2 appeal multiplier. Hearts drain if you ignore the crowd.'],
-      ['Move order','Determined by your condition stat matching the category (e.g. Coolness contests use the Coolness stat). Higher condition = earlier turn = ability to jam before others appeal.'],
-      ['Combos','Some moves set up combos: using move A then move B on the next turn gives +8 bonus appeal. The move description hints at this ("appeal increases greatly if used after X").']]
+    +[['Visual round','Dress your Pokémon with accessories (collected via the Underground / berry exchanges). The judge scores how well the look matches the contest theme. Condition stat boosts your starting score.'],
+      ['Dance round','Rhythm minigame on the touch screen. Tap the icons in time with the music; lead dancer choreography rotates each turn. The accuracy bonus carries forward.'],
+      ['Acting round','Choose 1 of 4 contest moves per turn for 4 turns. Move appeal points are based on contest category match plus combo bonuses (Move A → Move B = +bonus appeal). Crowd hearts (5) fill up when you use category-matching moves and grant ×2 appeal when full.'],
+      ['Move order','Decided by Quickness/Cleverness in the Acting round. Higher condition = earlier turn = jam before opponents appeal.'],
+      ['Combos','Move tooltips hint at follow-ups ("Earns more appeal if used after a Cool move"). Plan a 4-move sequence that chains.']]
       .map(function(row){return '<div style="display:flex;gap:10px;padding:8px;background:var(--panel);border-radius:6px;">'
         +'<div><strong style="font-size:11px;color:var(--text);">'+row[0]+'</strong><div style="font-size:11px;color:var(--muted);line-height:1.6;margin-top:2px;">'+row[1]+'</div></div>'
         +'</div>';})
@@ -16926,13 +16926,13 @@ function buildContestsPage() {
 
   // Ranks
   html += card('RANKS &amp; RIBBONS',
-    info('Each category has 4 ranks. Win them all for 20 ribbons (100 total with effort ribbons etc.).')
+    info('Each category has 4 ranks. Win all 20 (5 categories × 4 ranks) for the full set of Super Contest ribbons.')
     +table(['Rank','Location','Requirement'],
-      [['Normal','Verdanturf / Fallarbor / Slateport / Lilycove','Any Pokémon'],
-       ['Super','Lilycove Contest Hall (2F)','Won Normal in that category'],
-       ['Hyper','Lilycove Contest Hall (3F)','Won Super in that category'],
-       ['Master','Lilycove Contest Hall (4F)','Won Hyper in that category']])
-    +'<div style="margin-top:10px;padding:8px 12px;background:rgba(255,215,0,0.06);border:1px solid var(--gold);border-radius:6px;font-size:11px;color:var(--muted);">Win the Master rank of all 5 categories to get the <strong style="color:var(--gold);">Artist</strong> to paint your Pokémon\'s portrait, displayed in the Lilycove Museum.</div>'
+      [['Normal Rank','Hearthome Contest Hall','Any Pokémon'],
+       ['Great Rank','Hearthome Contest Hall','Won Normal in that category'],
+       ['Ultra Rank','Hearthome Contest Hall','Won Great in that category'],
+       ['Master Rank','Hearthome Contest Hall','Won Ultra in that category']])
+    +'<div style="margin-top:10px;padding:8px 12px;background:rgba(255,215,0,0.06);border:1px solid var(--gold);border-radius:6px;font-size:11px;color:var(--muted);">Win the Master Rank of all 5 categories with the same Pokémon to receive the <strong style="color:var(--gold);">Artist</strong> Ribbon and have its portrait displayed in <strong>Jubilife TV</strong>.</div>'
   );
 
   // Ribbon checklist
@@ -17184,7 +17184,7 @@ function buildMissablesPage() {
     var active = g === _missGame;
     var col = colors[g];
     return '<button onclick="missSetGame(\''+g+'\')" data-game="'+g+'" style="font-family:\'Press Start 2P\',monospace;font-size:7px;padding:6px 12px;border-radius:4px;border:2px solid '+(active?col:'var(--border)')+';background:transparent;cursor:pointer;color:'+(active?col:'var(--muted)')+';">'
-      +{FR:'🔥 FR',LG:'🌿 LG',R:'🔴 R',S:'🔷 S',E:'🟢 E'}[g]+'</button>';
+      +{FR:'💎 D',LG:'🌸 P',R:'⚙ Pt',S:'💛 HG',E:'🤍 SS'}[g]+'</button>';
   }).join('');
   missRender();
   window._missablesBuilt = true;
@@ -17301,7 +17301,7 @@ function buildEssentialsPage() {
       'Surf opens major routes, islands, and whole optional areas.',
       'Strength unlocks caves and puzzle routes.',
       'Flash is quality-of-life for dark caves, not always mandatory.',
-      'Waterfall and Dive matter mostly in late Hoenn progression.'
+      'Waterfall (DPPt + HGSS) opens late routes in both regions; Rock Climb (DPPt) and Whirlpool (HGSS) gate specific late-game areas. There is no Dive HM in Gen 4.'
     ])
     + tip('Team planning', 'Avoid teaching every HM to your main battlers unless the move is genuinely useful. Keeping one utility slot or HM slave is usually cleaner.')
   );
@@ -17538,27 +17538,33 @@ function buildBerriesPage() {
 
   var html = '';
 
-  html += card('HOW BERRY FARMING WORKS (RSE)',
-    p('Berry trees grow in <strong>4 stages</strong>: Planted → Sprout → Taller → Bloom → Berry. Each stage takes a set number of hours. Watering a tree keeps it healthy and <strong>increases berry yield</strong> (up to 5 extra berries per watering, for a max yield).')
+  html += card('HOW BERRY FARMING WORKS (DPPt + HGSS)',
+    p('In Gen 4 berries grow in <strong>5 stages</strong>: Planted → Sprouted → Taller → Bloom → Berries. Each stage takes a set number of hours. Watering after each stage keeps the tree healthy and <strong>increases berry yield</strong>; a fully-watered tree gives the maximum harvest.')
     +'<div style="padding:10px 12px;background:var(--panel);border-radius:6px;font-size:11px;color:var(--muted);line-height:1.7;margin-top:6px;">'
-    +'<strong style="color:var(--text);">Watering tip:</strong> ' + _brLink('Water once per growth stage for maximum yield. A tree watered at every stage (4×) gives the maximum harvest. In Emerald, <strong>Mulch</strong> items (Amaze Mulch, Damp Mulch, etc.) can speed growth or improve yield — obtained in Emerald only from the Berry Master on Route 123.')
+    +'<strong style="color:var(--text);">Mulch (DPPt only):</strong> ' + _brLink('Mulch items (Growth Mulch, Damp Mulch, Stable Mulch, Gooey Mulch) are sold by the gardener in Floaroma Meadow. Apply to soil before planting to alter growth speed and watering efficiency. HGSS does not have Mulch.')
+    +'<br><strong style="color:var(--text);">Soil:</strong> Soft Soil patches dot Sinnoh routes (Route 208, Pastoria, etc.). HGSS uses Goldenrod Flower Shop pots and Apricorn Trees instead — different system entirely.'
     +'</div>'
   );
 
   var isMobile = window.innerWidth <= 600;
   var berryRows = [
-    ['Oran Berry','2h','8h','20','Common healing berry'],
-    ['Sitrus Berry','8h','32h','20','Better healing, held-item tier'],
-    ['Lum Berry','16h','64h','20','Cures any status — highly valuable'],
-    ['Salac Berry','24h','96h','6','Speed +1 <¼HP — get via Berry Master phrase in RSE'],
-    ['Petaya Berry','24h','96h','6','Sp.Atk +1 <¼HP — Berry Master phrase'],
-    ['Liechi Berry','24h','96h','6','Attack +1 <¼HP — Shoal Cave gift (4 shells + 4 salts)'],
-    ['Ganlon Berry','24h','96h','6','Defense +1 <¼HP — Berry Master phrase'],
-    ['Apicot Berry','24h','96h','6','Sp.Def +1 <¼HP — Berry Master phrase'],
-    ['Starf Berry','24h','96h','6','Random stat +2 <¼HP — extremely rare phrase'],
-    ['Lansat Berry','24h','96h','6','Crit rate +1 <¼HP — Berry Master phrase'],
-    ['Figy Berry / Wiki Berry / Mago Berry / Aguav Berry / Iapapa Berry','8h','32h','10','Flavor berries for Pokéblocks'],
-    ['Pomeg Berry / Kelpsy Berry / Qualot Berry / Hondew Berry / Grepa Berry / Tamato Berry','10h','40h','8','EV-reducing berries'],
+    ['Oran Berry','3h','15h','5','Common healing berry — restores 10 HP when held.'],
+    ['Sitrus Berry','4h','20h','5','Held item — restores 25% HP when low. Berry Master gift.'],
+    ['Lum Berry','12h','60h','5','Cures any status — extremely valuable competitive held item.'],
+    ['Salac Berry','24h','120h','3','Speed +1 at <¼ HP — Pal Park transfer / Berry Master.'],
+    ['Petaya Berry','24h','120h','3','Sp. Atk +1 at <¼ HP — Pal Park / Berry Master.'],
+    ['Liechi Berry','24h','120h','3','Attack +1 at <¼ HP — Pal Park / Berry Master.'],
+    ['Ganlon Berry','24h','120h','3','Defense +1 at <¼ HP — Pal Park / Berry Master.'],
+    ['Apicot Berry','24h','120h','3','Sp. Def +1 at <¼ HP — Pal Park / Berry Master.'],
+    ['Starf Berry','24h','120h','3','Random stat +2 at <¼ HP — Berry Master rare gift.'],
+    ['Lansat Berry','24h','120h','3','Crit rate +2 at <¼ HP — Berry Master rare gift.'],
+    ['Micle Berry','24h','120h','3','Boosts next move\'s accuracy at <¼ HP — Pal Park transfer (introduced Gen 4).'],
+    ['Custap Berry','24h','120h','3','Move first that turn at <¼ HP — Pal Park transfer (Gen 4).'],
+    ['Jaboca Berry','24h','120h','3','Damages physical attacker on hit (Gen 4 introduction).'],
+    ['Rowap Berry','24h','120h','3','Damages special attacker on hit (Gen 4 introduction).'],
+    ['Enigma Berry','24h','120h','3','Restores 25% HP after a super-effective hit — Mystery Gift event Gen 4.'],
+    ['Figy Berry / Wiki Berry / Mago Berry / Aguav Berry / Iapapa Berry','8h','40h','5','Flavor / confusion berries — used for Poffins.'],
+    ['Pomeg Berry / Kelpsy Berry / Qualot Berry / Hondew Berry / Grepa Berry / Tamato Berry','10h','50h','5','EV-reducing berries — Berry Master\'s house, Pastoria.'],
   ];
   var berryTableHtml;
   if (!isMobile) {
@@ -17585,26 +17591,29 @@ function buildBerriesPage() {
   }
   html += card('BERRY GROWTH TIMERS', berryTableHtml);
 
-  html += card('BERRY MASTER PHRASES (EMERALD)',
-    p('Talk to the Berry Master\'s wife on Route 123 and enter these phrases to get rare berries. <strong>Each phrase works only once per save file.</strong>')
-    +table(['Phrase','Berry received'],
-      [[{raw:'COOL LATIOS'},'Salac Berry (Speed +1 <¼HP)'],
-       [{raw:'CHALLENGE CONTEST'},'Petaya Berry (Sp.Atk +1 <¼HP)'],
-       [{raw:'OVERWHELMING LATIAS'},'Ganlon Berry (Defense +1 <¼HP)'],
-       [{raw:'SUPER HUSTLE'},'Apicot Berry (Sp.Def +1 <¼HP)'],
-       [{raw:'COOL LATIAS'},'Starf Berry (Random stat +2 <¼HP)'],
-       [{raw:'OVERWHELMING LATIOS'},'Lansat Berry (Crit rate +1 <¼HP)']])
-    +'<div style="margin-top:10px;padding:8px 12px;background:rgba(255,85,85,0.08);border:1px solid rgba(255,85,85,0.3);border-radius:6px;font-size:11px;color:var(--muted);">⚠ These phrases are Emerald-only. In Ruby/Sapphire the Berry Master\'s wife only gives one berry per phrase, and the rare stat-boosting berries must be obtained from Shoal Cave (Liechi), the Berry Masters themselves, or by trading.</div>'
+  html += card('GEN 4 BERRY SOURCES',
+    p('Gen 4 has no Berry Master phrase mechanic. Rare berries are obtained instead through:')
+    +'<div style="display:flex;flex-direction:column;gap:6px;">'
+    +[['Berry Master\'s house (Route 208 — DPPt)','Free daily berry from the Berry Master and his wife. Random selection, often includes EV-reducing berries.'],
+      ['Pal Park transfer','Transfer Gen 3 Pokémon holding rare berries (Liechi, Salac, etc.) — the held item carries over.'],
+      ['Goldenrod Flower Shop (HGSS)','Daisy / family members hand out berry seeds and berries in Johto.'],
+      ['Hidden grass / soft soil patches','Wild Pokémon sometimes hold berries (5% chance held item rate).'],
+      ['Mystery Gift events','Enigma Berry distributed via Wi-Fi Mystery Gift in 2010 (now expired).']]
+    .map(function(row) {
+      return '<div style="display:flex;gap:8px;padding:7px 10px;background:var(--panel);border-radius:5px;font-size:11px;">'
+        +'<strong style="color:var(--text);min-width:160px;">'+row[0]+'</strong>'
+        +'<span style="color:var(--muted);">'+_brLink(row[1])+'</span></div>';
+    }).join('')+'</div>'
   );
 
-  html += card('BERRY BLENDER (CONTEST POKÉBLOCKS)',
-    p('Insert berries into the blender at any Contest Hall. The Pokéblock\'s <strong>level and smoothness</strong> depend on the berries used and how many people are blending. Higher-level Pokéblocks raise conditions more.')
+  html += card('POFFIN COOKING (CONTEST FLAVORS)',
+    p('In Gen 4 berries are cooked into <strong>Poffins</strong> at the Hearthome Poffin House (DPPt). Stir the pot with the stylus to mix berries — stir quality determines Poffin Level (10 → 80+). Higher-level Poffins raise the matching contest condition more.')
     +'<div style="display:flex;flex-direction:column;gap:6px;">'
-    +[['Solo blending','Lowest level Pokéblocks, least efficient'],
-      ['2 players','Mid-level Pokéblocks — good balance'],
-      ['3–4 players','Highest level Pokéblocks — best condition gain per block'],
-      ['Berry flavors','Sweet → Cuteness · Spicy → Coolness · Dry → Beauty · Bitter → Cleverness · Sour → Toughness'],
-      ['Nature limits','Some natures dislike certain flavors — check Pokémon\'s nature before feeding blocks']]
+    +[['Solo cooking','Lowest level Poffins, useful for early-game condition gain.'],
+      ['2 players','Mid-level Poffins — wireless link with another DS.'],
+      ['3–4 players','Highest level Poffins — best condition gain per Poffin.'],
+      ['Berry flavors','Spicy → Coolness · Dry → Beauty · Sweet → Cuteness · Bitter → Cleverness · Sour → Toughness.'],
+      ['Nature limits','Each nature likes one flavor and dislikes one (Hardy/Docile/Serious/Bashful/Quirky are neutral). Disliked Poffins fail to raise the matching condition.']]
     .map(function(row) {
       return '<div style="display:flex;gap:8px;padding:7px 10px;background:var(--panel);border-radius:5px;font-size:11px;">'
         +'<strong style="color:var(--text);min-width:110px;">'+row[0]+'</strong>'
@@ -17622,59 +17631,73 @@ var _ribbonGame = 'FR';
 
 var RIBBON_DATA = {
   // format: { id, label, desc, games[] }
-  // games: which games it's obtainable in (array of 'FR','LG','R','S','E')
+  // games: which Gen 4 games it's obtainable in
+  //   FR=Diamond, LG=Pearl, R=Platinum, S=HeartGold, E=SoulSilver
   contest: [
-    { id:'cool_normal',   label:'Cool Ribbon',           desc:'Win Cool Contest (Normal Rank)',       games:['R','S','E'] },
-    { id:'cool_super',    label:'Cool Ribbon Super',      desc:'Win Cool Contest (Super Rank)',        games:['R','S','E'] },
-    { id:'cool_hyper',    label:'Cool Ribbon Hyper',      desc:'Win Cool Contest (Hyper Rank)',        games:['R','S','E'] },
-    { id:'cool_master',   label:'Cool Ribbon Master',     desc:'Win Cool Contest (Master Rank)',       games:['R','S','E'] },
-    { id:'beauty_normal', label:'Beauty Ribbon',          desc:'Win Beauty Contest (Normal Rank)',     games:['R','S','E'] },
-    { id:'beauty_super',  label:'Beauty Ribbon Super',    desc:'Win Beauty Contest (Super Rank)',      games:['R','S','E'] },
-    { id:'beauty_hyper',  label:'Beauty Ribbon Hyper',    desc:'Win Beauty Contest (Hyper Rank)',      games:['R','S','E'] },
-    { id:'beauty_master', label:'Beauty Ribbon Master',   desc:'Win Beauty Contest (Master Rank)',     games:['R','S','E'] },
-    { id:'cute_normal',   label:'Cute Ribbon',            desc:'Win Cute Contest (Normal Rank)',       games:['R','S','E'] },
-    { id:'cute_super',    label:'Cute Ribbon Super',      desc:'Win Cute Contest (Super Rank)',        games:['R','S','E'] },
-    { id:'cute_hyper',    label:'Cute Ribbon Hyper',      desc:'Win Cute Contest (Hyper Rank)',        games:['R','S','E'] },
-    { id:'cute_master',   label:'Cute Ribbon Master',     desc:'Win Cute Contest (Master Rank)',       games:['R','S','E'] },
-    { id:'smart_normal',  label:'Smart Ribbon',           desc:'Win Smart Contest (Normal Rank)',      games:['R','S','E'] },
-    { id:'smart_super',   label:'Smart Ribbon Super',     desc:'Win Smart Contest (Super Rank)',       games:['R','S','E'] },
-    { id:'smart_hyper',   label:'Smart Ribbon Hyper',     desc:'Win Smart Contest (Hyper Rank)',       games:['R','S','E'] },
-    { id:'smart_master',  label:'Smart Ribbon Master',    desc:'Win Smart Contest (Master Rank)',      games:['R','S','E'] },
-    { id:'tough_normal',  label:'Tough Ribbon',           desc:'Win Tough Contest (Normal Rank)',      games:['R','S','E'] },
-    { id:'tough_super',   label:'Tough Ribbon Super',     desc:'Win Tough Contest (Super Rank)',       games:['R','S','E'] },
-    { id:'tough_hyper',   label:'Tough Ribbon Hyper',     desc:'Win Tough Contest (Hyper Rank)',       games:['R','S','E'] },
-    { id:'tough_master',  label:'Tough Ribbon Master',    desc:'Win Tough Contest (Master Rank)',      games:['R','S','E'] },
+    // Super Contest ribbons (DPPt only — Hearthome Contest Hall)
+    { id:'cool_normal',   label:'Cool Ribbon',           desc:'Win Cool Super Contest (Normal Rank, Hearthome)',       games:['FR','LG','R'] },
+    { id:'cool_great',    label:'Cool Ribbon Great',     desc:'Win Cool Super Contest (Great Rank)',                   games:['FR','LG','R'] },
+    { id:'cool_ultra',    label:'Cool Ribbon Ultra',     desc:'Win Cool Super Contest (Ultra Rank)',                   games:['FR','LG','R'] },
+    { id:'cool_master',   label:'Cool Ribbon Master',    desc:'Win Cool Super Contest (Master Rank)',                  games:['FR','LG','R'] },
+    { id:'beauty_normal', label:'Beauty Ribbon',         desc:'Win Beauty Super Contest (Normal Rank)',                games:['FR','LG','R'] },
+    { id:'beauty_great',  label:'Beauty Ribbon Great',   desc:'Win Beauty Super Contest (Great Rank)',                 games:['FR','LG','R'] },
+    { id:'beauty_ultra',  label:'Beauty Ribbon Ultra',   desc:'Win Beauty Super Contest (Ultra Rank)',                 games:['FR','LG','R'] },
+    { id:'beauty_master', label:'Beauty Ribbon Master',  desc:'Win Beauty Super Contest (Master Rank)',                games:['FR','LG','R'] },
+    { id:'cute_normal',   label:'Cute Ribbon',           desc:'Win Cute Super Contest (Normal Rank)',                  games:['FR','LG','R'] },
+    { id:'cute_great',    label:'Cute Ribbon Great',     desc:'Win Cute Super Contest (Great Rank)',                   games:['FR','LG','R'] },
+    { id:'cute_ultra',    label:'Cute Ribbon Ultra',     desc:'Win Cute Super Contest (Ultra Rank)',                   games:['FR','LG','R'] },
+    { id:'cute_master',   label:'Cute Ribbon Master',    desc:'Win Cute Super Contest (Master Rank)',                  games:['FR','LG','R'] },
+    { id:'smart_normal',  label:'Smart Ribbon',          desc:'Win Smart Super Contest (Normal Rank)',                 games:['FR','LG','R'] },
+    { id:'smart_great',   label:'Smart Ribbon Great',    desc:'Win Smart Super Contest (Great Rank)',                  games:['FR','LG','R'] },
+    { id:'smart_ultra',   label:'Smart Ribbon Ultra',    desc:'Win Smart Super Contest (Ultra Rank)',                  games:['FR','LG','R'] },
+    { id:'smart_master',  label:'Smart Ribbon Master',   desc:'Win Smart Super Contest (Master Rank)',                 games:['FR','LG','R'] },
+    { id:'tough_normal',  label:'Tough Ribbon',          desc:'Win Tough Super Contest (Normal Rank)',                 games:['FR','LG','R'] },
+    { id:'tough_great',   label:'Tough Ribbon Great',    desc:'Win Tough Super Contest (Great Rank)',                  games:['FR','LG','R'] },
+    { id:'tough_ultra',   label:'Tough Ribbon Ultra',    desc:'Win Tough Super Contest (Ultra Rank)',                  games:['FR','LG','R'] },
+    { id:'tough_master',  label:'Tough Ribbon Master',   desc:'Win Tough Super Contest (Master Rank)',                 games:['FR','LG','R'] },
   ],
   battle: [
-    { id:'winning',       label:'Winning Ribbon',         desc:'Win Pokémon Ligue once (before Champion)',   games:['R','S','E','FR','LG'] },
-    { id:'victory',       label:'Victory Ribbon',         desc:'Beat the Elite Four & Champion (2nd time, all 8 badges)', games:['R','S','E','FR','LG'] },
-    { id:'artist',        label:'Artist Ribbon',          desc:'Win Master Rank Contest with top appeal score (your Pokémon used as painting)',  games:['R','S','E'] },
-    { id:'effort',        label:'Effort Ribbon',          desc:'Received from woman in Slateport Market (R/S/E) or Vermilion City Fan Club (FR/LG) for max Effort Values (510 EVs total)', games:['R','S','E','FR','LG'] },
-    { id:'tower_bronze',  label:'Tower/Ability Ribbon',   desc:'Earn 50 straight wins in Battle Tower (Ruby/Sapphire/Emerald Tower) or Frontier facility (Emerald)',   games:['R','S','E'] },
-    { id:'tower_silver',  label:'Great/Battle Ribbon',    desc:'Earn 100 straight wins in Battle Tower',      games:['R','S','E'] },
-    { id:'tower_gold',    label:'Skill/Victory Ribbon',   desc:'Earn 200 straight wins in Battle Tower (R/S) — hardest non-event ribbon',     games:['R','S'] },
-    { id:'frontier_tower',label:'Frontier Ribbon (Tower)', desc:'Beat Frontier Brain Anabel in Battle Tower — reach Level 50 mode streak',   games:['E'] },
-    { id:'frontier_dome', label:'Frontier Ribbon (Dome)',  desc:'Beat Frontier Brain Tucker in Battle Dome',   games:['E'] },
-    { id:'frontier_factory',label:'Frontier Ribbon (Factory)',desc:'Beat Frontier Brain Noland in Battle Factory',games:['E'] },
-    { id:'frontier_pike', label:'Frontier Ribbon (Pike)',  desc:'Beat Frontier Brain Lucy in Battle Pike',     games:['E'] },
-    { id:'frontier_pyramid',label:'Frontier Ribbon (Pyramid)',desc:'Beat Frontier Brain Brandon in Battle Pyramid', games:['E'] },
-    { id:'frontier_arena',label:'Frontier Ribbon (Arena)', desc:'Beat Frontier Brain Greta in Battle Arena',   games:['E'] },
-    { id:'frontier_palace',label:'Frontier Ribbon (Palace)',desc:'Beat Frontier Brain Spencer in Battle Palace', games:['E'] },
+    { id:'sinnoh_champ',  label:'Sinnoh Champion Ribbon', desc:'Defeat Cynthia at Pokémon League — Hall of Fame entry', games:['FR','LG','R'] },
+    { id:'champion',      label:'Champion Ribbon',        desc:'Defeat Lance (HGSS) at Indigo Plateau — Hall of Fame entry', games:['S','E'] },
+    { id:'effort',        label:'Effort Ribbon',          desc:'Max EVs (510 total). Received from a girl in Sunyshore City (DPPt) or Goldenrod (HGSS).', games:['FR','LG','R','S','E'] },
+    { id:'artist',        label:'Artist Ribbon',          desc:'Win a Master Rank Super Contest with top appeal score — Pokémon\'s portrait shown in Jubilife TV.', games:['FR','LG','R'] },
+    { id:'footprint',     label:'Footprint Ribbon',       desc:'High friendship + walking enough steps with the Pokémon. Talk to a footprint expert in Pastoria (DPPt) / Pewter (HGSS).', games:['FR','LG','R','S','E'] },
+    // Battle Tower / Frontier (Gen 4 — DPPt has just Battle Tower; Pt + HGSS have full Battle Frontier)
+    { id:'tower_ability', label:'Ability Ribbon',         desc:'Beat the Battle Tower (Single mode, 7 wins streak).',   games:['FR','LG','R','S','E'] },
+    { id:'tower_great',   label:'Great Ability Ribbon',   desc:'Beat the Battle Tower (Single mode, 14 wins / 21 wins).', games:['FR','LG','R','S','E'] },
+    // Pt + HGSS Battle Frontier facilities (Tower, Factory, Arcade, Castle, Hall)
+    { id:'frontier_tower',  label:'Tower Print Ribbon',   desc:'Defeat Frontier Brain Palmer in Battle Tower (Pt + HGSS).',   games:['R','S','E'] },
+    { id:'frontier_factory',label:'Factory Print Ribbon', desc:'Defeat Frontier Brain Thorton in Battle Factory.',         games:['R','S','E'] },
+    { id:'frontier_arcade', label:'Arcade Print Ribbon',  desc:'Defeat Frontier Brain Dahlia in Battle Arcade.',           games:['R','S','E'] },
+    { id:'frontier_castle', label:'Castle Print Ribbon',  desc:'Defeat Frontier Brain Darach in Battle Castle.',           games:['R','S','E'] },
+    { id:'frontier_hall',   label:'Hall Print Ribbon',    desc:'Defeat Frontier Brain Argenta in Battle Hall.',            games:['R','S','E'] },
   ],
   special: [
-    { id:'champion',      label:'Champion Ribbon',        desc:'Entered the Hall of Fame — given on first Champion defeat',  games:['R','S','E','FR','LG'] },
-    { id:'national',      label:'National Ribbon',        desc:'Pokémon migrated from Pokémon Colosseum or XD: Gale of Darkness', games:['R','S','E','FR','LG'], note:'Via Pokémon Colosseum / XD migration to GBA' },
-    { id:'earth',         label:'Earth Ribbon',           desc:'100 consecutive wins in Pokémon Box Ruby & Sapphire VS mode', games:['R','S','E','FR','LG'], note:'Requires Pokémon Box accessory (Japan/NA)' },
-    { id:'event_gift',    label:'Gift Ribbon',            desc:'Win all five Master Rank Contests with the same Pokémon — given by the woman in Lilycove Contest Hall', games:['R','S','E'] },
+    { id:'national',      label:'National Ribbon',        desc:'Awarded to Pokémon transferred from Pokémon Colosseum / XD via Pal Park.', games:['FR','LG','R','S','E'] },
+    { id:'earth',         label:'Earth Ribbon',           desc:'Defeat all 100 trainers in Battle Frontier in any single facility (Pt + HGSS).', games:['R','S','E'] },
+    { id:'world',         label:'World Ribbon',           desc:'Awarded by Mr. Gosh in Sunyshore (DPPt) — proves the Pokémon\'s travels.', games:['FR','LG','R'] },
+    { id:'classic',       label:'Classic Ribbon',         desc:'Attached to event-distributed Pokémon (TRU, Wi-Fi events). Cannot be traded.', games:['FR','LG','R','S','E'] },
+    { id:'premier',       label:'Premier Ribbon',         desc:'Attached to certain event Pokémon (TRU Mew, Pikachu-Coloured Pichu, etc.).', games:['FR','LG','R','S','E'] },
+    // Sinnoh contest-judge-style mood ribbons (DPPt) — given by NPCs in Pastoria/Sunyshore based on Pokémon\'s mood / condition.
+    { id:'alert',         label:'Alert Ribbon',           desc:'Sunyshore mood ribbon — given by an NPC who senses an alert Pokémon.', games:['FR','LG','R'] },
+    { id:'shock',         label:'Shock Ribbon',           desc:'Sunyshore mood ribbon — sensed shock.', games:['FR','LG','R'] },
+    { id:'downcast',      label:'Downcast Ribbon',        desc:'Sunyshore mood ribbon — sensed sadness.', games:['FR','LG','R'] },
+    { id:'careless',      label:'Careless Ribbon',        desc:'Sunyshore mood ribbon — sensed carelessness.', games:['FR','LG','R'] },
+    { id:'relax',         label:'Relax Ribbon',           desc:'Sunyshore mood ribbon — sensed relaxation.', games:['FR','LG','R'] },
+    { id:'snooze',        label:'Snooze Ribbon',          desc:'Sunyshore mood ribbon — sensed sleepiness.', games:['FR','LG','R'] },
+    { id:'smile',         label:'Smile Ribbon',           desc:'Sunyshore mood ribbon — sensed happiness.', games:['FR','LG','R'] },
+    { id:'gorgeous',      label:'Gorgeous Ribbon',        desc:'Buy from the Ribbon Syndicate (Resort Area, Pt) for ₽10,000.', games:['R'] },
+    { id:'royal',         label:'Royal Ribbon',           desc:'Buy from the Ribbon Syndicate for ₽100,000.', games:['R'] },
+    { id:'gorgeous_royal',label:'Gorgeous Royal Ribbon',  desc:'Buy from the Ribbon Syndicate for ₽999,999 — the most expensive ribbon in Gen 4.', games:['R'] },
   ],
 };
 
-function ribStorageKey(g, id) { return 'g3rib_'+g+'_'+id; }
+function ribStorageKey(g, id) { return 'g4rib_'+g+'_'+id; }
 
 function buildRibbonPage() {
   var games = ['FR','LG','R','S','E'];
   var colors = { FR:'var(--diamond)', LG:'var(--pearl)', R:'var(--platinum)', S:'var(--heartgold)', E:'var(--soulsilver)' };
-  var labels = { FR:'🔥 FR', LG:'🌿 LG', R:'🔴 R', S:'🔷 S', E:'🟢 E' };
+  var labels = { FR:'💎 D', LG:'🌸 P', R:'⚙ Pt', S:'💛 HG', E:'🤍 SS' };
   var btns = document.getElementById('ribbon-game-btns');
   btns.innerHTML = games.map(function(g) {
     var active = g === _ribbonGame;
@@ -17701,7 +17724,7 @@ function ribbonSetGame(g) {
 function ribbonRender() {
   var g = _ribbonGame;
   var sections = [
-    { key:'contest', label:'🎀 Contest Ribbons', note:'Pokémon Contests — Ruby, Sapphire & Emerald only' },
+    { key:'contest', label:'🎀 Super Contest Ribbons', note:'Hearthome Super Contests — Diamond / Pearl / Platinum only' },
     { key:'battle',  label:'⚔ Battle & Achievement Ribbons', note:'Earned in battle facilities or from NPCs' },
     { key:'special', label:'✨ Special & Event Ribbons', note:'One-time awards, NPC gifts, and event distributions' },
   ];
@@ -18976,19 +18999,25 @@ function buildHappinessPage() {
 
   var GAMES = ['FR','LG','R','S','E'];
   var GAME_COLORS = { FR:'var(--diamond)', LG:'var(--pearl)', R:'var(--platinum)', S:'var(--heartgold)', E:'var(--soulsilver)' };
-  var GAME_LABELS = { FR:'🔥 FireRed', LG:'🌿 LeafGreen', R:'🔴 Ruby', S:'🔷 Sapphire', E:'💚 Emerald' };
+  var GAME_LABELS = { FR:'💎 Diamond', LG:'🌸 Pearl', R:'⚙ Platinum', S:'💛 HeartGold', E:'🤍 SoulSilver' };
 
-  // Happiness-evolution Pokémon in Gen 3 (threshold: 220)
+  // Happiness-evolution Pokémon in Gen 4 (threshold: 220)
   var HAP_EVOS = [
-    { num:172, name:'Pichu',      evo:'Pikachu',    method:'',           games:['FR','LG','R','S','E'] },
-    { num:173, name:'Cleffa',     evo:'Clefairy',   method:'',           games:['FR','LG','R','S','E'] },
-    { num:174, name:'Igglybuff',  evo:'Jigglypuff', method:'',           games:['FR','LG','R','S','E'] },
-    { num:175, name:'Togepi',     evo:'Togetic',    method:'',           games:['FR','LG','R','S','E'] },
-    { num:41,  name:'Golbat',     evo:'Crobat',     method:'',           games:['FR','LG','R','S','E'] },
-    { num:113, name:'Chansey',    evo:'Blissey',    method:'',           games:['FR','LG','R','S','E'] },
-    { num:133, name:'Eevee',      evo:'Espeon',     method:'Day (6am–6pm)',  games:['FR','LG','R','S','E'] },
-    { num:133, name:'Eevee',      evo:'Umbreon',    method:'Night (6pm–6am)', games:['FR','LG','R','S','E'] },
-    { num:298, name:'Azurill',    evo:'Marill',     method:'',           games:['R','S','E'] },
+    { num:172, name:'Pichu',      evo:'Pikachu',    method:'',                 games:['FR','LG','R','S','E'] },
+    { num:173, name:'Cleffa',     evo:'Clefairy',   method:'',                 games:['FR','LG','R','S','E'] },
+    { num:174, name:'Igglybuff',  evo:'Jigglypuff', method:'',                 games:['FR','LG','R','S','E'] },
+    { num:175, name:'Togepi',     evo:'Togetic',    method:'',                 games:['FR','LG','R','S','E'] },
+    { num:41,  name:'Golbat',     evo:'Crobat',     method:'',                 games:['FR','LG','R','S','E'] },
+    { num:113, name:'Chansey',    evo:'Blissey',    method:'',                 games:['FR','LG','R','S','E'] },
+    { num:133, name:'Eevee',      evo:'Espeon',     method:'Day (4 am–8 pm)',  games:['FR','LG','R','S','E'] },
+    { num:133, name:'Eevee',      evo:'Umbreon',    method:'Night (8 pm–4 am)',games:['FR','LG','R','S','E'] },
+    { num:298, name:'Azurill',    evo:'Marill',     method:'',                 games:['FR','LG','R','S','E'] },
+    // Gen 4 additions
+    { num:406, name:'Budew',      evo:'Roselia',    method:'Day, leveled up',  games:['FR','LG','R','S','E'] },
+    { num:427, name:'Buneary',    evo:'Lopunny',    method:'',                 games:['FR','LG','R','S','E'] },
+    { num:433, name:'Chingling',  evo:'Chimecho',   method:'Night, leveled up',games:['FR','LG','R','S','E'] },
+    { num:446, name:'Munchlax',   evo:'Snorlax',    method:'',                 games:['FR','LG','R','S','E'] },
+    { num:447, name:'Riolu',      evo:'Lucario',    method:'Day, leveled up',  games:['FR','LG','R','S','E'] },
   ];
 
   // Happiness methods
@@ -18996,7 +19025,7 @@ function buildHappinessPage() {
     { icon:'👣', action:'Walking (every 256 steps)',        gain:'+1',     note:'<span class="guide-item-link" onclick="openItemByName(\'Soothe Bell\')">Soothe Bell</span>: +2 per 256 steps' },
     { icon:'⬆️', action:'Level up',                         gain:'+2–5',   note:'+5 at base friendship <100, +3 at 100–199, +2 at 200+' },
     { icon:'💊', action:'Vitamin (HP Up, Iron, etc.)',       gain:'+5',     note:'+3 at 100–199, +2 at 200+' },
-    { icon:'💅', action:'Grooming (Veilstone/Ribbon Syn.)', gain:'+1–5',   note:'Not available in FRLG without Eon Ticket events' },
+    { icon:'💅', action:'Massage / Grooming',               gain:'+3',     note:'Veilstone Massage Girl (DPPt, daily) or Goldenrod Daisy (HGSS, daily)' },
     { icon:'🍃', action:'EV-reducing Berry (Pomeg etc.)',    gain:'+10',    note:'+5 if friendship ≥200; also reduces EVs' },
     { icon:'⚔️', action:'Using a move in battle',           gain:'+1',     note:'Applies to moves that explicitly raise friendship (e.g. Return)' },
     { icon:'💀', action:'Fainting in battle',               gain:'−1',     note:'Avoid letting happiness candidates faint' },
@@ -19200,8 +19229,8 @@ var PAGE_LIST=[
   {id:'items',icon:'🎒',label:'Items Dex'},
   {id:'held',icon:'💎',label:'Held Items'},
   {id:'itemlocs',icon:'📍',label:'Item Locations'},
-  {id:'kantomapview',icon:'🧭',label:'Kanto Map'},
-  {id:'emeraldmapview',icon:'🧭',label:'Emerald Map'},
+  {id:'dpptmapview',icon:'🧭',label:'Sinnoh Map'},
+  {id:'hgssmapview',icon:'🧭',label:'Johto Map'},
   {id:'team',icon:'🧩',label:'Team Builder'},
   {id:'typechart',icon:'🔮',label:'Type Chart'},
   {id:'calc',icon:'⚡',label:'Damage Calculator'},
