@@ -12832,139 +12832,255 @@ function buildFrontierPage() {
 var _missGame = 'FR';
 var MISSABLES_DATA = {
   FR: {
-    'PERMANENT CHOICES (pick one)': [
-      { id:'fossil', label:'Mt. Moon Fossil', desc:'Super Nerd Miguel on B2F. Only one fossil per game.', choices:[
-        { value:'helix', label:'Helix Fossil', sub:'→ Omanyte' },
-        { value:'dome',  label:'Dome Fossil',  sub:'→ Kabuto' }
+    "PERMANENT CHOICES (pick one)": [
+      { id:"starter", label:"Sinnoh starter", desc:"Briefcase choice from Prof. Rowan at Lake Verity.", choices:[
+        { value:"turtwig",   label:"Turtwig",   sub:"Grass — eventually Grass/Ground" },
+        { value:"chimchar",  label:"Chimchar",  sub:"Fire — eventually Fire/Fighting" },
+        { value:"piplup",    label:"Piplup",    sub:"Water — eventually Water/Steel" }
       ]},
-      { id:'dojo', label:'Saffron Dojo Fighter', desc:'From the Karate Master after clearing Saffron City. Only one per game.', choices:[
-        { value:'hitmonlee',  label:'Hitmonlee',  sub:'Kicking specialist' },
-        { value:'hitmonchan', label:'Hitmonchan', sub:'Punching specialist' }
+      { id:"oreburgh_fossil", label:"Oreburgh Mining Museum fossil", desc:"After getting the National Dex, the museum gives one revived fossil. Other fossils only appear in the Underground.", choices:[
+        { value:"skull",  label:"Skull Fossil",  sub:"→ Cranidos (Diamond exclusive in Underground)" },
+        { value:"armor",  label:"Armor Fossil",  sub:"→ Shieldon (Pearl exclusive in Underground)" }
       ]},
+      { id:"eevee_eevolutions", label:"Hearthome Eevee", desc:"Bebe gives you a Lv.20 Eevee in Hearthome City after the National Dex. One per save." }
     ],
-    'ONE-TIME POKÉMON': [
-      { id:'snorlax12', label:'Snorlax (Route 12)', desc:'Blocks the road south of Lavender Town. Need Poké Flute. Fleeing or defeating ends the encounter permanently.' },
-      { id:'snorlax16', label:'Snorlax (Route 16)', desc:'Blocks the road west of Celadon City. Second and last Snorlax. Need Poké Flute.' },
-      { id:'lapras', label:'Lapras (Silph Co. 7F)', desc:'Given by a Team Rocket victim on 7F. One per game — permanently missable if you skip Silph Co. or forget to collect it.' },
-      { id:'eevee', label:'Eevee (Celadon Mansion)', desc:'Gift from Bill on the roof of Celadon Mansion. One per game.' },
-      { id:'mewtwo', label:'Mewtwo (Cerulean Cave)', desc:'Post-game. One-time encounter. The only Mewtwo in the game — if it faints, reload from save.' },
-      { id:'articuno', label:'Articuno (Seafoam Islands)', desc:'Legendary — one per game. Can be re-encountered on reset if you save beforehand.' },
-      { id:'zapdos', label:'Zapdos (Power Plant)', desc:'Legendary — one per game. Save before engaging.' },
-      { id:'moltres', label:'Moltres (Mt. Ember)', desc:'Legendary — one per game. Save before engaging.' },
+    "ONE-TIME POKÉMON": [
+      { id:"shieldon_cranidos", label:"Underground fossil Pokémon", desc:"Cranidos and Shieldon revive only from Underground fossils — slow and version-locked." },
+      { id:"spiritomb", label:"Spiritomb (Hallowed Tower)", desc:"Place an Odd Keystone in the Hallowed Tower (Route 209), talk to 32 different players in the Underground, then re-check the tower. Lv.25 Spiritomb appears." },
+      { id:"riolu_egg", label:"Riolu Egg (Iron Island)", desc:"Riley gives a Riolu egg after defeating his shadow trainer. One per save." },
+      { id:"porygon", label:"Porygon (Veilstone)", desc:"Free gift from Game Corner prize man on the second floor. One per save." },
+      { id:"togepi_egg", label:"Togepi Egg (Eterna)", desc:"Cynthia's grandmother in Celestic Town gives a Togepi egg after the Spear Pillar event. One per save." },
+      { id:"manaphy_egg", label:"Manaphy Egg", desc:"From the Pokémon Ranger 'Manaphy Egg' mission (Ranger / Shadows of Almia / Guardian Signs). One transfer per Ranger save." },
+      { id:"uxie",     label:"Uxie (Lake Acuity)",   desc:"Lv.50 stationary. Save before engaging — defeat or flee respawns it only after Hall of Fame." },
+      { id:"azelf",    label:"Azelf (Lake Valor)",   desc:"Lv.50 stationary. Same caveat as Uxie." },
+      { id:"mesprit",  label:"Mesprit (Lake Verity)",desc:"Lv.50 stationary, then roams Sinnoh. Save before first encounter." },
+      { id:"dialga_palkia", label:"Box legendary (Spear Pillar)", desc:"Dialga (Diamond) / Palkia (Pearl) at Lv.47. One-time main-story battle — save before engaging." },
+      { id:"heatran",  label:"Heatran (Stark Mountain)", desc:"Lv.70. Save before engaging — respawns only after Hall of Fame." },
+      { id:"cresselia",label:"Cresselia", desc:"Lv.50 stationary at Fullmoon Island, then roams. Triggered by Sailor Eldritch's sick son quest." },
+      { id:"giratina", label:"Giratina (Turnback Cave)", desc:"Lv.70 in Diamond/Pearl (Distortion World Lv.47 in Platinum). Post-game in DP, mid-game in Pt." },
     ],
-    'ONE-TIME ITEMS': [
-      { id:'oldbr', label:'Old Amber → Aerodactyl', desc:'From a scientist in Pewter Museum (requires Cut). Revive at Cinnabar Lab.' },
-      { id:'upgrade', label:'Up-Grade (→ Porygon2)', desc:'From a scientist in Silph Co. Required to evolve Porygon via trade.' },
-      { id:'tm13', label:'TM13 Ice Beam', desc:'Celadon Game Corner (4,000 coins). Also obtainable at the Seafoam Islands, but the Game Corner one is easiest.' },
-      { id:'tm24', label:'TM24 Thunderbolt', desc:'Celadon Game Corner (4,000 coins). Best Electric TM.' },
-      { id:'tm29', label:'TM29 Psychic', desc:'Mr. Psychic in Saffron City (one-time gift). Also available at Game Corner.' },
-      { id:'tm35', label:'TM35 Flamethrower', desc:'Celadon Game Corner (4,000 coins). Best Fire TM.' },
-      { id:'soothe', label:'Soothe Bell (National Park, post-National Dex)', desc:'Route 12 (talk to Pokéfan after completing National Dex). Helps happiness evolutions.' },
+    "ONE-TIME ITEMS": [
+      { id:"masterball", label:"Master Ball", desc:"Cyrus drops it at Galactic HQ Veilstone after defeat. One per save." },
+      { id:"vs_seeker", label:"VS Seeker", desc:"Dawn/Lucas in Sandgem after the first gym. Required for trainer rematches." },
+      { id:"old_rod",  label:"Old Rod",  desc:"Fisherman in Jubilife. Free." },
+      { id:"good_rod", label:"Good Rod", desc:"Fisherman on Route 209." },
+      { id:"super_rod",label:"Super Rod",desc:"Fisherman on Route 224 (post-Hall of Fame route)." },
+      { id:"hms",      label:"All HMs", desc:"HM01 Cut (Floaroma), 02 Fly (Cynthia's grandma), 03 Surf (Celestic), 04 Strength (Iron Island), 05 Defog (Galactic Eterna), 06 Rock Smash (Oreburgh Gate), 07 Waterfall (Sunyshore), 08 Rock Climb (Route 217). All one-time." },
+      { id:"griseous", label:"Griseous Orb", desc:"Awarded after capturing Giratina. The only way to access Origin Forme in DPPt." },
+      { id:"adamant_orb", label:"Adamant Orb (Diamond)", desc:"Held by Dialga at capture in Diamond. Boosts Steel/Dragon moves 20%." },
+      { id:"lustrous_orb", label:"Lustrous Orb (Pearl)", desc:"Held by Palkia at capture in Pearl. Boosts Water/Dragon moves 20%." },
+      { id:"tm_game_corner", label:"Veilstone Game Corner TMs", desc:"Coin-prize-only TMs include TM23 Iron Tail, TM32 Double Team, TM44 Rest, TM75 Swords Dance, etc. Tedious to re-farm." },
+      { id:"odd_keystone", label:"Odd Keystone", desc:"Routes 208 / 209 / Hearthome (hidden) and Underground digs. One is enough — buying replacements requires reaching Hall of Fame." },
     ],
-    'POST-GAME / SEVII ISLANDS': [
-      { id:'berserk', label:'Berserk Gene (Cerulean Cave)', desc:'On the floor near Mewtwo. One-time item — permanently raises Attack by 80 stages then confuses (consumed on use).' },
-      { id:'luvdisc', label:'Luvdisc encounter (One Island area)', desc:'Rare water encounter. Not truly missable but easy to skip.' },
+    "VERSION / TIME-GATED": [
+      { id:"swarms", label:"Daily Swarms (Trainers School / Dawn)", desc:"Random species daily — some species (Dunsparce, Surskit, Yanma, etc.) are only practical via swarms." },
+      { id:"trophy_garden", label:"Trophy Garden rotations", desc:"Mr. Backlot's mansion garden cycles two species daily after National Dex. Pikachu, Eevee's parents, Plusle/Minun etc." },
+      { id:"honey_trees", label:"Munchlax-preferred Honey Trees", desc:"Game silently picks 4 of 21 trees per save for Munchlax. No way to re-roll." }
     ]
-  },
+  }
+  ,
   LG: {
-    'PERMANENT CHOICES (pick one)': [
-      { id:'fossil', label:'Mt. Moon Fossil', desc:'Super Nerd Miguel on B2F. Only one fossil per game.', choices:[
-        { value:'helix', label:'Helix Fossil', sub:'→ Omanyte' },
-        { value:'dome',  label:'Dome Fossil',  sub:'→ Kabuto' }
+    "PERMANENT CHOICES (pick one)": [
+      { id:"starter", label:"Sinnoh starter", desc:"Briefcase choice from Prof. Rowan at Lake Verity.", choices:[
+        { value:"turtwig",   label:"Turtwig",   sub:"Grass — eventually Grass/Ground" },
+        { value:"chimchar",  label:"Chimchar",  sub:"Fire — eventually Fire/Fighting" },
+        { value:"piplup",    label:"Piplup",    sub:"Water — eventually Water/Steel" }
       ]},
-      { id:'dojo', label:'Saffron Dojo Fighter', desc:'From the Karate Master after clearing Saffron City. Only one per game.', choices:[
-        { value:'hitmonlee',  label:'Hitmonlee',  sub:'Kicking specialist' },
-        { value:'hitmonchan', label:'Hitmonchan', sub:'Punching specialist' }
+      { id:"oreburgh_fossil", label:"Oreburgh Mining Museum fossil", desc:"After getting the National Dex, the museum gives one revived fossil. Other fossils only appear in the Underground.", choices:[
+        { value:"skull",  label:"Skull Fossil",  sub:"→ Cranidos (Diamond exclusive in Underground)" },
+        { value:"armor",  label:"Armor Fossil",  sub:"→ Shieldon (Pearl exclusive in Underground)" }
       ]},
+      { id:"eevee_eevolutions", label:"Hearthome Eevee", desc:"Bebe gives you a Lv.20 Eevee in Hearthome City after the National Dex. One per save." }
     ],
-    'ONE-TIME POKÉMON': [
-      { id:'snorlax12', label:'Snorlax (Route 12)', desc:'Blocks the road south of Lavender Town. Need Poké Flute. Fleeing or defeating ends the encounter permanently.' },
-      { id:'snorlax16', label:'Snorlax (Route 16)', desc:'Blocks the road west of Celadon City. Need Poké Flute.' },
-      { id:'lapras', label:'Lapras (Silph Co. 7F)', desc:'Given by a Team Rocket victim on 7F. One per game — permanently missable if you skip Silph Co. or forget to collect it.' },
-      { id:'eevee', label:'Eevee (Celadon Mansion)', desc:'Gift from Bill. One per game.' },
-      { id:'mewtwo', label:'Mewtwo (Cerulean Cave)', desc:'Post-game. Save before engaging.' },
-      { id:'articuno', label:'Articuno (Seafoam Islands)', desc:'Legendary — save before engaging.' },
-      { id:'zapdos', label:'Zapdos (Power Plant)', desc:'Legendary — save before engaging.' },
-      { id:'moltres', label:'Moltres (Mt. Ember)', desc:'Legendary — save before engaging.' },
+    "ONE-TIME POKÉMON": [
+      { id:"shieldon_cranidos", label:"Underground fossil Pokémon", desc:"Cranidos and Shieldon revive only from Underground fossils — slow and version-locked." },
+      { id:"spiritomb", label:"Spiritomb (Hallowed Tower)", desc:"Place an Odd Keystone in the Hallowed Tower (Route 209), talk to 32 different players in the Underground, then re-check the tower. Lv.25 Spiritomb appears." },
+      { id:"riolu_egg", label:"Riolu Egg (Iron Island)", desc:"Riley gives a Riolu egg after defeating his shadow trainer. One per save." },
+      { id:"porygon", label:"Porygon (Veilstone)", desc:"Free gift from Game Corner prize man on the second floor. One per save." },
+      { id:"togepi_egg", label:"Togepi Egg (Eterna)", desc:"Cynthia's grandmother in Celestic Town gives a Togepi egg after the Spear Pillar event. One per save." },
+      { id:"manaphy_egg", label:"Manaphy Egg", desc:"From the Pokémon Ranger 'Manaphy Egg' mission (Ranger / Shadows of Almia / Guardian Signs). One transfer per Ranger save." },
+      { id:"uxie",     label:"Uxie (Lake Acuity)",   desc:"Lv.50 stationary. Save before engaging — defeat or flee respawns it only after Hall of Fame." },
+      { id:"azelf",    label:"Azelf (Lake Valor)",   desc:"Lv.50 stationary. Same caveat as Uxie." },
+      { id:"mesprit",  label:"Mesprit (Lake Verity)",desc:"Lv.50 stationary, then roams Sinnoh. Save before first encounter." },
+      { id:"dialga_palkia", label:"Box legendary (Spear Pillar)", desc:"Dialga (Diamond) / Palkia (Pearl) at Lv.47. One-time main-story battle — save before engaging." },
+      { id:"heatran",  label:"Heatran (Stark Mountain)", desc:"Lv.70. Save before engaging — respawns only after Hall of Fame." },
+      { id:"cresselia",label:"Cresselia", desc:"Lv.50 stationary at Fullmoon Island, then roams. Triggered by Sailor Eldritch's sick son quest." },
+      { id:"giratina", label:"Giratina (Turnback Cave)", desc:"Lv.70 in Diamond/Pearl (Distortion World Lv.47 in Platinum). Post-game in DP, mid-game in Pt." },
     ],
-    'ONE-TIME ITEMS': [
-      { id:'oldbr', label:'Old Amber → Aerodactyl', desc:'Pewter Museum scientist (requires Cut).' },
-      { id:'upgrade', label:'Up-Grade (→ Porygon2)', desc:'Silph Co. scientist.' },
-      { id:'tm13', label:'TM13 Ice Beam', desc:'Celadon Game Corner (4,000 coins).' },
-      { id:'tm24', label:'TM24 Thunderbolt', desc:'Celadon Game Corner (4,000 coins).' },
-      { id:'tm29', label:'TM29 Psychic', desc:'Mr. Psychic in Saffron City.' },
-      { id:'tm35', label:'TM35 Flamethrower', desc:'Celadon Game Corner (4,000 coins).' },
+    "ONE-TIME ITEMS": [
+      { id:"masterball", label:"Master Ball", desc:"Cyrus drops it at Galactic HQ Veilstone after defeat. One per save." },
+      { id:"vs_seeker", label:"VS Seeker", desc:"Dawn/Lucas in Sandgem after the first gym. Required for trainer rematches." },
+      { id:"old_rod",  label:"Old Rod",  desc:"Fisherman in Jubilife. Free." },
+      { id:"good_rod", label:"Good Rod", desc:"Fisherman on Route 209." },
+      { id:"super_rod",label:"Super Rod",desc:"Fisherman on Route 224 (post-Hall of Fame route)." },
+      { id:"hms",      label:"All HMs", desc:"HM01 Cut (Floaroma), 02 Fly (Cynthia's grandma), 03 Surf (Celestic), 04 Strength (Iron Island), 05 Defog (Galactic Eterna), 06 Rock Smash (Oreburgh Gate), 07 Waterfall (Sunyshore), 08 Rock Climb (Route 217). All one-time." },
+      { id:"griseous", label:"Griseous Orb", desc:"Awarded after capturing Giratina. The only way to access Origin Forme in DPPt." },
+      { id:"adamant_orb", label:"Adamant Orb (Diamond)", desc:"Held by Dialga at capture in Diamond. Boosts Steel/Dragon moves 20%." },
+      { id:"lustrous_orb", label:"Lustrous Orb (Pearl)", desc:"Held by Palkia at capture in Pearl. Boosts Water/Dragon moves 20%." },
+      { id:"tm_game_corner", label:"Veilstone Game Corner TMs", desc:"Coin-prize-only TMs include TM23 Iron Tail, TM32 Double Team, TM44 Rest, TM75 Swords Dance, etc. Tedious to re-farm." },
+      { id:"odd_keystone", label:"Odd Keystone", desc:"Routes 208 / 209 / Hearthome (hidden) and Underground digs. One is enough — buying replacements requires reaching Hall of Fame." },
+    ],
+    "VERSION / TIME-GATED": [
+      { id:"swarms", label:"Daily Swarms (Trainers School / Dawn)", desc:"Random species daily — some species (Dunsparce, Surskit, Yanma, etc.) are only practical via swarms." },
+      { id:"trophy_garden", label:"Trophy Garden rotations", desc:"Mr. Backlot's mansion garden cycles two species daily after National Dex. Pikachu, Eevee's parents, Plusle/Minun etc." },
+      { id:"honey_trees", label:"Munchlax-preferred Honey Trees", desc:"Game silently picks 4 of 21 trees per save for Munchlax. No way to re-roll." }
     ]
-  },
+  }
+  ,
   R: {
-    'PERMANENT CHOICES (pick one)': [
-      { id:'fossil', label:'Mirage Tower Fossil (Ruby)', desc:'Tower sinks after you take one — the other is gone forever.', choices:[
-        { value:'root', label:'Root Fossil', sub:'→ Lileep' },
-        { value:'claw', label:'Claw Fossil', sub:'→ Anorith' }
+    "PERMANENT CHOICES (pick one)": [
+      { id:"starter", label:"Sinnoh starter", desc:"Briefcase choice from Prof. Rowan at Lake Verity.", choices:[
+        { value:"turtwig",   label:"Turtwig",   sub:"Grass — eventually Grass/Ground" },
+        { value:"chimchar",  label:"Chimchar",  sub:"Fire — eventually Fire/Fighting" },
+        { value:"piplup",    label:"Piplup",    sub:"Water — eventually Water/Steel" }
       ]},
+      { id:"oreburgh_fossil", label:"Oreburgh Mining Museum fossil", desc:"After getting the National Dex, the museum gives one revived fossil. Other fossils only appear in the Underground.", choices:[
+        { value:"skull",  label:"Skull Fossil",  sub:"→ Cranidos (Diamond exclusive in Underground)" },
+        { value:"armor",  label:"Armor Fossil",  sub:"→ Shieldon (Pearl exclusive in Underground)" }
+      ]},
+      { id:"eevee_eevolutions", label:"Hearthome Eevee", desc:"Bebe gives you a Lv.20 Eevee in Hearthome City after the National Dex. One per save." }
     ],
-    'ONE-TIME POKÉMON': [
-      { id:'latias', label:'Latias (roamer — Ruby)', desc:'Appears randomly across Hoenn after the credits. One per game. Track with PokéNav. Can be forced to appear at the Southern Island via Eon Ticket event.' },
-      { id:'regirock', label:'Regirock (Desert Ruins)', desc:'Legendary — solve the braille puzzle. One per game. Save before engaging.' },
-      { id:'regice', label:'Regice (Island Cave)', desc:'Legendary — wait 2 minutes in the chamber. Save before engaging.' },
-      { id:'registeel', label:'Registeel (Ancient Tomb)', desc:'Legendary — use Flash in the center. Save before engaging.' },
-      { id:'groudon', label:'Groudon (Cave of Origin)', desc:'Ruby-exclusive story legendary. Save before engaging.' },
-      { id:'rayquaza', label:'Rayquaza (Sky Pillar)', desc:'Legendary at the top of Sky Pillar. Save before engaging.' },
+    "ONE-TIME POKÉMON": [
+      { id:"shieldon_cranidos", label:"Underground fossil Pokémon", desc:"Cranidos and Shieldon revive only from Underground fossils — slow and version-locked." },
+      { id:"spiritomb", label:"Spiritomb (Hallowed Tower)", desc:"Place an Odd Keystone in the Hallowed Tower (Route 209), talk to 32 different players in the Underground, then re-check the tower. Lv.25 Spiritomb appears." },
+      { id:"riolu_egg", label:"Riolu Egg (Iron Island)", desc:"Riley gives a Riolu egg after defeating his shadow trainer. One per save." },
+      { id:"porygon", label:"Porygon (Veilstone)", desc:"Free gift from Game Corner prize man on the second floor. One per save." },
+      { id:"togepi_egg", label:"Togepi Egg (Eterna)", desc:"Cynthia's grandmother in Celestic Town gives a Togepi egg after the Spear Pillar event. One per save." },
+      { id:"manaphy_egg", label:"Manaphy Egg", desc:"From the Pokémon Ranger 'Manaphy Egg' mission (Ranger / Shadows of Almia / Guardian Signs). One transfer per Ranger save." },
+      { id:"uxie",     label:"Uxie (Lake Acuity)",   desc:"Lv.50 stationary. Save before engaging — defeat or flee respawns it only after Hall of Fame." },
+      { id:"azelf",    label:"Azelf (Lake Valor)",   desc:"Lv.50 stationary. Same caveat as Uxie." },
+      { id:"mesprit",  label:"Mesprit (Lake Verity)",desc:"Lv.50 stationary, then roams Sinnoh. Save before first encounter." },
+      { id:"dialga_palkia", label:"Box legendary (Spear Pillar)", desc:"Dialga (Diamond) / Palkia (Pearl) at Lv.47. One-time main-story battle — save before engaging." },
+      { id:"heatran",  label:"Heatran (Stark Mountain)", desc:"Lv.70. Save before engaging — respawns only after Hall of Fame." },
+      { id:"cresselia",label:"Cresselia", desc:"Lv.50 stationary at Fullmoon Island, then roams. Triggered by Sailor Eldritch's sick son quest." },
+      { id:"giratina", label:"Giratina (Turnback Cave)", desc:"Lv.70 in Diamond/Pearl (Distortion World Lv.47 in Platinum). Post-game in DP, mid-game in Pt." },
+      { id:"rotom", label:"Rotom + alt formes", desc:"Rotom in the Old Chateau TV — one per save. Platinum-exclusive: get the Secret Key from Rotom's appliances room in Galactic Eterna for Heat/Wash/Frost/Fan/Mow formes." },
+      { id:"shaymin_resolution", label:"Shaymin (Flower Paradise)", desc:"Reached only with the Oak's Letter event (expired). Sky Forme accessible only in Platinum + Gracidea Flower (post-Shaymin)." },
+      { id:"giratina_origin", label:"Giratina (Distortion World)", desc:"Platinum-exclusive Lv.47 main-story encounter. Holds Griseous Orb (Origin Forme)." },
+      { id:"articuno_zapdos_moltres", label:"Roaming birds (Platinum)", desc:"After completing the Sinnoh Dex (210 entries) and getting the National Dex, the bird trio roams Sinnoh — Pt only." },
     ],
-    'ONE-TIME ITEMS': [
-      { id:'masterball', label:'Master Ball (Team Magma Hideout)', desc:'Stolen by Aqua, but you also get one from the Magma Admin. Only one per game (without Pokémon Box glitch).' },
-      { id:'tm26', label:'TM26 Earthquake', desc:'Obtainable from Winstrate family on Route 111. One-time gift.' },
-      { id:'dragon_scale', label:'Dragon Scale (→ Kingdra via trade)', desc:'Found at Meteor Falls or held by wild Horsea/Seadra. Limited supply.' },
+    "ONE-TIME ITEMS": [
+      { id:"masterball", label:"Master Ball", desc:"Cyrus drops it at Galactic HQ Veilstone after defeat. One per save." },
+      { id:"vs_seeker", label:"VS Seeker", desc:"Dawn/Lucas in Sandgem after the first gym. Required for trainer rematches." },
+      { id:"old_rod",  label:"Old Rod",  desc:"Fisherman in Jubilife. Free." },
+      { id:"good_rod", label:"Good Rod", desc:"Fisherman on Route 209." },
+      { id:"super_rod",label:"Super Rod",desc:"Fisherman on Route 224 (post-Hall of Fame route)." },
+      { id:"hms",      label:"All HMs", desc:"HM01 Cut (Floaroma), 02 Fly (Cynthia's grandma), 03 Surf (Celestic), 04 Strength (Iron Island), 05 Defog (Galactic Eterna), 06 Rock Smash (Oreburgh Gate), 07 Waterfall (Sunyshore), 08 Rock Climb (Route 217). All one-time." },
+      { id:"griseous", label:"Griseous Orb", desc:"Awarded after capturing Giratina. The only way to access Origin Forme in DPPt." },
+      { id:"adamant_orb", label:"Adamant Orb (Diamond)", desc:"Held by Dialga at capture in Diamond. Boosts Steel/Dragon moves 20%." },
+      { id:"lustrous_orb", label:"Lustrous Orb (Pearl)", desc:"Held by Palkia at capture in Pearl. Boosts Water/Dragon moves 20%." },
+      { id:"tm_game_corner", label:"Veilstone Game Corner TMs", desc:"Coin-prize-only TMs include TM23 Iron Tail, TM32 Double Team, TM44 Rest, TM75 Swords Dance, etc. Tedious to re-farm." },
+      { id:"odd_keystone", label:"Odd Keystone", desc:"Routes 208 / 209 / Hearthome (hidden) and Underground digs. One is enough — buying replacements requires reaching Hall of Fame." },
+    ],
+    "VERSION / TIME-GATED": [
+      { id:"swarms", label:"Daily Swarms (Trainers School / Dawn)", desc:"Random species daily — some species (Dunsparce, Surskit, Yanma, etc.) are only practical via swarms." },
+      { id:"trophy_garden", label:"Trophy Garden rotations", desc:"Mr. Backlot's mansion garden cycles two species daily after National Dex. Pikachu, Eevee's parents, Plusle/Minun etc." },
+      { id:"honey_trees", label:"Munchlax-preferred Honey Trees", desc:"Game silently picks 4 of 21 trees per save for Munchlax. No way to re-roll." }
     ]
-  },
+  }
+  ,
   S: {
-    'PERMANENT CHOICES (pick one)': [
-      { id:'fossil', label:'Mirage Tower Fossil (Sapphire)', desc:'Tower sinks after you take one — the other is gone forever.', choices:[
-        { value:'claw', label:'Claw Fossil', sub:'→ Anorith' },
-        { value:'root', label:'Root Fossil', sub:'→ Lileep' }
+    "PERMANENT CHOICES (pick one)": [
+      { id:"starter", label:"Johto starter", desc:"From Prof. Elm in New Bark Town.", choices:[
+        { value:"chikorita",  label:"Chikorita",  sub:"Grass" },
+        { value:"cyndaquil",  label:"Cyndaquil",  sub:"Fire" },
+        { value:"totodile",   label:"Totodile",   sub:"Water" }
       ]},
+      { id:"kanto_starter", label:"Kanto starter (Prof. Oak gift, post-Red)", desc:"After defeating Red on Mt. Silver, Prof. Oak in Pallet gives one Kanto starter at Lv.5.", choices:[
+        { value:"bulbasaur", label:"Bulbasaur", sub:"Grass / Poison" },
+        { value:"charmander",label:"Charmander",sub:"Fire" },
+        { value:"squirtle",  label:"Squirtle",  sub:"Water" }
+      ]},
+      { id:"eevee", label:"Bill's Eevee (Goldenrod)", desc:"Talk to Bill in Goldenrod after meeting him in Ecruteak. One Lv.20 Eevee per save." },
+      { id:"odd_egg_pichu", label:"Spiky-eared Pichu (event)", desc:"From Notched-ear Pichu Wi-Fi event (expired) — escorts the Pichu-Coloured Pichu to Ilex Forest." },
+      { id:"red_orb_blue_orb", label:"Red / Blue / Jade Orb (Embedded Tower)", desc:"Mr. Pokémon hands Blue Orb (HG) / Red Orb (SS) after defeating Red. Trigger Kyogre / Groudon at Embedded Tower; Prof. Oak gives Jade Orb after capture for Rayquaza." }
     ],
-    'ONE-TIME POKÉMON': [
-      { id:'latios', label:'Latios (roamer — Sapphire)', desc:'Roams Hoenn after the credits. Track with PokéNav.' },
-      { id:'regirock', label:'Regirock (Desert Ruins)', desc:'Legendary. Save before engaging.' },
-      { id:'regice', label:'Regice (Island Cave)', desc:'Legendary. Save before engaging.' },
-      { id:'registeel', label:'Registeel (Ancient Tomb)', desc:'Legendary. Save before engaging.' },
-      { id:'kyogre', label:'Kyogre (Cave of Origin)', desc:'Sapphire-exclusive story legendary. Save before engaging.' },
-      { id:'rayquaza', label:'Rayquaza (Sky Pillar)', desc:'Legendary. Save before engaging.' },
+    "ONE-TIME POKÉMON": [
+      { id:"red_gyarados", label:"Red Gyarados (Lake of Rage)", desc:"Lv.30 shiny script encounter. Save first — only one per save." },
+      { id:"tyrogue", label:"Tyrogue (Mt. Mortar)", desc:"Karate King gift after defeating him on Mt. Mortar 1F. One per save." },
+      { id:"sudowoodo", label:"Sudowoodo (Route 36)", desc:"Use the Squirtbottle / Wailmer Pail. One per save." },
+      { id:"snorlax_kanto", label:"Snorlax (Vermilion / Route 11)", desc:"Wakes when Pokégear plays the Pokémon Flute (radio). One per save." },
+      { id:"lapras", label:"Lapras (Union Cave Friday)", desc:"Lv.20 Lapras respawns every Friday on B2F — but the FIRST encounter only happens once per week, so technically infinite but easy to skip." },
+      { id:"lugia_hooh", label:"Lugia / Ho-Oh", desc:"Lugia (Whirl Islands) and Ho-Oh (Bell/Tin Tower) — version-tied but obtainable in both via Rainbow / Silver Wing." },
+      { id:"suicune", label:"Suicune (scripted)", desc:"Eusine + Tin Tower scripted Lv.40 encounter — not roaming in HGSS." },
+      { id:"raikou_entei", label:"Raikou & Entei (roaming)", desc:"Released from the Burned Tower; roam Johto. Save before engaging." },
+      { id:"birds_postred", label:"Articuno / Zapdos / Moltres", desc:"Each at Lv.50 in their original Kanto locations after defeating Red. Save before engaging." },
+      { id:"mewtwo_post", label:"Mewtwo (Cerulean Cave)", desc:"Post-Red. Save before engaging." },
+      { id:"latios_latias", label:"Latios (HG) / Latias (SS)", desc:"Roaming Lv.40 after the Enigma Stone Pewter Museum event (Mystery Gift, expired)." },
+      { id:"hoenn_legends", label:"Embedded Tower (Kyogre / Groudon / Rayquaza)", desc:"Lv.50 each. Kyogre (HG) / Groudon (SS) trigger from the Blue / Red Orb. Rayquaza appears for both versions after Prof. Oak gives the Jade Orb." },
+      { id:"togepi_egg_hgss", label:"Togepi Egg (Mr. Pokémon)", desc:"Mr. Pokémon's house on Route 30 — first hand-off of the main quest. One per save." },
+      { id:"creation_trio", label:"Sinjoh Ruins egg (Dialga/Palkia/Giratina)", desc:"Requires event Lv.100 Arceus (expired). One Lv.1 egg per choice." },
     ],
-    'ONE-TIME ITEMS': [
-      { id:'masterball', label:'Master Ball', desc:'Only one per game.' },
-      { id:'tm26', label:'TM26 Earthquake', desc:'Winstrate family on Route 111. One-time gift.' },
+    "ONE-TIME ITEMS": [
+      { id:"masterball_radio", label:"Master Ball (Goldenrod radio show)", desc:"Win Goldenrod's lottery by matching all five trainer-card digits — extremely rare." },
+      { id:"masterball_oak", label:"Master Ball (Prof. Elm)", desc:"After completing the National Pokédex, talk to Prof. Elm — guaranteed Master Ball." },
+      { id:"old_rod",  label:"Old Rod",  desc:"Fisherman in Olivine City lighthouse area. Free." },
+      { id:"good_rod", label:"Good Rod", desc:"Fisherman in the house on Route 32." },
+      { id:"super_rod",label:"Super Rod",desc:"Fisherman in Route 12 (Kanto, post-Surge)." },
+      { id:"hms",      label:"All HMs", desc:"HM01 Cut (Ilex Forest), 02 Fly (Cianwood), 03 Surf (Ecruteak), 04 Strength (Olivine), 05 Whirlpool (Tin Tower hat NPC), 06 Rock Smash (Pewter, Kanto), 07 Waterfall (Ice Path), 08 Rock Climb (Route 47). All one-time." },
+      { id:"radio_card", label:"Radio Card upgrade", desc:"Upgrade in Goldenrod for Sinnoh Sound (HGSS-exclusive — pulls Sinnoh wild Pokémon)." },
+      { id:"squirtbottle", label:"SquirtBottle (HG) / Wailmer Pail (SS)", desc:"Goldenrod Flower Shop after Earl gym tower event. Required to wake Sudowoodo and water trees." },
+      { id:"app_disks", label:"Pokégear apps", desc:"Map Card (Mom, free), Radio Card (Lyra/Ethan in Goldenrod), Phone (Mom, free). All one-time hand-offs." },
+      { id:"silver_rainbow_wing", label:"Silver Wing / Rainbow Wing", desc:"Silver Wing in HG and Rainbow Wing in SS — required for Lugia / Ho-Oh respectively. Picked up at the Pewter Museum (HG) / via the Goldenrod radio show + Pewter Museum (SS)." }
+    ],
+    "DAILY / WEEKLY / TIME-GATED": [
+      { id:"bug_catching", label:"Bug-Catching Contest (T/Th/Sa)", desc:"Park Balls and rare bugs (Pinsir, Scyther) only on these three days." },
+      { id:"swarms_kanto", label:"Daily Kanto/Johto swarms", desc:"Some Pokémon (Dunsparce, Yanma) appear only via swarm calls." },
+      { id:"headbutt_trees", label:"Headbutt trees", desc:"Static trees per save — pick a few that hold Heracross / Aipom." }
     ]
-  },
+  }
+  ,
   E: {
-    'PERMANENT CHOICES (pick one)': [
-      { id:'lati', label:'Lati@s (TV Choice)', desc:'After the credits your mom asks about a TV programme. Only one Lati per game.', choices:[
-        { value:'latias', label:'"Blue" — Latias', sub:'#380 · Psychic/Dragon' },
-        { value:'latios', label:'"Red" — Latios',  sub:'#381 · Psychic/Dragon' }
+    "PERMANENT CHOICES (pick one)": [
+      { id:"starter", label:"Johto starter", desc:"From Prof. Elm in New Bark Town.", choices:[
+        { value:"chikorita",  label:"Chikorita",  sub:"Grass" },
+        { value:"cyndaquil",  label:"Cyndaquil",  sub:"Fire" },
+        { value:"totodile",   label:"Totodile",   sub:"Water" }
       ]},
-      { id:'fossil', label:'Mirage Tower Fossil (Emerald)', desc:'Tower sinks after you take one — the other is gone forever.', choices:[
-        { value:'root', label:'Root Fossil', sub:'→ Lileep' },
-        { value:'claw', label:'Claw Fossil', sub:'→ Anorith' }
+      { id:"kanto_starter", label:"Kanto starter (Prof. Oak gift, post-Red)", desc:"After defeating Red on Mt. Silver, Prof. Oak in Pallet gives one Kanto starter at Lv.5.", choices:[
+        { value:"bulbasaur", label:"Bulbasaur", sub:"Grass / Poison" },
+        { value:"charmander",label:"Charmander",sub:"Fire" },
+        { value:"squirtle",  label:"Squirtle",  sub:"Water" }
       ]},
+      { id:"eevee", label:"Bill's Eevee (Goldenrod)", desc:"Talk to Bill in Goldenrod after meeting him in Ecruteak. One Lv.20 Eevee per save." },
+      { id:"odd_egg_pichu", label:"Spiky-eared Pichu (event)", desc:"From Notched-ear Pichu Wi-Fi event (expired) — escorts the Pichu-Coloured Pichu to Ilex Forest." },
+      { id:"red_orb_blue_orb", label:"Red / Blue / Jade Orb (Embedded Tower)", desc:"Mr. Pokémon hands Blue Orb (HG) / Red Orb (SS) after defeating Red. Trigger Kyogre / Groudon at Embedded Tower; Prof. Oak gives Jade Orb after capture for Rayquaza." }
     ],
-    'ONE-TIME POKÉMON': [
-      { id:'regirock', label:'Regirock (Desert Ruins)', desc:'Legendary. Solve braille puzzle. Save before engaging.' },
-      { id:'regice', label:'Regice (Island Cave)', desc:'Legendary. Wait 2 min. Save before engaging.' },
-      { id:'registeel', label:'Registeel (Ancient Tomb)', desc:'Legendary. Use Flash in center. Save before engaging.' },
-      { id:'groudon', label:'Groudon (Terra Cave)', desc:'Randomly appears in a specific cave after Norman rematch. One-time, roaming.' },
-      { id:'kyogre', label:'Kyogre (Marine Cave)', desc:'Randomly appears in an underwater cave. One-time, roaming.' },
-      { id:'rayquaza', label:'Rayquaza (Sky Pillar)', desc:'Story encounter — required for plot. Save beforehand.' },
-      { id:'deoxys', label:'Deoxys (Birth Island)', desc:'Via Aurora Ticket event only. One-time.' },
+    "ONE-TIME POKÉMON": [
+      { id:"red_gyarados", label:"Red Gyarados (Lake of Rage)", desc:"Lv.30 shiny script encounter. Save first — only one per save." },
+      { id:"tyrogue", label:"Tyrogue (Mt. Mortar)", desc:"Karate King gift after defeating him on Mt. Mortar 1F. One per save." },
+      { id:"sudowoodo", label:"Sudowoodo (Route 36)", desc:"Use the Squirtbottle / Wailmer Pail. One per save." },
+      { id:"snorlax_kanto", label:"Snorlax (Vermilion / Route 11)", desc:"Wakes when Pokégear plays the Pokémon Flute (radio). One per save." },
+      { id:"lapras", label:"Lapras (Union Cave Friday)", desc:"Lv.20 Lapras respawns every Friday on B2F — but the FIRST encounter only happens once per week, so technically infinite but easy to skip." },
+      { id:"lugia_hooh", label:"Lugia / Ho-Oh", desc:"Lugia (Whirl Islands) and Ho-Oh (Bell/Tin Tower) — version-tied but obtainable in both via Rainbow / Silver Wing." },
+      { id:"suicune", label:"Suicune (scripted)", desc:"Eusine + Tin Tower scripted Lv.40 encounter — not roaming in HGSS." },
+      { id:"raikou_entei", label:"Raikou & Entei (roaming)", desc:"Released from the Burned Tower; roam Johto. Save before engaging." },
+      { id:"birds_postred", label:"Articuno / Zapdos / Moltres", desc:"Each at Lv.50 in their original Kanto locations after defeating Red. Save before engaging." },
+      { id:"mewtwo_post", label:"Mewtwo (Cerulean Cave)", desc:"Post-Red. Save before engaging." },
+      { id:"latios_latias", label:"Latios (HG) / Latias (SS)", desc:"Roaming Lv.40 after the Enigma Stone Pewter Museum event (Mystery Gift, expired)." },
+      { id:"hoenn_legends", label:"Embedded Tower (Kyogre / Groudon / Rayquaza)", desc:"Lv.50 each. Kyogre (HG) / Groudon (SS) trigger from the Blue / Red Orb. Rayquaza appears for both versions after Prof. Oak gives the Jade Orb." },
+      { id:"togepi_egg_hgss", label:"Togepi Egg (Mr. Pokémon)", desc:"Mr. Pokémon's house on Route 30 — first hand-off of the main quest. One per save." },
+      { id:"creation_trio", label:"Sinjoh Ruins egg (Dialga/Palkia/Giratina)", desc:"Requires event Lv.100 Arceus (expired). One Lv.1 egg per choice." },
     ],
-    'ONE-TIME ITEMS': [
-      { id:'masterball', label:'Master Ball (Team Aqua Hideout)', desc:'One per game.' },
-      { id:'tm26', label:'TM26 Earthquake', desc:'Winstrate family on Route 111.' },
-      { id:'soothe', label:'Soothe Bell (Pokémon Fan Club, Slateport)', desc:'Given by the fan club chairman. Speeds up happiness evolutions.' },
+    "ONE-TIME ITEMS": [
+      { id:"masterball_radio", label:"Master Ball (Goldenrod radio show)", desc:"Win Goldenrod's lottery by matching all five trainer-card digits — extremely rare." },
+      { id:"masterball_oak", label:"Master Ball (Prof. Elm)", desc:"After completing the National Pokédex, talk to Prof. Elm — guaranteed Master Ball." },
+      { id:"old_rod",  label:"Old Rod",  desc:"Fisherman in Olivine City lighthouse area. Free." },
+      { id:"good_rod", label:"Good Rod", desc:"Fisherman in the house on Route 32." },
+      { id:"super_rod",label:"Super Rod",desc:"Fisherman in Route 12 (Kanto, post-Surge)." },
+      { id:"hms",      label:"All HMs", desc:"HM01 Cut (Ilex Forest), 02 Fly (Cianwood), 03 Surf (Ecruteak), 04 Strength (Olivine), 05 Whirlpool (Tin Tower hat NPC), 06 Rock Smash (Pewter, Kanto), 07 Waterfall (Ice Path), 08 Rock Climb (Route 47). All one-time." },
+      { id:"radio_card", label:"Radio Card upgrade", desc:"Upgrade in Goldenrod for Sinnoh Sound (HGSS-exclusive — pulls Sinnoh wild Pokémon)." },
+      { id:"squirtbottle", label:"SquirtBottle (HG) / Wailmer Pail (SS)", desc:"Goldenrod Flower Shop after Earl gym tower event. Required to wake Sudowoodo and water trees." },
+      { id:"app_disks", label:"Pokégear apps", desc:"Map Card (Mom, free), Radio Card (Lyra/Ethan in Goldenrod), Phone (Mom, free). All one-time hand-offs." },
+      { id:"silver_rainbow_wing", label:"Silver Wing / Rainbow Wing", desc:"Silver Wing in HG and Rainbow Wing in SS — required for Lugia / Ho-Oh respectively. Picked up at the Pewter Museum (HG) / via the Goldenrod radio show + Pewter Museum (SS)." }
+    ],
+    "DAILY / WEEKLY / TIME-GATED": [
+      { id:"bug_catching", label:"Bug-Catching Contest (T/Th/Sa)", desc:"Park Balls and rare bugs (Pinsir, Scyther) only on these three days." },
+      { id:"swarms_kanto", label:"Daily Kanto/Johto swarms", desc:"Some Pokémon (Dunsparce, Yanma) appear only via swarm calls." },
+      { id:"headbutt_trees", label:"Headbutt trees", desc:"Static trees per save — pick a few that hold Heracross / Aipom." }
     ]
   }
 };
-
 function buildMissablesPage() {
   var games = ['FR','LG','R','S','E'];
   var colors = { FR:'var(--diamond)', LG:'var(--pearl)', R:'var(--platinum)', S:'var(--heartgold)', E:'var(--soulsilver)' };
