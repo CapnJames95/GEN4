@@ -497,11 +497,14 @@ tr.evo-chain-row.open .evo-panel{
 .map-zone-rect{transition:fill 0.12s,stroke 0.12s;}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,107,53,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,107,53,0.015) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
 header{position:relative;z-index:10;background:linear-gradient(180deg,#12152a 0%,#0d0f1e 100%);border-bottom:3px solid var(--diamond);padding:10px 20px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 0 rgba(255,107,53,0.5),0 4px 24px rgba(0,0,0,0.5);flex-wrap:wrap;transition:transform 220ms ease,max-height 220ms ease,padding 220ms ease,border-bottom-width 220ms ease;will-change:transform,max-height;overflow:hidden;max-height:240px;}
-/* Auto-hide on downward scroll (toggled by JS — see headerAutoHide.js init in app.js).
-   Reduces --page-top so the page-height calc reclaims the space, then slides the
-   header off the top. Tap/scroll-up restores it. */
-body.header-collapsed header{transform:translateY(-100%);max-height:0;padding-top:0;padding-bottom:0;border-bottom-width:0;pointer-events:none;}
-body.header-collapsed{--page-top:8px;}
+/* Auto-hide on downward scroll — ONLY on very small/short viewports (e.g. AYN
+   Thor bottom screen, small handhelds). On normal screens the header always
+   stays put. The JS in app.js gates the toggling behind the same media query
+   and is also a no-op above the threshold. */
+@media (max-height:600px){
+  body.header-collapsed header{transform:translateY(-100%);max-height:0;padding-top:0;padding-bottom:0;border-bottom-width:0;pointer-events:none;}
+  body.header-collapsed{--page-top:8px;}
+}
 @media (prefers-reduced-motion:reduce){header{transition:none;}}
 .header-logo{font-family:'Press Start 2P',monospace;font-size:0.667em;line-height:1.6;color:var(--diamond);text-shadow:0 0 14px rgba(255,107,53,0.7);flex-shrink:0;}
 .header-logo span{color:var(--pearl);}
