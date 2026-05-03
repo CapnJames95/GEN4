@@ -15117,11 +15117,14 @@ var TEMPLATES=[
 ];
 
 var PAGE_LIST=[
+  // Core
+  {id:'home',icon:'🏠',label:'Home'},
   {id:'dex',icon:'📖',label:'Pokédex'},
-  {id:'bulba',icon:'🌿',label:'Bulba Guide'},
+  {id:'bulba',icon:'🌿',label:'Walkthrough (Bulbapedia)'},
   {id:'tracker',icon:'📋',label:'Tracker'},
   {id:'notes',icon:'📝',label:'Notes'},
   {id:'easydex',icon:'🗺',label:'Easy Dex'},
+  // Lookups
   {id:'excl',icon:'🔀',label:'Version Exclusives'},
   {id:'tradeevo',icon:'🔗',label:'Trade Evolutions'},
   {id:'npctrades',icon:'🤝',label:'NPC Trades'},
@@ -15129,39 +15132,62 @@ var PAGE_LIST=[
   {id:'learnsets',icon:'📋',label:'Learnsets'},
   {id:'encounters',icon:'🌿',label:'Encounters'},
   {id:'moves',icon:'⚔',label:'Moves Dex'},
+  {id:'tmhm',icon:'💿',label:'TM / HM List'},
   {id:'tutors',icon:'🎓',label:'Move Tutors'},
   {id:'items',icon:'🎒',label:'Items Dex'},
   {id:'held',icon:'💎',label:'Held Items'},
   {id:'itemlocs',icon:'📍',label:'Item Locations'},
   {id:'dpptmapview',icon:'🧭',label:'Sinnoh Map'},
   {id:'hgssmapview',icon:'🧭',label:'Johto Map'},
+  {id:'routebrowser',icon:'🗺',label:'Route Browser'},
+  // Battle / planning
   {id:'team',icon:'🧩',label:'Team Builder'},
   {id:'typechart',icon:'🔮',label:'Type Chart'},
   {id:'calc',icon:'⚡',label:'Damage Calculator'},
   {id:'speedtiers',icon:'💨',label:'Speed Tiers'},
   {id:'compare',icon:'⚖',label:'Pokémon Comparison'},
-  {id:'opt',icon:'🎯',label:'Optimizer'},
+  {id:'opt',icon:'🎯',label:'Encounter Optimizer'},
+  // Training
   {id:'ivev',icon:'📊',label:'IV / EV Calculator'},
   {id:'natures',icon:'🌿',label:'Nature Chart'},
   {id:'expcalc',icon:'📈',label:'EXP Calculator'},
   {id:'breed',icon:'🥚',label:'Breeding Calculator'},
   {id:'catchcalc',icon:'🎯',label:'Catch Rate Calc'},
   {id:'happiness',icon:'💛',label:'Happiness Tracker'},
+  {id:'statcalc',icon:'📏',label:'Stat Calculator'},
+  // Progress
   {id:'dexdash',icon:'📊',label:'Dex Dashboard'},
   {id:'ribbons',icon:'🎀',label:'Ribbon Tracker'},
-  {id:'contests',icon:'🎀',label:'Contests'},
-  {id:'frontier',icon:'🏆',label:'Battle Frontier'},
   {id:'missables',icon:'⚠',label:'Missables'},
+  {id:'distributions',icon:'📦',label:'Distributions'},
+  // Sinnoh (DPPt)
+  {id:'distortionworld',icon:'🌀',label:'Distortion World'},
+  {id:'honeytrees',icon:'🍯',label:'Honey Trees'},
+  {id:'laketrio',icon:'🔱',label:'Lake Trio'},
+  {id:'poketch',icon:'⌚',label:'Pokétch'},
+  {id:'pokeblock',icon:'🍬',label:'Poffin Optimizer'},
+  {id:'spiritomb',icon:'🪦',label:'Spiritomb / Hallowed Tower'},
+  {id:'underground',icon:'⛏',label:'Sinnoh Underground'},
+  {id:'roaminglegends',icon:'🏃',label:'Roaming Legendaries'},
+  // Johto / HGSS
+  {id:'apricorns',icon:'🌰',label:'Apricorns & Custom Balls'},
+  {id:'bugcatching',icon:'🪲',label:'Bug-Catching Contest'},
+  {id:'frontier',icon:'🏆',label:'Battle Frontier'},
+  {id:'headbutttrees',icon:'🪵',label:'Headbutt Trees'},
+  {id:'mtsilver',icon:'🏔',label:'Mt. Silver'},
+  {id:'pokeathlon',icon:'🏃',label:'Pokéathlon'},
+  {id:'pokegear',icon:'📞',label:'PokéGear'},
+  {id:'pokewalker',icon:'👟',label:'Pokéwalker'},
+  {id:'safarizone',icon:'🌳',label:'Safari Zone Calc'},
+  {id:'sinjoh',icon:'⛩',label:'Sinjoh Ruins'},
+  {id:'unown',icon:'🔣',label:'Unown / Ruins of Alph'},
+  // Reference
+  {id:'contests',icon:'🎀',label:'Super Contests'},
   {id:'berries',icon:'🫐',label:'Berry Farming'},
   {id:'rng',icon:'🎲',label:'RNG Guide'},
-  {id:'distributions',icon:'📦',label:'Distributions'},
   {id:'essentials',icon:'📘',label:'Essentials'},
-  {id:'safarizone',icon:'🎯',label:'Safari Zone Calc'},
-  {id:'statcalc',icon:'📏',label:'Stat Calculator'},
-  {id:'pokeblock',icon:'🍬',label:'Pokeblock Optimizer'},
   {id:'e4ref',icon:'👑',label:'Elite Four & Champion'},
   {id:'rematches',icon:'🔁',label:'Rematch Trainers'},
-  {id:'routebrowser',icon:'🗺',label:'Route Browser'},
 ];
 
 var BULBA_SECTIONS={
@@ -16472,24 +16498,33 @@ var _TYPES=[
   {icon:'⚙',label:'Steel',   val:'[[type:Steel]]'},
 ];
 var _BADGES=[
-  // Kanto
-  {icon:'🔴',label:'Boulder Badge',val:'Boulder Badge',sub:'Brock · Pewter City'},
-  {icon:'🔴',label:'Cascade Badge',val:'Cascade Badge',sub:'Misty · Cerulean City'},
-  {icon:'🔴',label:'Thunder Badge',val:'Thunder Badge',sub:'Lt. Surge · Vermilion City'},
-  {icon:'🔴',label:'Rainbow Badge',val:'Rainbow Badge',sub:'Erika · Celadon City'},
-  {icon:'🔴',label:'Soul Badge',   val:'Soul Badge',   sub:'Koga · Fuchsia City'},
-  {icon:'🔴',label:'Marsh Badge',  val:'Marsh Badge',  sub:'Sabrina · Saffron City'},
-  {icon:'🔴',label:'Volcano Badge',val:'Volcano Badge',sub:'Blaine · Cinnabar Island'},
-  {icon:'🔴',label:'Earth Badge',  val:'Earth Badge',  sub:'Giovanni · Viridian City'},
-  // Hoenn
-  {icon:'🔵',label:'Stone Badge',  val:'Stone Badge',  sub:'Roxanne · Rustboro City'},
-  {icon:'🔵',label:'Knuckle Badge',val:'Knuckle Badge',sub:'Brawly · Dewford Town'},
-  {icon:'🔵',label:'Dynamo Badge', val:'Dynamo Badge', sub:'Wattson · Mauville City'},
-  {icon:'🔵',label:'Heat Badge',   val:'Heat Badge',   sub:'Flannery · Lavaridge Town'},
-  {icon:'🔵',label:'Balance Badge',val:'Balance Badge',sub:'Norman · Petalburg City'},
-  {icon:'🔵',label:'Feather Badge',val:'Feather Badge',sub:'Winona · Fortree City'},
-  {icon:'🔵',label:'Mind Badge',   val:'Mind Badge',   sub:'Tate & Liza · Mossdeep City'},
-  {icon:'🔵',label:'Rain Badge',   val:'Rain Badge',   sub:'Wallace / Juan · Sootopolis'},
+  // Sinnoh (DPPt)
+  {icon:'🪨',label:'Coal Badge',    val:'Coal Badge',    sub:'Roark · Oreburgh City'},
+  {icon:'🌿',label:'Forest Badge',  val:'Forest Badge',  sub:'Gardenia · Eterna City'},
+  {icon:'⚒', label:'Cobble Badge',  val:'Cobble Badge',  sub:'Maylene · Veilstone City'},
+  {icon:'💧',label:'Fen Badge',     val:'Fen Badge',     sub:'Crasher Wake · Pastoria City'},
+  {icon:'👻',label:'Relic Badge',   val:'Relic Badge',   sub:'Fantina · Hearthome City'},
+  {icon:'🔥',label:'Mine Badge',    val:'Mine Badge',    sub:'Byron · Canalave City'},
+  {icon:'❄️',label:'Icicle Badge',  val:'Icicle Badge',  sub:'Candice · Snowpoint City'},
+  {icon:'⚡',label:'Beacon Badge',   val:'Beacon Badge',   sub:'Volkner · Sunyshore City'},
+  // Johto (HGSS)
+  {icon:'🦋',label:'Zephyr Badge',  val:'Zephyr Badge',  sub:'Falkner · Violet City'},
+  {icon:'🐛',label:'Hive Badge',    val:'Hive Badge',    sub:'Bugsy · Azalea Town'},
+  {icon:'🌸',label:'Plain Badge',   val:'Plain Badge',   sub:'Whitney · Goldenrod City'},
+  {icon:'👁',label:'Fog Badge',     val:'Fog Badge',     sub:'Morty · Ecruteak City'},
+  {icon:'🥋',label:'Storm Badge',   val:'Storm Badge',   sub:'Chuck · Cianwood City'},
+  {icon:'🔩',label:'Mineral Badge', val:'Mineral Badge', sub:'Jasmine · Olivine City'},
+  {icon:'🧊',label:'Glacier Badge', val:'Glacier Badge', sub:'Pryce · Mahogany Town'},
+  {icon:'🐉',label:'Rising Badge',  val:'Rising Badge',  sub:'Clair · Blackthorn City'},
+  // Kanto (HGSS post-game)
+  {icon:'🔴',label:'Boulder Badge', val:'Boulder Badge', sub:'Brock · Pewter City (Kanto)'},
+  {icon:'🌊',label:'Cascade Badge', val:'Cascade Badge', sub:'Misty · Cerulean City (Kanto)'},
+  {icon:'⚡',label:'Thunder Badge',  val:'Thunder Badge',  sub:'Lt. Surge · Vermilion City (Kanto)'},
+  {icon:'🌹',label:'Rainbow Badge', val:'Rainbow Badge', sub:'Erika · Celadon City (Kanto)'},
+  {icon:'☠', label:'Soul Badge',    val:'Soul Badge',    sub:'Janine · Fuchsia City (Kanto)'},
+  {icon:'🧠',label:'Marsh Badge',   val:'Marsh Badge',   sub:'Sabrina · Saffron City (Kanto)'},
+  {icon:'🌋',label:'Volcano Badge', val:'Volcano Badge', sub:'Blaine · Seafoam Islands (Kanto)'},
+  {icon:'🌍',label:'Earth Badge',   val:'Earth Badge',   sub:'Blue · Viridian City (Kanto)'},
 ];
 
 function _noteNorm(text){
@@ -16564,11 +16599,11 @@ function _sin(){
     _ss=pos-gm[0].length; _sm='game';
     var gq=gm[1].toLowerCase();
     _si=[
-      {icon:'🔥',label:'FireRed', val:'FireRed'},
-      {icon:'🌿',label:'LeafGreen',val:'LeafGreen'},
-      {icon:'🔴',label:'Ruby',    val:'Ruby'},
-      {icon:'🔷',label:'Sapphire',val:'Sapphire'},
-      {icon:'💚',label:'Emerald', val:'Emerald'},
+      {icon:'💎',label:'Diamond',     val:'Diamond'},
+      {icon:'🌸',label:'Pearl',       val:'Pearl'},
+      {icon:'⚙', label:'Platinum',    val:'Platinum'},
+      {icon:'💛',label:'HeartGold',   val:'HeartGold'},
+      {icon:'🤍',label:'SoulSilver',  val:'SoulSilver'},
     ].filter(function(g){return !gq||g.label.toLowerCase().indexOf(gq)>=0;});
     if(_si.length)_showSD(ta,_si.map(function(g){return{icon:g.icon,label:g.label,sub:null};}));
     else destroySlashDropdown();
