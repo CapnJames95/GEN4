@@ -14488,37 +14488,37 @@ function buildDexDashPage() {
   var TOTAL = 493;
   // Slot mapping FR=Diamond, LG=Pearl, R=Platinum (Sinnoh badges) / S=HeartGold, E=SoulSilver (Johto badges).
   var SINNOH_BADGES = [
-    { id:'coal',    label:'Coal' },     // Roark, Oreburgh
-    { id:'forest',  label:'Forest' },   // Gardenia, Eterna
-    { id:'cobble',  label:'Cobble' },   // Maylene, Veilstone
-    { id:'fen',     label:'Fen' },      // Crasher Wake, Pastoria
-    { id:'relic',   label:'Relic' },    // Fantina, Hearthome
-    { id:'mine',    label:'Mine' },     // Byron, Canalave
-    { id:'icicle',  label:'Icicle' },   // Candice, Snowpoint
-    { id:'beacon',  label:'Beacon' },   // Volkner, Sunyshore
-    { id:'elite4',  label:'Elite 4' }
+    { region:'Sinnoh', id:'coal',    label:'Coal' },     // Roark, Oreburgh
+    { region:'Sinnoh', id:'forest',  label:'Forest' },   // Gardenia, Eterna
+    { region:'Sinnoh', id:'cobble',  label:'Cobble' },   // Maylene, Veilstone
+    { region:'Sinnoh', id:'fen',     label:'Fen' },      // Crasher Wake, Pastoria
+    { region:'Sinnoh', id:'relic',   label:'Relic' },    // Fantina, Hearthome
+    { region:'Sinnoh', id:'mine',    label:'Mine' },     // Byron, Canalave
+    { region:'Sinnoh', id:'icicle',  label:'Icicle' },   // Candice, Snowpoint
+    { region:'Sinnoh', id:'beacon',  label:'Beacon' },   // Volkner, Sunyshore
+    { region:'Sinnoh', id:'elite4',  label:'Elite 4' }
   ];
   var JOHTO_BADGES = [
     // Johto (main story)
-    { id:'zephyr',  label:'Zephyr' },   // Falkner, Violet
-    { id:'hive',    label:'Hive' },     // Bugsy, Azalea
-    { id:'plain',   label:'Plain' },    // Whitney, Goldenrod
-    { id:'fog',     label:'Fog' },      // Morty, Ecruteak
-    { id:'storm',   label:'Storm' },    // Chuck, Cianwood
-    { id:'mineral', label:'Mineral' },  // Jasmine, Olivine
-    { id:'glacier', label:'Glacier' },  // Pryce, Mahogany
-    { id:'rising',  label:'Rising' },   // Clair, Blackthorn
-    { id:'elite4',  label:'Elite 4' },
+    { region:'Johto',    id:'zephyr',  label:'Zephyr' },   // Falkner, Violet
+    { region:'Johto',    id:'hive',    label:'Hive' },     // Bugsy, Azalea
+    { region:'Johto',    id:'plain',   label:'Plain' },    // Whitney, Goldenrod
+    { region:'Johto',    id:'fog',     label:'Fog' },      // Morty, Ecruteak
+    { region:'Johto',    id:'storm',   label:'Storm' },    // Chuck, Cianwood
+    { region:'Johto',    id:'mineral', label:'Mineral' },  // Jasmine, Olivine
+    { region:'Johto',    id:'glacier', label:'Glacier' },  // Pryce, Mahogany
+    { region:'Johto',    id:'rising',  label:'Rising' },   // Clair, Blackthorn
+    { region:'Johto',    id:'elite4',  label:'Elite 4' },
     // Kanto (post-game in HGSS)
-    { id:'boulder', label:'Boulder' },  // Brock, Pewter
-    { id:'cascade', label:'Cascade' },  // Misty, Cerulean
-    { id:'thunder', label:'Thunder' },  // Lt. Surge, Vermilion
-    { id:'rainbow', label:'Rainbow' },  // Erika, Celadon
-    { id:'soul',    label:'Soul' },     // Janine, Fuchsia
-    { id:'marsh',   label:'Marsh' },    // Sabrina, Saffron
-    { id:'volcano', label:'Volcano' },  // Blaine, Seafoam Islands (HGSS)
-    { id:'earth',   label:'Earth' },    // Blue, Viridian
-    { id:'red',     label:'Red (Mt. Silver)' }
+    { region:'Kanto',    id:'boulder', label:'Boulder' },  // Brock, Pewter
+    { region:'Kanto',    id:'cascade', label:'Cascade' },  // Misty, Cerulean
+    { region:'Kanto',    id:'thunder', label:'Thunder' },  // Lt. Surge, Vermilion
+    { region:'Kanto',    id:'rainbow', label:'Rainbow' },  // Erika, Celadon
+    { region:'Kanto',    id:'soul',    label:'Soul' },     // Janine, Fuchsia
+    { region:'Kanto',    id:'marsh',   label:'Marsh' },    // Sabrina, Saffron
+    { region:'Kanto',    id:'volcano', label:'Volcano' },  // Blaine, Seafoam Islands (HGSS)
+    { region:'Kanto',    id:'earth',   label:'Earth' },    // Blue, Viridian
+    { region:'Postgame', id:'red',     label:'Red (Mt. Silver)' }
   ];
   var GYM_SETS = {
     FR: SINNOH_BADGES,
@@ -14602,21 +14602,64 @@ function buildDexDashPage() {
     var badges = GYM_SETS[gameId] || [];
     var done = {};
     loadGymProgress(gameId).forEach(function(id){ done[id] = 1; });
+
+    // Group badges by region in declaration order so we can render
+    // labelled subsections (Johto / Kanto / Post-game) for HGSS.
+    var groups = [];
+    var byRegion = {};
+    badges.forEach(function(badge) {
+      var key = badge.region || 'Region';
+      if (!byRegion[key]) {
+        byRegion[key] = { region:key, items:[] };
+        groups.push(byRegion[key]);
+      }
+      byRegion[key].items.push(badge);
+    });
+
+    function renderBadgeBtn(badge) {
+      var active = done[badge.id] ? ' active' : '';
+      var pulse = '';
+      if (badgePulse && badgePulse.gameId === gameId && badgePulse.badgeId === badge.id) {
+        pulse = badgePulse.active ? ' just-earned' : ' just-lost';
+      }
+      return '<button class="dexdash-badge-btn' + active + pulse + '" onclick="dexDashToggleGymBadge(\'' + gameId + '\',\'' + badge.id + '\')" title="' + safeLabel(badge.label) + '">'
+        + '<span class="dexdash-badge-icon">' + badgeSvg(badge.id) + '</span>'
+        + '<span class="dexdash-badge-label">' + safeLabel(badge.label) + '</span>'
+        + '</button>';
+    }
+
+    var sectionsHtml;
+    if (groups.length <= 1) {
+      // Sinnoh games: single region, render as before.
+      sectionsHtml = '<div class="dexdash-badge-grid">'
+        + badges.map(renderBadgeBtn).join('')
+        + '</div>';
+    } else {
+      // HGSS: multi-region — render Johto / Kanto / Post-game subsections.
+      var regionLabels = {
+        Johto:    '🌸 Johto — main story',
+        Kanto:    '🔴 Kanto — post-game',
+        Postgame: '⛰ Champion Rematch'
+      };
+      sectionsHtml = groups.map(function(g) {
+        var doneInGroup = g.items.filter(function(b){ return done[b.id]; }).length;
+        var total = g.items.length;
+        var label = regionLabels[g.region] || g.region;
+        return '<div class="dexdash-badge-region" style="margin-top:10px;">'
+          + '<div class="dexdash-badge-region-title" style="display:flex;justify-content:space-between;align-items:baseline;font-family:\'Press Start 2P\',monospace;font-size:7px;letter-spacing:.5px;color:var(--muted);margin-bottom:6px;border-top:1px solid var(--border);padding-top:8px;">'
+          +   '<span>' + label + '</span>'
+          +   '<span style="color:' + (doneInGroup === total ? 'var(--gold)' : 'var(--muted)') + ';">' + doneInGroup + ' / ' + total + '</span>'
+          + '</div>'
+          + '<div class="dexdash-badge-grid">'
+          +   g.items.map(renderBadgeBtn).join('')
+          + '</div>'
+          + '</div>';
+      }).join('');
+    }
+
     return '<div class="dexdash-badge-block">'
       + '<div class="dexdash-badge-title">GYM PROGRESS</div>'
-      + '<div class="dexdash-badge-grid">'
-      + badges.map(function(badge) {
-          var active = done[badge.id] ? ' active' : '';
-          var pulse = '';
-          if (badgePulse && badgePulse.gameId === gameId && badgePulse.badgeId === badge.id) {
-            pulse = badgePulse.active ? ' just-earned' : ' just-lost';
-          }
-          return '<button class="dexdash-badge-btn' + active + pulse + '" onclick="dexDashToggleGymBadge(\'' + gameId + '\',\'' + badge.id + '\')" title="' + safeLabel(badge.label) + '">'
-            + '<span class="dexdash-badge-icon">' + badgeSvg(badge.id) + '</span>'
-            + '<span class="dexdash-badge-label">' + safeLabel(badge.label) + '</span>'
-            + '</button>';
-        }).join('')
-      + '</div>'
+      + sectionsHtml
       + '<div class="dexdash-badge-note">Click badges to mark gyms and the Elite 4 complete for this save.</div>'
       + '</div>';
   }
