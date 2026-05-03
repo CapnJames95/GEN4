@@ -10991,8 +10991,9 @@ function calcIsActive(id) {
 }
 
 // ── Stat calculation ────────────────────────────────────────
-// Gen 3 stat formula: ((2*Base + IV + floor(EV/4)) * Level / 100 + 5) * nature
-// HP: ((2*Base + IV + floor(EV/4)) * Level / 100 + Level + 10)
+// Gen 3+ stat formula (unchanged in Gen 4):
+//   Stat = floor((floor((2*Base + IV + floor(EV/4)) * Level / 100) + 5) * Nature)
+//   HP   = floor((2*Base + IV + floor(EV/4)) * Level / 100) + Level + 10
 function calcStatValue(base, level, iv, ev, nature, isHP) {
   base = parseInt(base) || 1;
   level = parseInt(level) || 50;
@@ -11057,8 +11058,10 @@ function calcUpdate() {
   }
 
   // ── Gen 3 Damage Formula ──
-  // Damage = floor( floor( floor(2*Level/5 + 2) * Power * A / D / 50 ) * Modifier ) + 2
-  // Modifier = STAB * Type * Weather * Crit * Burn * Badge * Reflect/Screen * Random
+  // Gen 4 damage formula (per Bulbapedia):
+  //   Base = floor(floor(floor(2*Level/5 + 2) * Power * A / D) / 50) + 2
+  //   Damage = floor(Base * Weather * Crit * Burn * Screen * STAB * Type * Random/100)
+  // Where Random ∈ [85, 100]. Badge boost was removed after Gen 2 — Gen 4 has none.
 
   var movePower = movePowerRaw;
 
@@ -11109,14 +11112,16 @@ function calcUpdate() {
   var chargeMod = (calcIsActive('cond-charge') && moveType === 'electric') ? 2.0 : 1.0;
   if (chargeMod === 2.0) movePower = movePower * 2;
 
-  // Critical hit: ×2 in Gen 3 (does NOT ignore stat drops in Gen 3, unlike later gens)
+  // Critical hit: ×2 in Gen 4 (becomes ×1.5 in Gen 6+). Crit ignores attacker
+  // ATK drops, defender DEF boosts, and Reflect/Light Screen.
   var crit = calcIsActive('atk-crit') ? 2.0 : 1.0;
 
-  // Burn: halves physical damage
+  // Burn: halves physical damage (Gen 3+)
   var burn = (calcIsActive('atk-burn') && isPhys) ? 0.5 : 1.0;
 
-  // Badge boost: Gen 3 gives slight boost (ignore for clean calculation — note it)
-  var badge = calcIsActive('atk-badge') ? 1.1 : 1.0;
+  // Badge boost: removed after Gen 2. Kept as a UI toggle for compatibility but
+  // disabled by default and labelled clearly — multiplier is 1.0 in Gen 4.
+  var badge = 1.0;
 
   // Reflect / Light Screen: halves damage from that category
   var screen = 1.0;
@@ -11129,22 +11134,21 @@ function calcUpdate() {
   // Apply effective attack stat with burn
   var effAtkStat = Math.floor(atkStat * burn);
 
-  // Core damage (before random and badge)
-  var baseDmg = Math.floor(Math.floor(Math.floor(2 * atkLevel / 5 + 2) * movePower * effAtkStat / effDefStat) / 50);
+  // Gen 4 base damage: +2 is added INSIDE before multipliers (unlike Gen 3 where
+  // it's added after). This produces slightly different rounding than Gen 3.
+  var baseDmg = Math.floor(Math.floor(Math.floor(2 * atkLevel / 5 + 2) * movePower * effAtkStat / effDefStat) / 50) + 2;
 
-  // Apply modifiers in Gen 3 order
-  baseDmg = Math.floor(baseDmg * stab);
-  baseDmg = Math.floor(baseDmg * typeMultiplier);
+  // Apply Gen 4 modifiers (each step floored to match in-game integer math)
   baseDmg = Math.floor(baseDmg * weatherMod);
   baseDmg = Math.floor(baseDmg * ffMod);
   baseDmg = Math.floor(baseDmg * crit);
-  baseDmg = baseDmg + 2;  // Gen 3 adds 2 at the end before random
-  baseDmg = Math.floor(baseDmg * badge);
   baseDmg = Math.floor(baseDmg * screen);
+  baseDmg = Math.floor(baseDmg * stab);
+  baseDmg = Math.floor(baseDmg * typeMultiplier);
 
-  // Random roll: 0.85–1.00 (Gen 3 uses 217–255/255)
-  var dmgMin = Math.floor(baseDmg * 217 / 255);
-  var dmgMax = baseDmg; // 255/255 = 1.0
+  // Random roll: 85–100% in Gen 4 (16 discrete integer values, same min/max as Gen 3)
+  var dmgMin = Math.floor(baseDmg * 85 / 100);
+  var dmgMax = Math.floor(baseDmg * 100 / 100);
 
   // HP of defender
   var defHP = calcState.def
@@ -13878,7 +13882,7 @@ function breedCalc() {
   var hatchSteps = HATCH_STEPS_DATA[String(offspring)];
   if (hatchSteps) {
     document.getElementById('breed-hatch-steps').textContent = hatchSteps.toLocaleString() + ' steps';
-    document.getElementById('breed-hatch-cycles').textContent = Math.round(hatchSteps/256) + ' egg cycles · With Flame Body/Magma Armor: ~' + Math.round(hatchSteps/512) + ' steps';
+    document.getElementById('breed-hatch-cycles').textContent = Math.round(hatchSteps/256) + ' egg cycles · With Flame Body / Magma Armor lead: ~' + Math.round(hatchSteps/2) + ' steps (halves remaining cycles)';
     document.getElementById('breed-hatch-info').style.display = 'block';
   }
 
@@ -13890,9 +13894,9 @@ function breedCalc() {
     html += '<div style="background:rgba(255,215,0,0.07);border:1px solid rgba(255,215,0,0.3);border-radius:8px;padding:14px 20px;margin-bottom:20px;">'
       + '<div style="font-family:\'Press Start 2P\',monospace;font-size:7px;color:var(--gold);margin-bottom:8px;">⬟ EVERSTONE NATURE TRICK</div>'
       + '<div style="font-size:12px;line-height:1.7;">'
-      + '<strong>' + parentName + '</strong> holds an Everstone. In Gen 4, this gives a <strong style="color:var(--gold);">50% chance</strong> the offspring inherits that parent\'s Nature (provided the holding parent is female, or Ditto if a Ditto egg). '
-      + 'Unlike Gen 4+, this is NOT guaranteed — you may need multiple eggs. '
-      + 'The Everstone must be held by the female parent (or Ditto) for best results.'
+      + '<strong>' + parentName + '</strong> holds an Everstone. In Gen 4, this gives a <strong style="color:var(--gold);">50% chance</strong> the offspring inherits that parent\'s Nature. '
+      + 'In Gen 4 the Everstone <strong>must be held by the female parent</strong> (or by Ditto when breeding with a non-Ditto). '
+      + 'Unlike Gen 5+, the trick is not guaranteed — expect to discard ~half of eggs to nature mismatch.'
       + '</div></div>';
   }
 
@@ -18263,20 +18267,55 @@ function buildCatchCalcPage() {
 
   var SPRITE_BASE = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/';
 
-  // Ball definitions: name, sprite slug, bonus fn, master flag, note
+  // Ball definitions (Gen 4 multipliers per Bulbapedia "Catch rate" article).
+  // bonus fn signature: (cr, turn, wildLvl) → multiplier on a (the modified catch value).
   var BALLS = [
     { name:'Poké Ball',    slug:'poke-ball',    master:false, bonus: function(cr,turn,wildLvl){ return 1; } },
     { name:'Great Ball',   slug:'great-ball',   master:false, bonus: function(cr,turn,wildLvl){ return 1.5; } },
     { name:'Ultra Ball',   slug:'ultra-ball',   master:false, bonus: function(cr,turn,wildLvl){ return 2; } },
     { name:'Master Ball',  slug:'master-ball',  master:true,  bonus: function(cr,turn,wildLvl){ return 255; } },
     { name:'Safari Ball',  slug:'safari-ball',  master:false, bonus: function(cr,turn,wildLvl){ return 1.5; }, note:'Safari Zone only' },
-    { name:'Net Ball',     slug:'net-ball',     master:false, bonus: function(cr,turn,wildLvl){ return 3; },   note:'Water/Bug types ×3, else ×1' },
-    { name:'Dive Ball',    slug:'dive-ball',    master:false, bonus: function(cr,turn,wildLvl){ return 3.5; }, note:'While Surfing/Diving' },
-    { name:'Nest Ball',    slug:'nest-ball',    master:false, bonus: function(cr,turn,wildLvl){ return Math.max(1, Math.floor((41 - Math.min(30, wildLvl)) * 100 / 10) / 100); }, note:'Better at low levels' },
-    { name:'Repeat Ball',  slug:'repeat-ball',  master:false, bonus: function(cr,turn,wildLvl){ return 3; },   note:'If already caught species' },
+    // Net Ball: ×3 only against Water or Bug types — assumes the toggle is set.
+    { name:'Net Ball',     slug:'net-ball',     master:false, bonus: function(cr,turn,wildLvl){ return 3; },   note:'Water / Bug types only' },
+    // Dive Ball: ×3.5 only when fishing / surfing / diving.
+    { name:'Dive Ball',    slug:'dive-ball',    master:false, bonus: function(cr,turn,wildLvl){ return 3.5; }, note:'While Surfing / Fishing' },
+    // Nest Ball: ((41 - Lv) / 10), min 1. At Lv 31+ this naturally yields 1×.
+    { name:'Nest Ball',    slug:'nest-ball',    master:false, bonus: function(cr,turn,wildLvl){ return Math.max(1, (41 - wildLvl) / 10); }, note:'Better at low wild levels' },
+    { name:'Repeat Ball',  slug:'repeat-ball',  master:false, bonus: function(cr,turn,wildLvl){ return 3; },   note:'If species already caught' },
+    // Timer Ball: 1 + (turn × 1229/4096) capped at 4. Reaches max ×4 from turn 10.
     { name:'Timer Ball',   slug:'timer-ball',   master:false, bonus: function(cr,turn,wildLvl){ return Math.min(4, 1 + Math.floor(turn * 1229 / 4096)); }, note:'Better with more turns' },
     { name:'Premier Ball', slug:'premier-ball', master:false, bonus: function(cr,turn,wildLvl){ return 1; },   note:'Same as Poké Ball' },
     { name:'Luxury Ball',  slug:'luxury-ball',  master:false, bonus: function(cr,turn,wildLvl){ return 1; },   note:'Raises friendship faster' },
+
+    // ── Gen 4-introduced balls ─────────────────────────────────────────
+    // Quick Ball: ×4 on the first turn, ×1 thereafter.
+    { name:'Quick Ball',   slug:'quick-ball',   master:false, bonus: function(cr,turn,wildLvl){ return turn === 1 ? 4 : 1; }, note:'Turn 1 only' },
+    // Dusk Ball: ×3.5 at night or in caves, ×1 otherwise.
+    { name:'Dusk Ball',    slug:'dusk-ball',    master:false, bonus: function(cr,turn,wildLvl){ return 3.5; }, note:'Night / cave only' },
+    // Heal Ball: ×1 capture multiplier; fully heals the captured Pokémon.
+    { name:'Heal Ball',    slug:'heal-ball',    master:false, bonus: function(cr,turn,wildLvl){ return 1; }, note:'Heals on capture' },
+    // Cherish Ball: ×1; reserved for event Pokémon (cannot be bought / used in wild).
+    { name:'Cherish Ball', slug:'cherish-ball', master:false, bonus: function(cr,turn,wildLvl){ return 1; }, note:'Event Pokémon only' },
+    // Park Ball: 255× (effectively guaranteed) — Pal Park exclusive.
+    { name:'Park Ball',    slug:'park-ball',    master:false, bonus: function(cr,turn,wildLvl){ return 255; }, note:'Pal Park exclusive' },
+
+    // ── HGSS apricorn balls (Kurt's custom Poké Balls) ─────────────────
+    // Fast Ball: ×4 if base Speed ≥ 100.
+    { name:'Fast Ball',    slug:'fast-ball',    master:false, bonus: function(cr,turn,wildLvl){ return 4; }, note:'Base Speed ≥ 100 only' },
+    // Level Ball: ×8 / ×4 / ×2 / ×1 depending on player vs wild level ratio.
+    { name:'Level Ball',   slug:'level-ball',   master:false, bonus: function(cr,turn,wildLvl){ return 4; }, note:'Higher player level vs wild' },
+    // Lure Ball: ×3 when fishing.
+    { name:'Lure Ball',    slug:'lure-ball',    master:false, bonus: function(cr,turn,wildLvl){ return 3; }, note:'Fishing only' },
+    // Heavy Ball: +20 / +30 modifier added to a (NOT a multiplier) for heavy mons.
+    // Approximated here as a small bonus on cr; exact behavior depends on weight.
+    { name:'Heavy Ball',   slug:'heavy-ball',   master:false, bonus: function(cr,turn,wildLvl){ return 1; }, note:'Heavy targets (≥ 204.8 kg): +20 to a' },
+    // Love Ball: ×8 if same species and opposite gender.
+    { name:'Love Ball',    slug:'love-ball',    master:false, bonus: function(cr,turn,wildLvl){ return 8; }, note:'Same species, opposite gender' },
+    // Friend Ball: ×1; sets caught friendship to 200.
+    { name:'Friend Ball',  slug:'friend-ball',  master:false, bonus: function(cr,turn,wildLvl){ return 1; }, note:'Sets friendship to 200' },
+    // Moon Ball: ×4 for Pokémon evolved by Moon Stone. (Gen 4 implementation bugged
+    // and gave 1× — restored to ×4 in Gen 5.)
+    { name:'Moon Ball',    slug:'moon-ball',    master:false, bonus: function(cr,turn,wildLvl){ return 1; }, note:'Bugged in HGSS — was always ×1 in Gen 4' },
   ];
 
   var STATUSES = [
@@ -18359,7 +18398,9 @@ function buildCatchCalcPage() {
     'a = ((3×MaxHP − 2×CurrentHP) × CatchRate × BallBonus × StatusBonus) ÷ (3×MaxHP). ',
     'Shake threshold b = floor(65536 ÷ (255÷a)^0.1875). P(catch) = (b÷65536)^4.<br>',
     'Status: Sleep/Freeze = ×2 &nbsp;|&nbsp; Paralysis/Burn/Poison = ×1.5 &nbsp;|&nbsp; None = ×1. '
-    + 'Nest Ball bonus = max(1, floor((41 − min(wildLvl, 30)) ÷ 10)).',
+    + 'Nest Ball bonus = max(1, (41 − wildLvl) ÷ 10) — naturally yields ×1 at Lv 31+.<br>'
+    + 'Quick Ball ×4 on turn 1 only; Dusk Ball ×3.5 at night or in caves; Net Ball ×3 vs Water/Bug; Dive Ball ×3.5 while Surfing/Fishing. '
+    + 'HGSS apricorn balls (Fast / Level / Lure / Heavy / Love / Friend / Moon) apply only when their condition is met — see notes.',
     '</div>'
   ].join('');
 
