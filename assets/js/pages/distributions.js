@@ -258,6 +258,50 @@ window.getDistributionEntries = window.getDistributionEntries || function() {
 
   var miscEvents = [
     {
+      title: 'Hayley\'s Mew (My Pokémon Ranch)',
+      source: 'In-Game Trade',
+      language: 'Multi-language',
+      kind: 'Single Pokémon',
+      obtains: ['Mew (Lv.50)'],
+      targets: SINNOH,
+      region: 'Worldwide — My Pokémon Ranch (WiiWare), 2008+',
+      details: 'In My Pokémon Ranch (Wii), once 999 Pokémon have been sent to the Ranch (Ranch level 25), Hayley offers an in-game trade of her Mew for any Pokémon Egg. The Mew is then sent back to a Diamond/Pearl/Platinum cart via the Wii ↔ DS link.',
+      notes: 'OT "Hayley", ID 01000, Lv.50, Pokéball, Hatched Ribbon. No expiration — still legitimately obtainable on saved Wii data.'
+    },
+    {
+      title: 'Pokémon Ranger: Shadows of Almia — Riolu',
+      source: 'Spin-off Transfer',
+      language: 'Multi-language',
+      kind: 'Single Pokémon',
+      obtains: ['Riolu (knows Aura Sphere)'],
+      targets: SINNOH,
+      region: 'JP / NA / EU — via Ranger Net special mission, 2008+',
+      details: 'Complete the Ranger Net "Hia Valley" / Riolu-with-Aura-Sphere special mission in Pokémon Ranger: Shadows of Almia, then transfer Riolu to Diamond/Pearl/Platinum via the link cable. Knows Aura Sphere, otherwise impossible to learn at low level.',
+      notes: 'Ranger Net was discontinued with the Nintendo Wi-Fi Connection shutdown in May 2014; mission can no longer be downloaded officially.'
+    },
+    {
+      title: 'Pokémon Ranger: Shadows of Almia — Manaphy Egg & Darkrai',
+      source: 'Spin-off Transfer',
+      language: 'Multi-language',
+      kind: 'Multi-species',
+      obtains: ['Manaphy Egg', 'Darkrai (knows Dark Void)'],
+      targets: SINNOH,
+      region: 'JP / NA / EU — via Ranger Net special missions, 2008+',
+      details: 'Two additional Shadows of Almia Ranger Net missions distributed a Manaphy Egg (the SoA re-issue of the original Ranger Manaphy event) and a Darkrai already knowing its signature Dark Void. Both transferable to Diamond/Pearl/Platinum.',
+      notes: 'Ranger Net offline since 2014. Distinct from the Member Card Darkrai (different OT and origin).'
+    },
+    {
+      title: 'Pokémon Ranger: Guardian Signs — Mythicals',
+      source: 'Spin-off Transfer',
+      language: 'Multi-language',
+      kind: 'Multi-species',
+      obtains: ['Manaphy Egg', 'Deoxys', 'Shaymin', 'Heatran (knows Eruption)'],
+      targets: ALL_G4,
+      region: 'JP / NA / EU — via Ranger Net special missions, 2010+',
+      details: 'Pokémon Ranger: Guardian Signs offered four downloadable Ranger Net missions whose rewards transfer to any Generation IV game (D/P/Pt/HG/SS): a Manaphy Egg, a Deoxys (forme depends on capture speed), a fateful-encounter Shaymin, and a Heatran already knowing Eruption.',
+      notes: 'Ranger Net offline since May 2014. Each mission can only be redeemed once per cart, except Deoxys which had multiple variants.'
+    },
+    {
       title: 'Pokéwalker — Yellow Forest (Surfing Pikachu)',
       source: 'Pokéwalker Course',
       language: 'Multi-language',
@@ -269,15 +313,48 @@ window.getDistributionEntries = window.getDistributionEntries || function() {
       notes: 'OT is the player. Course-only — not a held-Pokémon distribution per se.'
     },
     {
-      title: 'Pokéwalker — Night Sky\'s Edge / Other Mystery Routes',
+      title: 'Pokéwalker — Rally',
       source: 'Pokéwalker Course',
       language: 'Multi-language',
       kind: 'Course Distribution',
       obtains: ['Mystery-Gift Pokéwalker route'],
       targets: JOHTO,
-      region: 'JP / NA / EU 2010–2011',
-      details: 'Several additional Pokéwalker routes (Night Sky\'s Edge, Winner\'s Path, etc.) were distributed via Mystery Gift in HGSS. Each unlocked a unique encounter pool and item table.',
-      notes: 'unverified — multiple routes; specific OT/levels vary per encounter.'
+      region: 'JP / NA / EU 2010 — Mystery Gift Pokéwalker route',
+      details: 'Mystery-Gift Pokéwalker route for HGSS. Themed around running / racing scenery; offers a unique encounter pool not available on the standard built-in routes.',
+      notes: 'OT is the player. Mystery Gift distribution; pool details vary per source.'
+    },
+    {
+      title: 'Pokéwalker — Sightseeing',
+      source: 'Pokéwalker Course',
+      language: 'Multi-language',
+      kind: 'Course Distribution',
+      obtains: ['Mystery-Gift Pokéwalker route'],
+      targets: JOHTO,
+      region: 'JP / NA / EU 2010 — Mystery Gift Pokéwalker route',
+      details: 'Mystery-Gift Pokéwalker route for HGSS with a tourist / city-themed encounter pool.',
+      notes: 'OT is the player. Mystery Gift distribution.'
+    },
+    {
+      title: 'Pokéwalker — Winner\'s Path',
+      source: 'Pokéwalker Course',
+      language: 'Multi-language',
+      kind: 'Course Distribution',
+      obtains: ['Mystery-Gift Pokéwalker route'],
+      targets: JOHTO,
+      region: 'JP / NA / EU 2010 — Mystery Gift Pokéwalker route',
+      details: 'Mystery-Gift Pokéwalker route for HGSS featuring battle-themed encounters; tied to TCG promotional tie-ins in some regions.',
+      notes: 'OT is the player. Mystery Gift distribution.'
+    },
+    {
+      title: 'Pokéwalker — Amity Meadow',
+      source: 'Pokéwalker Course',
+      language: 'Multi-language',
+      kind: 'Course Distribution',
+      obtains: ['Mystery-Gift Pokéwalker route'],
+      targets: JOHTO,
+      region: 'JP / NA / EU 2010–2011 — Mystery Gift Pokéwalker route',
+      details: 'Mystery-Gift Pokéwalker route for HGSS — pastoral / friendly Pokémon themed (echoes the Sinnoh Amity Square concept).',
+      notes: 'OT is the player. Mystery Gift distribution.'
     }
   ];
 
