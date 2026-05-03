@@ -17253,3 +17253,70 @@ function _hgssMapSyncGame() {
     }
   });
 })();
+
+
+// ══════════════════════════════════════════════════════════════════
+//  Header auto-hide on scroll-down (small-screen handhelds)
+// ══════════════════════════════════════════════════════════════════
+// Each page in this app has its own scroll container (`overflow-y:auto`
+// on `#page-*` or descendants), not the document. So a single
+// window-scroll listener won't catch it. Instead, we attach a delegated
+// `scroll` listener in capture phase to catch any descendant scroll
+// inside the active page, and toggle `body.header-collapsed` based on
+// scroll direction with a small threshold and hysteresis.
+(function initHeaderAutoHide() {
+  var SHOW_THRESHOLD = 4;    // px scrolled up before re-showing
+  var HIDE_THRESHOLD = 24;   // px scrolled down past minOffset before hiding
+  var MIN_OFFSET     = 40;   // never hide while near the top of a scroller
+
+  var lastScrollTops = new WeakMap();
+
+  function shouldIgnore(target) {
+    if (!target || target === document) return false;
+    if (!(target instanceof Element)) return false;
+    // Don't trigger on tiny inner scrollers (dropdowns, learner grids,
+    // dropdown menus, etc.) — only on the actual page-level scroll
+    // containers. Heuristic: scrollHeight needs to be at least 50% bigger
+    // than clientHeight AND the element itself must be ≥200px tall.
+    var ch = target.clientHeight || 0;
+    var sh = target.scrollHeight || 0;
+    if (ch < 200) return true;
+    if (sh - ch < 80) return true;
+    // Inside a popover/dropdown? Skip.
+    if (target.closest && target.closest('.slash-dropdown, .menu, .dropdown, .popover, .modal')) return true;
+    return false;
+  }
+
+  function onScroll(e) {
+    var t = e.target;
+    if (shouldIgnore(t)) return;
+    var top = (t === document ? (window.pageYOffset || document.documentElement.scrollTop || 0) : (t.scrollTop || 0));
+    var prev = lastScrollTops.get(t) || 0;
+    var delta = top - prev;
+    var body = document.body;
+    if (!body) return;
+    var collapsed = body.classList.contains('header-collapsed');
+    if (top <= MIN_OFFSET) {
+      if (collapsed) body.classList.remove('header-collapsed');
+    } else if (delta > HIDE_THRESHOLD && !collapsed) {
+      body.classList.add('header-collapsed');
+    } else if (delta < -SHOW_THRESHOLD && collapsed) {
+      body.classList.remove('header-collapsed');
+    }
+    if (Math.abs(delta) > 1) lastScrollTops.set(t, top);
+  }
+
+  // Capture phase so we catch scrolls on inner page containers without
+  // requiring them to bubble. Passive for performance on touch devices.
+  document.addEventListener('scroll', onScroll, { capture: true, passive: true });
+
+  // Reveal the header whenever the user navigates to a new page so they
+  // never land on a hidden-header view.
+  document.addEventListener('click', function(e) {
+    var target = e.target;
+    if (!target) return;
+    if (target.closest && target.closest('.page-nav-btn, .page-nav-dropdown-item, [data-page], #navHome, .home-deps a, .home-card')) {
+      document.body.classList.remove('header-collapsed');
+    }
+  }, true);
+})();
