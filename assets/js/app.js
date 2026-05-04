@@ -17076,10 +17076,12 @@ function pbCalc() {
 
 
 
-// ── KANTO MAP ENGINE ───────────────────────────────────────────
-// (Removed) Kanto/Emerald Ironmon map engines and data tables — Gen 3-only,
-// not used in this Gen 4 site. The DPPt and HGSS map views below are the live ones.
-
+// ── DPPt + HGSS map iframe URLs ────────────────────────────────
+// (The Kanto/Emerald Ironmon map engines and data tables that used
+// to live here were removed in the Gen 4 cleanup; these two URL
+// constants are all that's needed for the Sinnoh / Johto map iframes.)
+var DPPT_MAP_URL = './DPPtIronmonMap/index.html';
+var HGSS_MAP_URL = './HGSSIronmonMap/index.html';
 
 function buildDPPtMapView() {
   var iframe = document.getElementById('dpc-iframe');
