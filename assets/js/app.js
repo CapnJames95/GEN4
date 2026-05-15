@@ -5424,8 +5424,10 @@ var TRK_GAME_LABELS = { FR:'Diamond', LG:'Pearl', R:'Platinum', S:'HeartGold', E
 var TRK_GAME_COLORS = { FR:'var(--diamond)', LG:'var(--pearl)', R:'var(--platinum)', S:'var(--heartgold)', E:'var(--soulsilver)' };
 var TRK_GAMES = ['FR','LG','R','S','E'];
 var TRK_STATE_VERSION = 1;
-var GEN3_DRIVE_FILE_NAME = 'gen3-site-backup.json';
-var GEN3_DRIVE_CLIENT_ID = '';
+// Per-site backup file name keeps GEN3 and GEN4 saves independent inside the same Drive app folder.
+var GEN3_DRIVE_FILE_NAME = 'gen4-site-backup.json';
+// Shared OAuth Client ID for pkmnguide.com — see /assets/js/auth.js (pgAuth).
+var GEN3_DRIVE_CLIENT_ID = '67400975308-p53sdautjffekbun985l2ct08osjapp2.apps.googleusercontent.com';
 var GEN3_SITE_STATE_KEYS = ['gen3-game', 'gen3-theme', 'gen3-drive-client-id', 'FRLG_StorageKey', 'Emerald_StorageKey', 'g3notes_v2'];
 var GEN3_SITE_STATE_PREFIXES = ['pokedex_tracker_', 'trk_shiny_', 'trk_seen_', 'trk_evolved_', 'trk_bred_', 'trk_traded_', 'trk_held_', 'trk_legendary_', 'trk_tm_', 'nuzlocke_fainted_', 'nuzlocke_enc_', 'bulba-progress-', 'bulba-progress-guide-'];
 
@@ -5831,6 +5833,18 @@ function gen3EnsureGoogleIdentity() {
 }
 
 function gen3RequestDriveToken() {
+  // Route through the shared pgAuth module when available so that signing in to one
+  // pkmnguide subdomain unlocks Drive sync everywhere. Falls back to legacy flow only
+  // if auth.js failed to load.
+  if (typeof window.pgAuth !== 'undefined' && window.pgAuth) {
+    if (window.pgAuth.isSignedIn()) {
+      return window.pgAuth.ensureFreshToken().then(function(token) {
+        if (token) return token;
+        return window.pgAuth.signIn().then(function(user) { return user.accessToken; });
+      });
+    }
+    return window.pgAuth.signIn().then(function(user) { return user.accessToken; });
+  }
   return gen3EnsureGoogleIdentity().then(function() {
     var clientId = gen3EnsureDriveClientId();
     if (!clientId) throw new Error('Google Drive sync needs an OAuth Client ID.');
@@ -5847,6 +5861,123 @@ function gen3RequestDriveToken() {
     });
   });
 }
+
+// ----- Auto-sync glue -------------------------------------------------------
+var GEN3_AUTOSYNC_DELAY_MS = 6000;
+var _gen3SyncTimer = null;
+var _gen3SyncBusy = false;
+var _gen3LastUploadHash = null;
+var _gen3InitialPullDone = false;
+
+function gen3HashSiteState(payload) {
+  try {
+    var s = JSON.stringify(payload.localStorage || {});
+    var h = 5381;
+    for (var i = 0; i < s.length; i++) { h = ((h << 5) + h + s.charCodeAt(i)) | 0; }
+    return String(h);
+  } catch (e) { return String(Math.random()); }
+}
+
+function gen3ScheduleAutoSync() {
+  if (!window.pgAuth || !window.pgAuth.isSignedIn()) return;
+  if (_gen3SyncTimer) clearTimeout(_gen3SyncTimer);
+  _gen3SyncTimer = setTimeout(function() {
+    _gen3SyncTimer = null;
+    gen3RunAutoSync();
+  }, GEN3_AUTOSYNC_DELAY_MS);
+}
+
+function gen3RunAutoSync() {
+  if (_gen3SyncBusy) { gen3ScheduleAutoSync(); return; }
+  if (!window.pgAuth || !window.pgAuth.isSignedIn()) return;
+  var payload = gen3CollectSiteState();
+  var hash = gen3HashSiteState(payload);
+  if (hash === _gen3LastUploadHash) return;
+  _gen3SyncBusy = true;
+  gen3RequestDriveToken()
+    .then(function(token) { return gen3UploadDriveBackup(token, payload); })
+    .then(function() {
+      _gen3LastUploadHash = hash;
+      try { localStorage.setItem('gen3-last-export-at', new Date().toISOString()); } catch(e) {}
+      if (typeof trkStatus === 'function') trkStatus('Synced to Google Drive.', 'ok');
+    })
+    .catch(function(err) {
+      if (typeof console !== 'undefined') console.warn('Auto-sync failed:', err && err.message);
+    })
+    .then(function() { _gen3SyncBusy = false; });
+}
+
+function gen3AutoPullOnSignIn() {
+  if (_gen3InitialPullDone) return;
+  if (!window.pgAuth || !window.pgAuth.isSignedIn()) return;
+  _gen3InitialPullDone = true;
+  gen3RequestDriveToken()
+    .then(function(token) {
+      return gen3FindDriveBackup(token).then(function(file) {
+        if (!file) return null;
+        var localStamp = null;
+        try { localStamp = localStorage.getItem('gen3-last-export-at'); } catch(e) {}
+        var remoteNewer = !localStamp || new Date(file.modifiedTime).getTime() > new Date(localStamp).getTime();
+        if (!remoteNewer) {
+          gen3ScheduleAutoSync();
+          return null;
+        }
+        return gen3DownloadDriveBackup(token).then(function(text) {
+          var parsed; try { parsed = JSON.parse(text); } catch(e) { return null; }
+          if (!parsed || !parsed.localStorage) return null;
+          gen3ApplySiteState(parsed);
+          if (typeof gen3RefreshImportedState === 'function') {
+            try { gen3RefreshImportedState(); } catch(e) {}
+          }
+          _gen3LastUploadHash = gen3HashSiteState(parsed);
+          try { localStorage.setItem('gen3-last-import-at', new Date().toISOString()); } catch(e) {}
+          if (typeof trkStatus === 'function') trkStatus('Loaded saved data from Google Drive.', 'ok');
+          return true;
+        });
+      });
+    })
+    .catch(function(err) {
+      _gen3InitialPullDone = false;
+      if (typeof console !== 'undefined') console.warn('Initial Drive pull failed:', err && err.message);
+    });
+}
+
+(function gen3InstallAutoSyncHooks() {
+  if (typeof localStorage === 'undefined') return;
+  try {
+    var proto = Storage && Storage.prototype;
+    if (!proto || proto.__gen3Patched) return;
+    var orig = proto.setItem;
+    proto.setItem = function(key, value) {
+      var ret = orig.apply(this, arguments);
+      if (this === window.localStorage && typeof key === 'string' &&
+          typeof gen3ShouldExportLocalStorageKey === 'function' &&
+          gen3ShouldExportLocalStorageKey(key)) {
+        try { gen3ScheduleAutoSync(); } catch (e) {}
+      }
+      return ret;
+    };
+    proto.__gen3Patched = true;
+  } catch (e) {}
+
+  function whenAuthReady() {
+    if (!window.pgAuth) { setTimeout(whenAuthReady, 250); return; }
+    window.pgAuth.onChange(function(user) {
+      if (user && user.email) {
+        gen3AutoPullOnSignIn();
+        if (typeof settingsSyncDriveField === 'function') { try { settingsSyncDriveField(); } catch(e) {} }
+      } else {
+        _gen3InitialPullDone = false;
+        if (typeof settingsSyncDriveField === 'function') { try { settingsSyncDriveField(); } catch(e) {} }
+      }
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', whenAuthReady);
+  } else {
+    whenAuthReady();
+  }
+})();
 
 function gen3DriveFetch(path, token, opts) {
   opts = opts || {};
@@ -7972,15 +8103,26 @@ function toggleTheme() {
 })();
 
 function settingsSyncDriveField() {
-  var clientId = gen3GetDriveClientId();
   var connected = document.getElementById('driveConnected');
   var setup = document.getElementById('driveSetup');
   var status = document.getElementById('settingsDriveStatus');
   var originEl = document.getElementById('driveOriginDisplay');
-  if (connected) connected.style.display = clientId ? '' : 'none';
-  if (setup) setup.style.display = clientId ? 'none' : '';
   if (originEl) originEl.textContent = window.location.origin;
-  if (status) status.textContent = clientId ? 'Drive linked. Use the Backup & Sync buttons below to save or restore.' : '';
+
+  var signedIn = !!(window.pgAuth && window.pgAuth.isSignedIn());
+  if (connected) connected.style.display = signedIn ? '' : 'none';
+  if (setup) setup.style.display = signedIn ? 'none' : '';
+
+  if (connected) {
+    var user = window.pgAuth && window.pgAuth.getUser ? window.pgAuth.getUser() : null;
+    var textEl = connected.querySelector('.drive-connected-text');
+    if (textEl && user) {
+      textEl.textContent = 'Signed in as ' + (user.email || user.name || 'your Google account');
+    } else if (textEl) {
+      textEl.textContent = 'Google Drive linked';
+    }
+  }
+  if (status) status.textContent = signedIn ? 'Sync is on. Your progress saves to your Google Drive automatically.' : '';
 }
 
 function settingsSaveDriveClientId() {
@@ -7993,7 +8135,27 @@ function settingsSaveDriveClientId() {
   }
   try { localStorage.setItem('gen3-drive-client-id', value); } catch(e) {}
   settingsSyncDriveField();
-  if (status) { status.textContent = 'Google Drive linked successfully.'; status.style.color = 'var(--soulsilver)'; }
+  if (status) { status.textContent = 'Custom Client ID saved.'; status.style.color = 'var(--soulsilver)'; }
+}
+
+function settingsSignInWithGoogle() {
+  var status = document.getElementById('settingsDriveStatus');
+  if (!window.pgAuth) {
+    if (status) { status.textContent = 'Sign-in module not loaded. Refresh the page.'; status.style.color = 'var(--diamond)'; }
+    return;
+  }
+  if (status) { status.textContent = 'Opening Google sign-in…'; status.style.color = ''; }
+  window.pgAuth.signIn().then(function(user) {
+    if (status) { status.textContent = 'Signed in as ' + user.email + '.'; status.style.color = 'var(--soulsilver)'; }
+    settingsSyncDriveField();
+  }).catch(function(err) {
+    if (status) { status.textContent = 'Sign-in failed: ' + (err && err.message ? err.message : 'unknown error'); status.style.color = 'var(--diamond)'; }
+  });
+}
+
+function settingsSignOutGoogle() {
+  if (window.pgAuth) { try { window.pgAuth.signOut(); } catch(e) {} }
+  settingsSyncDriveField();
 }
 
 function driveCopyOrigin(btn) {
@@ -8016,9 +8178,7 @@ function settingsSaveBackupPrefs() {
 
 function settingsClearDriveClientId() {
   try { localStorage.removeItem('gen3-drive-client-id'); } catch(e) {}
-  var status = document.getElementById('settingsDriveStatus');
-  if (status) { status.textContent = ''; status.style.color = ''; }
-  settingsSyncDriveField();
+  settingsSignOutGoogle();
 }
 
 function settingsSaveStartup() {
