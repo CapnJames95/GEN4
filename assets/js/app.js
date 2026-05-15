@@ -5934,6 +5934,33 @@ function gen3RunAutoSync() {
     .then(function() { _gen3SyncBusy = false; });
 }
 
+// Flush any pending Drive upload synchronously-await. Used before sign-out so
+// writes made within the auto-sync debounce window aren't lost when the
+// access token is revoked and local state is wiped. Returns a Promise that
+// resolves once the upload completes (or immediately if nothing to upload).
+function gen3FlushPendingSync() {
+  if (!window.pgAuth || !window.pgAuth.isSignedIn()) return Promise.resolve();
+  if (_gen3SyncTimer) {
+    clearTimeout(_gen3SyncTimer);
+    _gen3SyncTimer = null;
+  }
+  var payload;
+  try { payload = gen3CollectSiteState(); } catch (e) { return Promise.resolve(); }
+  var hash = gen3HashSiteState(payload);
+  if (hash === _gen3LastUploadHash) return Promise.resolve();
+  _gen3SyncBusy = true;
+  return gen3RequestDriveToken()
+    .then(function (token) { return gen3UploadDriveBackup(token, payload); })
+    .then(function () {
+      _gen3LastUploadHash = hash;
+      try { localStorage.setItem('gen3-last-export-at', new Date().toISOString()); } catch (e) {}
+    })
+    .catch(function (err) {
+      if (typeof console !== 'undefined') console.warn('Flush-on-signout failed:', err && err.message);
+    })
+    .then(function () { _gen3SyncBusy = false; });
+}
+
 function gen3AutoPullOnSignIn() {
   if (_gen3InitialPullDone) return;
   if (!window.pgAuth || !window.pgAuth.isSignedIn()) return;
@@ -6010,6 +6037,18 @@ function gen3WipeLocalSyncedState() {
 
   function whenAuthReady() {
     if (!window.pgAuth) { setTimeout(whenAuthReady, 250); return; }
+
+    // Wrap pgAuth.signOut so we flush any pending Drive upload BEFORE the
+    // access token is revoked. Otherwise notes (or any other write) made
+    // within the 6s auto-sync debounce window are lost on sign-out.
+    if (!window.pgAuth.__gen3SignOutWrapped) {
+      var _origSignOut = window.pgAuth.signOut.bind(window.pgAuth);
+      window.pgAuth.signOut = function () {
+        return gen3FlushPendingSync().then(_origSignOut, _origSignOut);
+      };
+      window.pgAuth.__gen3SignOutWrapped = true;
+    }
+
     var wasSignedIn = !!window.pgAuth.isSignedIn();
     window.pgAuth.onChange(function(user) {
       var signedIn = !!(user && user.email);
