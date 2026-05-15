@@ -5725,7 +5725,11 @@ function gen3RefreshImportedState() {
   if (typeof trkRenderGrid === 'function') safe(trkRenderGrid);
 
   if (typeof window.notesSyncToGlobalGame === 'function') safe(window.notesSyncToGlobalGame);
-  if (typeof renderNotesList === 'function') safe(renderNotesList);
+  // notesReload re-reads localStorage into the IIFE's in-memory `notes` array
+  // and then re-renders. renderNotesList alone is scoped inside the notes IIFE
+  // and isn't reachable from here, AND would paint from stale memory anyway.
+  if (typeof window.notesReload === 'function') safe(window.notesReload);
+  else if (typeof renderNotesList === 'function') safe(renderNotesList);
 
   if (typeof buildHomePage === 'function' && document.getElementById('home-page-content')) {
     safe(buildHomePage);
@@ -17128,6 +17132,16 @@ if(typeof buildTable === 'function'){
   try{ buildTable(); }catch(e){}
 }
 document.getElementById('notes-overlay').addEventListener('click',closeNotesPanel);
+
+// Reload notes from localStorage and re-render the list. Used by
+// gen3RefreshImportedState() so Drive sign-in / sign-out updates show
+// without a page refresh. Without this, renderNotesList() paints from
+// the stale in-memory `notes` array populated at page load.
+window.notesReload = function () {
+  try { loadNotes(); } catch (e) {}
+  try { updateBadge(); } catch (e) {}
+  try { renderNotesList(); } catch (e) {}
+};
 
 })(); // end NOTES IIFE
 
