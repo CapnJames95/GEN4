@@ -223,6 +223,78 @@
 
   global.pgAuth = api;
 
+  // ----- Auto-mounted header chip -----------------------------------------
+  // Any element with [data-pgauth-chip] becomes a Sign-in / signed-in indicator.
+  // Click cycles: signed-out → opens Google sign-in; signed-in → confirm sign-out.
+  function renderChip(el) {
+    var user = api.getUser();
+    el.innerHTML = '';
+    el.style.cursor = 'pointer';
+    el.style.display = 'inline-flex';
+    el.style.alignItems = 'center';
+    el.style.gap = '6px';
+    if (user && user.email) {
+      el.title = 'Signed in as ' + user.email + ' — click to sign out';
+      el.setAttribute('data-state', 'in');
+      if (user.picture) {
+        var img = document.createElement('img');
+        img.src = user.picture;
+        img.alt = '';
+        img.referrerPolicy = 'no-referrer';
+        img.style.cssText = 'width:18px;height:18px;border-radius:50%;display:block;';
+        el.appendChild(img);
+      } else {
+        var dot = document.createElement('span');
+        dot.textContent = '👤';
+        el.appendChild(dot);
+      }
+      var label = document.createElement('span');
+      label.className = 'pgauth-chip-label';
+      var emailShort = user.email.split('@')[0];
+      label.textContent = emailShort.length > 14 ? emailShort.slice(0, 12) + '…' : emailShort;
+      el.appendChild(label);
+    } else {
+      el.title = 'Sign in with Google';
+      el.setAttribute('data-state', 'out');
+      var icon = document.createElement('span'); icon.textContent = '🔓';
+      var label = document.createElement('span'); label.className = 'pgauth-chip-label'; label.textContent = 'Sign in';
+      el.appendChild(icon); el.appendChild(label);
+    }
+  }
+
+  function chipClickHandler() {
+    if (!api) return;
+    if (api.isSignedIn()) {
+      var u = api.getUser();
+      if (confirm('Sign out of ' + (u && u.email ? u.email : 'your Google account') + '?')) {
+        api.signOut();
+      }
+    } else {
+      api.signIn().catch(function (err) {
+        var msg = err && err.message ? err.message : 'unknown error';
+        alert('Sign-in failed: ' + msg);
+      });
+    }
+  }
+
+  function mountChips() {
+    var nodes = document.querySelectorAll('[data-pgauth-chip]');
+    if (!nodes.length) return;
+    nodes.forEach(function (el) {
+      if (el.__pgauthMounted) { renderChip(el); return; }
+      el.__pgauthMounted = true;
+      el.addEventListener('click', chipClickHandler);
+      renderChip(el);
+    });
+  }
+
+  function whenDOMReady(fn) {
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn, { once: true });
+    else fn();
+  }
+  whenDOMReady(mountChips);
+  api.onChange(function () { mountChips(); });
+
   // Cross-tab sync: when another tab updates the local fallback, refresh state here.
   try {
     window.addEventListener('storage', function (ev) {
