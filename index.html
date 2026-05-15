@@ -219,55 +219,16 @@
           <div class="drive-connected-badge">
             <span class="drive-connected-icon">✓</span>
             <span class="drive-connected-text">Google Drive linked</span>
-            <button class="settings-action-btn" onclick="settingsClearDriveClientId()">Disconnect</button>
+            <button class="settings-action-btn" onclick="settingsSignOutGoogle()">Sign out</button>
           </div>
+          <div class="settings-copy" style="margin-top:8px">Your tracker progress, completion marks, theme and guide progress sync to a private folder in your Google Drive. Sign in here once and you'll be signed in across <strong>pkmnguide.com</strong>, <strong>gen3.pkmnguide.com</strong>, and <strong>gen4.pkmnguide.com</strong>.</div>
         </div>
 
-        <!-- Setup wizard -->
+        <!-- Sign-in -->
         <div id="driveSetup">
-          <div class="settings-copy" style="margin-bottom:12px">One-time 4-step setup — takes about 3 minutes. Your credentials stay in this browser only, never sent anywhere.</div>
-
-          <div class="drive-step">
-            <div class="drive-step-num">1</div>
-            <div class="drive-step-body">
-              <div class="drive-step-title">Note your site's origin</div>
-              <div class="drive-step-copy">Copy this exactly — you'll paste it into Google Cloud in step 3.</div>
-              <div class="drive-origin-row">
-                <code id="driveOriginDisplay" class="drive-origin-code">—</code>
-                <button class="settings-action-btn" onclick="driveCopyOrigin(this)">Copy</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="drive-step">
-            <div class="drive-step-num">2</div>
-            <div class="drive-step-body">
-              <div class="drive-step-title">Create a free Google Cloud project</div>
-              <div class="drive-step-copy">Just needs a Google account. Skip this if you already have a Cloud project.</div>
-              <a class="settings-action-btn" style="text-decoration:none;display:inline-block" href="https://console.cloud.google.com/projectcreate" target="_blank" rel="noopener">Open Google Cloud →</a>
-            </div>
-          </div>
-
-          <div class="drive-step">
-            <div class="drive-step-num">3</div>
-            <div class="drive-step-body">
-              <div class="drive-step-title">Create an OAuth Client ID</div>
-              <div class="drive-step-copy">In your project: <strong>APIs &amp; Services → Credentials → Create Credentials → OAuth client ID → Web application</strong>. Paste the origin from step 1 into <em>Authorized JavaScript origins</em>. No redirect URI needed.</div>
-              <a class="settings-action-btn export" style="text-decoration:none;display:inline-block" href="https://console.cloud.google.com/apis/credentials/oauthclient" target="_blank" rel="noopener">Create credential →</a>
-            </div>
-          </div>
-
-          <div class="drive-step">
-            <div class="drive-step-num">4</div>
-            <div class="drive-step-body">
-              <div class="drive-step-title">Paste your Client ID here</div>
-              <div class="drive-step-copy">It ends in <code style="font-size:9px;color:var(--muted)">.apps.googleusercontent.com</code></div>
-              <div class="settings-field" style="margin-bottom:8px">
-                <input id="settingsDriveClientId" class="settings-input" type="text" placeholder="Paste Client ID…">
-              </div>
-              <button class="settings-action-btn export" onclick="settingsSaveDriveClientId()">Link Google Drive</button>
-            </div>
-          </div>
+          <div class="settings-copy" style="margin-bottom:12px">Sign in with Google to sync your saved data across devices — and across all <strong>pkmnguide.com</strong> sites with a single login.</div>
+          <button class="settings-action-btn export" onclick="settingsSignInWithGoogle()" style="font-size:12px;padding:10px 16px">Sign in with Google</button>
+          <div class="settings-copy" style="margin-top:10px;font-size:10px;color:var(--muted)">We only request the <code style="font-size:9px">drive.appdata</code> scope — a private per-app folder Google itself can't see. We never read your other files. Hidden site origin: <code id="driveOriginDisplay" class="drive-origin-code" style="font-size:9px">—</code></div>
         </div>
 
         <div id="settingsDriveStatus" class="settings-note" style="margin-top:8px"></div>
@@ -2554,6 +2515,7 @@
 <script src="assets/data/bulba-data-pt.js?v=gen4-1"></script>
 <script src="assets/data/bulba-data-hgss.js?v=gen4-1"></script>
 <script src="assets/js/core/page-registry.js"></script>
+<script src="assets/js/auth.js?v=gen4-1"></script>
 <script src="assets/js/app.js?v=gen4-1"></script>
 <script src="assets/js/pages/tutors.js"></script>
 <script src="assets/js/pages/abilities.js"></script>
