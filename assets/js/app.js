@@ -5708,17 +5708,34 @@ function gen3ApplySiteState(data) {
 }
 
 function gen3RefreshImportedState() {
-  trkUpdateTabAccent(TRK_SAVE, true);
+  function safe(fn) { try { fn(); } catch (e) {} }
+
   var theme = localStorage.getItem('gen3-theme');
   document.body.classList.toggle('light-theme', theme === 'light');
   var themeBtn = document.getElementById('themeToggle');
   if (themeBtn) themeBtn.textContent = theme === 'light' ? '☀️' : '🌙';
+
   if (typeof setGameFromHeader === 'function') {
     var savedGame = localStorage.getItem('gen3-game') || 'all';
-    try { setGameFromHeader(savedGame, null); } catch(e) {}
+    safe(function () { setGameFromHeader(savedGame, null); });
   }
-  trkRenderSidebar();
-  trkRenderGrid();
+
+  safe(function () { trkUpdateTabAccent(TRK_SAVE, true); });
+  if (typeof trkRenderSidebar === 'function') safe(trkRenderSidebar);
+  if (typeof trkRenderGrid === 'function') safe(trkRenderGrid);
+
+  if (typeof window.notesSyncToGlobalGame === 'function') safe(window.notesSyncToGlobalGame);
+  if (typeof renderNotesList === 'function') safe(renderNotesList);
+
+  if (typeof buildHomePage === 'function' && document.getElementById('home-page-content')) {
+    safe(buildHomePage);
+  }
+  if (typeof renderTmChecklist === 'function') safe(renderTmChecklist);
+  if (window._missablesBuilt && typeof buildMissablesPage === 'function') safe(buildMissablesPage);
+  if (typeof bulbaRefreshProgress === 'function') safe(bulbaRefreshProgress);
+  if (typeof bulbaUpdateSidebarProgress === 'function') safe(bulbaUpdateSidebarProgress);
+  if (typeof renderDexDashboard === 'function') safe(renderDexDashboard);
+  if (typeof distRender === 'function') safe(distRender);
 }
 
 function gen3ExportSiteState() {
