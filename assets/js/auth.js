@@ -316,6 +316,7 @@
   }
 
   var openMenuEl = null;
+  var justClosedAt = 0;
   function closeMenu() {
     if (openMenuEl) {
       openMenuEl.remove();
@@ -327,7 +328,13 @@
     }
   }
   function onDocMouseDown(ev) {
-    if (openMenuEl && !openMenuEl.contains(ev.target)) closeMenu();
+    if (!openMenuEl) return;
+    if (openMenuEl.contains(ev.target)) return;
+    // If the user clicked the chip that opened this menu, close here and mark a debounce
+    // window so the chip's own click handler doesn't immediately reopen the menu.
+    var chip = ev.target && ev.target.closest ? ev.target.closest('[data-pgauth-chip]') : null;
+    if (chip) justClosedAt = Date.now();
+    closeMenu();
   }
   function onDocKey(ev) {
     if (ev.key === 'Escape') closeMenu();
@@ -402,6 +409,9 @@
     if (!api) return;
     var el = ev.currentTarget;
     if (api.isSignedIn()) {
+      // If the outside-click handler just closed the menu because the user clicked the
+      // chip again, swallow this click — the menu is now closed, that's the desired state.
+      if (Date.now() - justClosedAt < 300) return;
       if (openMenuEl) { closeMenu(); return; }
       openMenu(el);
     } else {
