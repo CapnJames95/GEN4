@@ -5428,8 +5428,8 @@ var TRK_STATE_VERSION = 1;
 var GEN3_DRIVE_FILE_NAME = 'gen4-site-backup.json';
 // Shared OAuth Client ID for pkmnguide.com — see /assets/js/auth.js (pgAuth).
 var GEN3_DRIVE_CLIENT_ID = '67400975308-p53sdautjffekbun985l2ct08osjapp2.apps.googleusercontent.com';
-var GEN3_SITE_STATE_KEYS = ['gen3-game', 'gen3-theme', 'gen3-drive-client-id', 'FRLG_StorageKey', 'Emerald_StorageKey', 'g3notes_v2', 'g3-distribution-checklist-v2'];
-var GEN3_SITE_STATE_PREFIXES = ['pokedex_tracker_', 'trk_shiny_', 'trk_seen_', 'trk_evolved_', 'trk_bred_', 'trk_traded_', 'trk_held_', 'trk_legendary_', 'trk_tm_', 'nuzlocke_fainted_', 'nuzlocke_enc_', 'bulba-progress-', 'bulba-progress-guide-'];
+var GEN3_SITE_STATE_KEYS = ['gen3-game', 'gen3-theme', 'gen3-drive-client-id', 'FRLG_StorageKey', 'Emerald_StorageKey', 'g3notes_v2', 'g3-distribution-checklist-v2', 'gen3-tb-team', 'gen3-tb-game', 'g3hap_game'];
+var GEN3_SITE_STATE_PREFIXES = ['pokedex_tracker_', 'trk_shiny_', 'trk_seen_', 'trk_evolved_', 'trk_bred_', 'trk_traded_', 'trk_held_', 'trk_legendary_', 'trk_tm_', 'nuzlocke_fainted_', 'nuzlocke_enc_', 'bulba-progress-', 'bulba-progress-guide-', 'g3miss_', 'dexdash_gym_', 'g3_ribbon_'];
 
 var TRK_COLORS = {
   normal:'#9E9E9E',fire:'#E8501A',water:'#1B8FE8',grass:'#3DA83D',electric:'#D4A800',
