@@ -6372,11 +6372,13 @@ function trkSetupLongPress(grid) {
   if (grid._longPressSetup) return;
   grid._longPressSetup = true;
 
-  // passive:false so we can call preventDefault() — blocks browser long-press menu
+  // Start a long-press timer on touch. Do NOT preventDefault on touchstart —
+  // that would block the browser from initiating a vertical scroll gesture
+  // when the user drags from a tile (the previous behaviour made the grid
+  // un-scrollable on mobile unless you touched the gap between tiles).
   grid.addEventListener('touchstart', function(e) {
     var card = e.target.closest('[data-trk-num]');
     if (!card) return;
-    e.preventDefault(); // blocks browser context menu AND synthesised click — we handle tap via touchend
     _trkLongPressFired = false;
     _trkLongPressStartX = e.touches[0].clientX;
     _trkLongPressStartY = e.touches[0].clientY;
@@ -6390,21 +6392,11 @@ function trkSetupLongPress(grid) {
       card.style.transform = 'scale(0.88)';
       setTimeout(function() { card.style.transform = ''; }, 180);
     }, 550);
-  }, { passive: false });
-
-  // Since preventDefault on touchstart blocks click, handle tap here
-  grid.addEventListener('touchend', function(e) {
-    if (_trkLongPressTimer) {
-      clearTimeout(_trkLongPressTimer);
-      _trkLongPressTimer = null;
-    }
-    if (_trkLongPressFired) return; // long press already handled
-    var card = e.target.closest('[data-trk-num]');
-    if (!card) return;
-    var num = parseInt(card.dataset.trkNum, 10);
-    trkToggle(num);
   }, { passive: true });
 
+  // Cancel long-press if the finger moves past the slop threshold — that
+  // means the user is scrolling, not pressing. We don't preventDefault, so
+  // the browser starts scrolling normally.
   grid.addEventListener('touchmove', function(e) {
     if (!_trkLongPressTimer) return;
     var dx = e.touches[0].clientX - _trkLongPressStartX;
@@ -6414,6 +6406,28 @@ function trkSetupLongPress(grid) {
       _trkLongPressTimer = null;
     }
   }, { passive: true });
+
+  // On lift: if a long-press fired, suppress the about-to-fire synthesized
+  // click so it doesn't ALSO toggle caught. For a normal tap we do nothing
+  // here and let the synthesized click run the card's inline onclick.
+  grid.addEventListener('touchend', function(e) {
+    if (_trkLongPressTimer) {
+      clearTimeout(_trkLongPressTimer);
+      _trkLongPressTimer = null;
+    }
+    if (_trkLongPressFired) {
+      e.preventDefault(); // blocks the browser's synthesized click
+      var card = e.target.closest('[data-trk-num]');
+      if (card) {
+        var once = function(ev) {
+          ev.preventDefault();
+          ev.stopPropagation();
+          card.removeEventListener('click', once, true);
+        };
+        card.addEventListener('click', once, true);
+      }
+    }
+  }, { passive: false });
 
   // Block right-click context menu on desktop too (already on each card inline, belt-and-braces)
   grid.addEventListener('contextmenu', function(e) {
