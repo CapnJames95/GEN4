@@ -505,7 +505,9 @@ header{position:relative;z-index:10;background:linear-gradient(180deg,#12152a 0%
   body.header-collapsed{--page-top:8px;}
 }
 @media (prefers-reduced-motion:reduce){header{transition:none;}}
-.hub-back{display:inline-flex;align-items:center;gap:3px;padding:3px 6px;border-radius:8px;font-family:'Press Start 2P',monospace;font-size:6px;letter-spacing:0.3px;color:var(--muted);text-decoration:none;border:1px solid var(--border);background:rgba(255,255,255,0.03);transition:color .15s,border-color .15s,background .15s;flex-shrink:0;line-height:1;}
+.hub-back{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;color:var(--muted);text-decoration:none;border:1px solid var(--border);background:rgba(255,255,255,0.03);transition:color .15s,border-color .15s,background .15s,transform .12s;flex-shrink:0;}
+.hub-back svg{width:14px;height:14px;display:block;}
+.hub-back:active{transform:translateX(-1px);}
 .hub-back:hover{color:var(--gold);border-color:var(--gold);background:rgba(245,197,24,0.08);}
 .hub-back:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
 body.light-theme .hub-back{color:#5f6368;border-color:rgba(0,0,0,0.18);background:rgba(0,0,0,0.03);}
