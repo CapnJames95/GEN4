@@ -1,1 +1,34 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"/><link rel="icon" href="./pokeball.png"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#000000"/><link rel="manifest" href="./manifest.json"/><title>HGSS IronMON Map</title><link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/><script defer="defer" src="./static/js/main.0ab13512.js"></script><link href="./static/css/main.bf289334.css" rel="stylesheet"><link href="./theme-override.css" rel="stylesheet"></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id="root"></div></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"/><link rel="icon" href="./pokeball.png"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#000000"/><link rel="manifest" href="./manifest.json"/><title>HGSS IronMON Map</title><link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/><script defer="defer" src="./static/js/main.0ab13512.js"></script><link href="./static/css/main.bf289334.css" rel="stylesheet"><link href="./theme-override.css" rel="stylesheet"><script>
+(function(){
+  // ─── Mobile tap bridge ────────────────────────────────────────────────
+  // The map uses react-map-interaction whose drag-vs-click threshold is
+  // ONE pixel — so any real touchscreen tap gets classified as a drag and
+  // the underlying <a class="click-zone"> never receives a click. Detect
+  // a quick tap with minimal movement and fire the click manually.
+  var _tapStartX=0,_tapStartY=0,_tapTarget=null,_tapTime=0;
+  document.addEventListener('touchstart',function(ev){
+    if(ev.touches.length!==1){_tapTarget=null;return;}
+    var t=ev.touches[0];
+    _tapStartX=t.clientX;_tapStartY=t.clientY;_tapTime=Date.now();
+    _tapTarget=document.elementFromPoint(t.clientX,t.clientY);
+  },{capture:true,passive:true});
+  document.addEventListener('touchend',function(ev){
+    if(!_tapTarget||ev.changedTouches.length!==1){_tapTarget=null;return;}
+    var t=ev.changedTouches[0];
+    var dx=Math.abs(t.clientX-_tapStartX);
+    var dy=Math.abs(t.clientY-_tapStartY);
+    var dt=Date.now()-_tapTime;
+    if(dx<10&&dy<10&&dt<600){
+      var node=_tapTarget;
+      while(node&&node!==document.body){
+        if(node.classList&&node.classList.contains('click-zone')){
+          try{node.dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true,view:window}));}catch(e){}
+          break;
+        }
+        node=node.parentNode;
+      }
+    }
+    _tapTarget=null;
+  },{capture:false,passive:true});
+})();
+</script></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id="root"></div></body></html>
