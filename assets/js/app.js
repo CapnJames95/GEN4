@@ -8621,6 +8621,18 @@ function settingsClearSiteData() {
     renderNotesList();
     renderLabelBar();
   }
+  // Re-render every data-bound UI surface (tracker, dex dash, missables,
+  // bulba progress, TM list, distributions, home, etc.) so they reflect
+  // the now-empty storage instead of stale in-memory state.
+  if (typeof gen3RefreshImportedState === 'function') {
+    try { gen3RefreshImportedState(); } catch (e) {}
+  }
+  // If signed in, push the cleared state to Drive immediately so the next
+  // sign-in / page load doesn't re-hydrate from a stale backup. Without
+  // this, removeItem doesn't trigger the setItem-only auto-sync monkey-patch.
+  if (window.pgAuth && window.pgAuth.isSignedIn() && typeof gen3ScheduleAutoSync === 'function') {
+    try { gen3ScheduleAutoSync(); } catch (e) {}
+  }
   trkStatus('Selected site data cleared.', 'ok');
   settingsSyncAll();
 }
