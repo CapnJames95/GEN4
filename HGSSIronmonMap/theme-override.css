@@ -103,3 +103,31 @@ html body .region-selector button.MuiToggleButton-root.MuiToggleButtonGroup-grou
 .control-panel .MuiIconButton-root:hover {
   background: color-mix(in srgb, var(--gen4-accent) 18%, transparent) !important;
 }
+
+/* ─── Mobile tap-target fix ──────────────────────────────────────────────
+   Trainer markers sit inside a pan/zoom region (their wrappers have
+   cursor:all-scroll, indicating a drag handle). On touch devices the pan
+   handler grabbed the touchstart and the underlying MUI checkbox never
+   saw a click. `touch-action: manipulation` tells the browser these are
+   quick-tap targets — well-behaved pan libs back off and the synthesized
+   click reaches the React handler. */
+.MuiCheckbox-root,
+.MuiCheckbox-root *,
+.MuiFormControlLabel-root,
+.MuiRadio-root,
+.MuiIconButton-root,
+input[type="checkbox"],
+input[type="radio"],
+.trainer-info,
+.trainer-name,
+.checkbox-label {
+  touch-action: manipulation !important;
+}
+.MuiCheckbox-root,
+.MuiFormControlLabel-root,
+.MuiRadio-root,
+input[type="checkbox"],
+input[type="radio"],
+.checkbox-label {
+  cursor: pointer !important;
+}
