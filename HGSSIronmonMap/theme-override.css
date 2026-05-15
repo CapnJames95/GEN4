@@ -131,3 +131,19 @@ input[type="radio"],
 .checkbox-label {
   cursor: pointer !important;
 }
+
+/* ─── Trainer marker pointer-events fix ───────────────────────────────
+   The trainer-marker wrappers (immediate children of every
+   .react-portal-container) carry onClick + onTouchEnd handlers in the
+   minified bundle but their computed `pointer-events: none` means the
+   browser can never hit-test them. Force pe:auto so taps actually
+   reach the toggle. */
+.react-portal-container,
+.react-portal-container > div,
+.react-portal-container .tooltip,
+.react-portal-container .trainer-info,
+.react-portal-container .trainer-info-section,
+.react-portal-container .trainer-info-icon,
+.react-portal-container .trainer-name {
+  pointer-events: auto !important;
+}
