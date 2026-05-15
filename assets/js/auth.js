@@ -223,52 +223,187 @@
 
   global.pgAuth = api;
 
-  // ----- Auto-mounted header chip -----------------------------------------
-  // Any element with [data-pgauth-chip] becomes a Sign-in / signed-in indicator.
-  // Click cycles: signed-out → opens Google sign-in; signed-in → confirm sign-out.
+  // ----- Auto-mounted header chip (YouTube-style) -------------------------
+  // Any element with [data-pgauth-chip] becomes a Sign-in pill (signed-out)
+  // or a circular avatar (signed-in). Clicking the avatar opens a small menu
+  // with the user's name/email and a Sign out option.
+
+  var CHIP_CSS = '\
+  .pgauth-chip-btn{appearance:none;-webkit-appearance:none;background:transparent;border:0;padding:0;margin:0;cursor:pointer;font-family:inherit;line-height:1;color:inherit;}\
+  .pgauth-chip-btn:focus{outline:none;}\
+  .pgauth-chip-btn:focus-visible{outline:2px solid #4d90fe;outline-offset:2px;}\
+  .pgauth-chip-btn[data-state="out"]{display:inline-flex;align-items:center;gap:6px;padding:7px 12px 7px 10px;border:1px solid rgba(255,255,255,0.16);border-radius:18px;font-size:12px;font-weight:600;color:#8ab4f8;background:rgba(138,180,248,0.06);transition:background .15s, border-color .15s;}\
+  .pgauth-chip-btn[data-state="out"]:hover{background:rgba(138,180,248,0.14);border-color:rgba(138,180,248,0.4);}\
+  .pgauth-chip-btn[data-state="in"]{width:32px;height:32px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;overflow:hidden;background:#3c4043;color:#fff;font-weight:700;font-size:13px;transition:box-shadow .15s, transform .12s;}\
+  .pgauth-chip-btn[data-state="in"]:hover{box-shadow:0 0 0 2px rgba(255,255,255,0.18);}\
+  .pgauth-chip-btn[data-state="in"] img{width:100%;height:100%;object-fit:cover;display:block;}\
+  .pgauth-chip-svg{width:14px;height:14px;display:block;flex-shrink:0;}\
+  .pgauth-menu{position:absolute;z-index:9999;min-width:260px;background:#1f1f1f;color:#e8eaed;border:1px solid rgba(255,255,255,0.08);border-radius:12px;box-shadow:0 8px 28px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.3);padding:14px 0 6px;font-family:inherit;font-size:13px;line-height:1.3;}\
+  .pgauth-menu-header{display:flex;align-items:center;gap:12px;padding:4px 18px 14px;border-bottom:1px solid rgba(255,255,255,0.08);margin-bottom:6px;}\
+  .pgauth-menu-avatar{width:40px;height:40px;border-radius:50%;background:#3c4043;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:15px;overflow:hidden;flex-shrink:0;}\
+  .pgauth-menu-avatar img{width:100%;height:100%;object-fit:cover;display:block;}\
+  .pgauth-menu-name{font-weight:600;font-size:14px;color:#fff;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}\
+  .pgauth-menu-email{color:#9aa0a6;font-size:12px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}\
+  .pgauth-menu-item{display:flex;align-items:center;gap:14px;padding:10px 18px;font-size:13px;color:#e8eaed;background:transparent;border:0;width:100%;text-align:left;cursor:pointer;font-family:inherit;}\
+  .pgauth-menu-item:hover{background:rgba(255,255,255,0.06);}\
+  .pgauth-menu-item .pgauth-menu-icon{font-size:15px;width:18px;text-align:center;}\
+  body.light-theme .pgauth-chip-btn[data-state="out"]{border-color:rgba(0,0,0,0.18);color:#1a73e8;background:rgba(26,115,232,0.06);}\
+  body.light-theme .pgauth-chip-btn[data-state="out"]:hover{background:rgba(26,115,232,0.12);border-color:rgba(26,115,232,0.4);}\
+  body.light-theme .pgauth-menu{background:#fff;color:#202124;border-color:rgba(0,0,0,0.1);box-shadow:0 8px 28px rgba(0,0,0,0.18);}\
+  body.light-theme .pgauth-menu-header{border-bottom-color:rgba(0,0,0,0.08);}\
+  body.light-theme .pgauth-menu-name{color:#202124;}\
+  body.light-theme .pgauth-menu-email{color:#5f6368;}\
+  body.light-theme .pgauth-menu-item{color:#202124;}\
+  body.light-theme .pgauth-menu-item:hover{background:rgba(0,0,0,0.05);}';
+
+  function injectCss() {
+    if (document.getElementById('pgauth-chip-css')) return;
+    var s = document.createElement('style');
+    s.id = 'pgauth-chip-css';
+    s.textContent = CHIP_CSS;
+    (document.head || document.documentElement).appendChild(s);
+  }
+
+  function initialsFromUser(u) {
+    if (!u) return '?';
+    var src = (u.name || u.email || '').trim();
+    if (!src) return '?';
+    var parts = src.split(/[\s@.]+/).filter(Boolean);
+    var s = (parts[0] ? parts[0][0] : '') + (parts[1] ? parts[1][0] : '');
+    return (s || src[0]).toUpperCase();
+  }
+
   function renderChip(el) {
-    var user = api.getUser();
+    injectCss();
+    el.classList.add('pgauth-chip-btn');
+    el.setAttribute('type', 'button');
     el.innerHTML = '';
-    el.style.cursor = 'pointer';
-    el.style.display = 'inline-flex';
-    el.style.alignItems = 'center';
-    el.style.gap = '6px';
+    var user = api.getUser();
     if (user && user.email) {
-      el.title = 'Signed in as ' + user.email + ' — click to sign out';
       el.setAttribute('data-state', 'in');
+      el.setAttribute('aria-label', 'Account: ' + user.email);
+      el.title = user.email;
       if (user.picture) {
         var img = document.createElement('img');
         img.src = user.picture;
         img.alt = '';
         img.referrerPolicy = 'no-referrer';
-        img.style.cssText = 'width:18px;height:18px;border-radius:50%;display:block;';
         el.appendChild(img);
       } else {
-        var dot = document.createElement('span');
-        dot.textContent = '👤';
-        el.appendChild(dot);
+        var letters = document.createElement('span');
+        letters.textContent = initialsFromUser(user);
+        el.appendChild(letters);
       }
-      var label = document.createElement('span');
-      label.className = 'pgauth-chip-label';
-      var emailShort = user.email.split('@')[0];
-      label.textContent = emailShort.length > 14 ? emailShort.slice(0, 12) + '…' : emailShort;
-      el.appendChild(label);
     } else {
-      el.title = 'Sign in with Google';
       el.setAttribute('data-state', 'out');
-      var icon = document.createElement('span'); icon.textContent = '🔓';
-      var label = document.createElement('span'); label.className = 'pgauth-chip-label'; label.textContent = 'Sign in';
-      el.appendChild(icon); el.appendChild(label);
+      el.setAttribute('aria-label', 'Sign in with Google');
+      el.title = 'Sign in with Google';
+      // Inline SVG person icon — matches YouTube's "Sign in" button style.
+      var svgNS = 'http://www.w3.org/2000/svg';
+      var svg = document.createElementNS(svgNS, 'svg');
+      svg.setAttribute('viewBox', '0 0 24 24');
+      svg.setAttribute('class', 'pgauth-chip-svg');
+      svg.setAttribute('fill', 'currentColor');
+      svg.setAttribute('aria-hidden', 'true');
+      var path = document.createElementNS(svgNS, 'path');
+      path.setAttribute('d', 'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z');
+      svg.appendChild(path);
+      el.appendChild(svg);
+      var label = document.createElement('span');
+      label.textContent = 'Sign in';
+      el.appendChild(label);
     }
   }
 
-  function chipClickHandler() {
+  var openMenuEl = null;
+  function closeMenu() {
+    if (openMenuEl) {
+      openMenuEl.remove();
+      openMenuEl = null;
+      document.removeEventListener('mousedown', onDocMouseDown, true);
+      document.removeEventListener('keydown', onDocKey, true);
+      window.removeEventListener('resize', closeMenu);
+      window.removeEventListener('scroll', closeMenu, true);
+    }
+  }
+  function onDocMouseDown(ev) {
+    if (openMenuEl && !openMenuEl.contains(ev.target)) closeMenu();
+  }
+  function onDocKey(ev) {
+    if (ev.key === 'Escape') closeMenu();
+  }
+
+  function openMenu(anchorEl) {
+    closeMenu();
+    var user = api.getUser();
+    if (!user) return;
+    var menu = document.createElement('div');
+    menu.className = 'pgauth-menu';
+    menu.setAttribute('role', 'menu');
+
+    var header = document.createElement('div');
+    header.className = 'pgauth-menu-header';
+    var avatar = document.createElement('div');
+    avatar.className = 'pgauth-menu-avatar';
+    if (user.picture) {
+      var img = document.createElement('img');
+      img.src = user.picture;
+      img.alt = '';
+      img.referrerPolicy = 'no-referrer';
+      avatar.appendChild(img);
+    } else {
+      avatar.textContent = initialsFromUser(user);
+    }
+    header.appendChild(avatar);
+
+    var info = document.createElement('div');
+    var name = document.createElement('div');
+    name.className = 'pgauth-menu-name';
+    name.textContent = user.name || user.email.split('@')[0];
+    var email = document.createElement('div');
+    email.className = 'pgauth-menu-email';
+    email.textContent = user.email;
+    info.appendChild(name); info.appendChild(email);
+    header.appendChild(info);
+    menu.appendChild(header);
+
+    function addItem(icon, label, onClick) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'pgauth-menu-item';
+      btn.setAttribute('role', 'menuitem');
+      var ic = document.createElement('span'); ic.className = 'pgauth-menu-icon'; ic.textContent = icon;
+      var tx = document.createElement('span'); tx.textContent = label;
+      btn.appendChild(ic); btn.appendChild(tx);
+      btn.addEventListener('click', function () { closeMenu(); onClick(); });
+      menu.appendChild(btn);
+    }
+    addItem('↪', 'Sign out', function () { api.signOut(); });
+
+    document.body.appendChild(menu);
+    var rect = anchorEl.getBoundingClientRect();
+    var mw = menu.offsetWidth;
+    var left = Math.min(rect.right - mw, window.innerWidth - mw - 8);
+    left = Math.max(8, left);
+    menu.style.left = left + 'px';
+    menu.style.top = (rect.bottom + 8) + 'px';
+
+    openMenuEl = menu;
+    // Defer listener attach so the click that opened the menu doesn't immediately close it.
+    setTimeout(function () {
+      document.addEventListener('mousedown', onDocMouseDown, true);
+      document.addEventListener('keydown', onDocKey, true);
+      window.addEventListener('resize', closeMenu);
+      window.addEventListener('scroll', closeMenu, true);
+    }, 0);
+  }
+
+  function chipClickHandler(ev) {
     if (!api) return;
+    var el = ev.currentTarget;
     if (api.isSignedIn()) {
-      var u = api.getUser();
-      if (confirm('Sign out of ' + (u && u.email ? u.email : 'your Google account') + '?')) {
-        api.signOut();
-      }
+      if (openMenuEl) { closeMenu(); return; }
+      openMenu(el);
     } else {
       api.signIn().catch(function (err) {
         var msg = err && err.message ? err.message : 'unknown error';
@@ -293,7 +428,7 @@
     else fn();
   }
   whenDOMReady(mountChips);
-  api.onChange(function () { mountChips(); });
+  api.onChange(function () { closeMenu(); mountChips(); });
 
   // Cross-tab sync: when another tab updates the local fallback, refresh state here.
   try {
