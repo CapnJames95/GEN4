@@ -5736,6 +5736,12 @@ function gen3RefreshImportedState() {
   if (typeof bulbaUpdateSidebarProgress === 'function') safe(bulbaUpdateSidebarProgress);
   if (typeof renderDexDashboard === 'function') safe(renderDexDashboard);
   if (typeof distRender === 'function') safe(distRender);
+
+  // Progress modal — re-render badge / TM stats if currently open.
+  var pm = document.getElementById('progressModal');
+  if (pm && pm.classList.contains('open') && typeof buildProgressDashboard === 'function') {
+    safe(buildProgressDashboard);
+  }
 }
 
 function gen3ExportSiteState() {
