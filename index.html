@@ -489,9 +489,9 @@
       <div class="page-nav-dropdown-menu" id="navMapsMenu">
         <button class="page-nav-dropdown-item" data-games="FR,LG,R" id="navDPPtMapView" onclick="closeNavDropdown('navMapsDropdown');showPage('dpptmapview',document.getElementById('navDPPtMapView'));if(!window._dpptmapviewBuilt){buildDPPtMapView();window._dpptmapviewBuilt=true;}">Sinnoh Map (D/P/Pt)</button>
         <button class="page-nav-dropdown-item" data-games="S,E" id="navHGSSMapView" onclick="closeNavDropdown('navMapsDropdown');showPage('hgssmapview',document.getElementById('navHGSSMapView'));if(!window._hgssmapviewBuilt){buildHGSSMapView();window._hgssmapviewBuilt=true;}">Johto Map (HG/SS)</button>
-        <button class="page-nav-dropdown-item" id="navSidebarMap" onclick="closeNavDropdown('navMapsDropdown');openSidebarMap()">↗ Sidebar Map (auto)</button>
-        <button class="page-nav-dropdown-item" data-games="FR,LG,R" id="navSidebarMapSinnoh" onclick="closeNavDropdown('navMapsDropdown');openSidebarMap('sinnoh')">↗ Sidebar Map (Sinnoh)</button>
-        <button class="page-nav-dropdown-item" data-games="S,E" id="navSidebarMapJohto" onclick="closeNavDropdown('navMapsDropdown');openSidebarMap('johto4')">↗ Sidebar Map (Johto HGSS)</button>
+        <button class="page-nav-dropdown-item" id="navSidebarMap" onclick="closeNavDropdown('navMapsDropdown');openSidebarMap()">🗺 Sidebar Map (auto)</button>
+        <button class="page-nav-dropdown-item" data-games="FR,LG,R" id="navSidebarMapSinnoh" onclick="closeNavDropdown('navMapsDropdown');openSidebarMap('sinnoh')">🗺 Sidebar Map (Sinnoh)</button>
+        <button class="page-nav-dropdown-item" data-games="S,E" id="navSidebarMapJohto" onclick="closeNavDropdown('navMapsDropdown');openSidebarMap('johto4')">🗺 Sidebar Map (Johto HGSS)</button>
         <button class="page-nav-dropdown-item" id="navRouteBrowser" onclick="return openPage('routebrowser','navRouteBrowser','navMapsDropdown')">Route Browser</button>
       </div>
     </div>
@@ -2100,8 +2100,8 @@
   <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--panel);flex-shrink:0;gap:10px;">
     <div style="font-family:'Press Start 2P',monospace;font-size:9px;color:#44DD88;letter-spacing:1px;white-space:nowrap;">🗺 MAP</div>
     <select id="map-select" onchange="mapSelectRegion(this.value)" style="flex:1;background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:4px;padding:5px 8px;font-size:12px;outline:none;cursor:pointer;">
-      <option value="kanto3">Sinnoh — Diamond / Pearl / Platinum</option>
-      <option value="hoenn">Johto — HeartGold / SoulSilver</option>
+      <option value="sinnoh">Sinnoh — Diamond / Pearl / Platinum</option>
+      <option value="johto4">Johto — HeartGold / SoulSilver</option>
     </select>
     <button onclick="closeMapPanel()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;line-height:1;padding:2px 4px;flex-shrink:0;">✕</button>
   </div>

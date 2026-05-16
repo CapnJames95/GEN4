@@ -320,7 +320,7 @@ function buildHomePage() {
       items:[
         { icon:'\ud83e\udded', label:'Sinnoh Map',      desc:'Interactive Sinnoh map (Diamond/Pearl/Platinum) with item & berry locations',  games:['FR','LG','R'], action:"closeNavDropdown('navMapsDropdown');showPage('dpptmapview',document.getElementById('navDPPtMapView'));if(!window._dpptmapviewBuilt){buildDPPtMapView();window._dpptmapviewBuilt=true;}" },
         { icon:'\ud83e\udded', label:'Johto Map',       desc:'Interactive Johto IronMON map (HeartGold/SoulSilver) with clickable zones',     games:['S','E'], action:"closeNavDropdown('navMapsDropdown');showPage('hgssmapview',document.getElementById('navHGSSMapView'));if(!window._hgssmapviewBuilt){buildHGSSMapView();window._hgssmapviewBuilt=true;}" },
-        { icon:'\u2197', label:'Sidebar Map (auto)', desc:'Detailed scrollable map for your selected game \u2014 opens in a new tab', action:"openSidebarMap()" },
+        { icon:'\ud83d\uddfa', label:'Sidebar Map (auto)', desc:'Detailed scrollable map for your selected game \u2014 opens the right-side slideover', action:"openSidebarMap()" },
         { icon:'🗺', label:'Route Browser',   desc:'Select any area to see every Pokémon available', action:"return openPage('routebrowser','navRouteBrowser','navMapsDropdown')" },
       ]
     },
@@ -16013,14 +16013,15 @@ function updateBadge(){var b=document.getElementById('notes-tab-badge');if(!b)re
 
 /* ── Panel ── */
 // ══ MAP PANEL ═══════════════════════════════════════════════════
+// Gen 4: D/P/Pt → Sinnoh; HG/SS → Johto4 (HGSS Johto)
 var _mapRegionUrls = {
-  kanto3: 'https://simplyblgdev.github.io/pokemon/kanto3',
-  hoenn:  'https://simplyblgdev.github.io/pokemon/hoenn'
+  sinnoh: 'https://simplyblgdev.github.io/pokemon/sinnoh',
+  johto4: 'https://simplyblgdev.github.io/pokemon/johto4'
 };
 
 window.mapSelectRegion = function(region) {
   var iframe = document.getElementById('map-iframe');
-  iframe.src = _mapRegionUrls[region] || _mapRegionUrls.hoenn;
+  iframe.src = _mapRegionUrls[region] || _mapRegionUrls.sinnoh;
 };
 
 /* iOS Safari scroll-lock for panels.
@@ -16056,22 +16057,40 @@ function _panelScrollUnlock() {
   }
 }
 
-window.toggleMapPanel = function() {
+// Gen 4 default region picker: HG/SS → Johto4; D/P/Pt (and any other) → Sinnoh.
+function _gen4DefaultMapRegion() {
+  return (GAME === 'S' || GAME === 'E') ? 'johto4' : 'sinnoh';
+}
+
+// Open the map panel. Optional `region` overrides the auto-pick.
+// Re-clicking with the same region closes the panel (toggle).
+window.toggleMapPanel = function(region) {
   var panel = document.getElementById('map-panel');
-  if (panel.classList.contains('open')) { closeMapPanel(); return; }
+  region = region || _gen4DefaultMapRegion();
+  var sel = document.getElementById('map-select');
+  var iframe = document.getElementById('map-iframe');
+  var alreadyOpen = panel.classList.contains('open');
+  var currentRegion = sel ? sel.value : null;
+
+  if (alreadyOpen && currentRegion === region) {
+    closeMapPanel();
+    return;
+  }
   // Close notes if open
   var notesPanel = document.getElementById('notes-panel');
   if (notesPanel && notesPanel.classList.contains('open')) { closeNotesPanel(); }
-  // Auto-select region based on current game
-  var region = (['FR','LG'].indexOf(GAME) !== -1) ? 'kanto3' : 'hoenn';
-  var sel = document.getElementById('map-select');
   if (sel) sel.value = region;
-  var iframe = document.getElementById('map-iframe');
-  var url = _mapRegionUrls[region];
+  var url = _mapRegionUrls[region] || _mapRegionUrls.sinnoh;
   if (iframe.src !== url) iframe.src = url;
   panel.classList.add('open');
   _panelScrollLock();
   if (typeof iosSetActiveByOptId === 'function') iosSetActiveByOptId('map');
+};
+
+// Public alias used by nav menu + home-grid cards.
+// Maps the explicit-game strings used by the nav buttons to region keys.
+window.openSidebarMap = function(region) {
+  window.toggleMapPanel(region);
 };
 window.closeMapPanel = function() {
   document.getElementById('map-panel').classList.remove('open');
@@ -17368,32 +17387,6 @@ function pbCalc() {
 // constants are all that's needed for the Sinnoh / Johto map iframes.)
 var DPPT_MAP_URL = './DPPtIronmonMap/index.html';
 var HGSS_MAP_URL = './HGSSIronmonMap/index.html';
-
-// ══ External sidebar maps (simplyblgdev) ═════════════════════════
-// Routes to the right map based on the player's selected game.
-// Game slots: FR=Diamond, LG=Pearl, R=Platinum (all → Sinnoh);
-//             S=HeartGold, E=SoulSilver (both → Johto4/HGSS).
-// region override: 'sinnoh' or 'johto4'.
-window.openSidebarMap = function(region) {
-  var url;
-  if (region === 'sinnoh') {
-    url = 'https://simplyblgdev.github.io/pokemon/sinnoh';
-  } else if (region === 'johto4') {
-    url = 'https://simplyblgdev.github.io/pokemon/johto4';
-  } else {
-    // auto-route from current GAME
-    var g = (typeof GAME !== 'undefined') ? GAME : 'all';
-    if (g === 'S' || g === 'E') {
-      url = 'https://simplyblgdev.github.io/pokemon/johto4';
-    } else if (g === 'FR' || g === 'LG' || g === 'R') {
-      url = 'https://simplyblgdev.github.io/pokemon/sinnoh';
-    } else {
-      // 'all' — default to Sinnoh since 3/5 Gen-4 games are Sinnoh-based
-      url = 'https://simplyblgdev.github.io/pokemon/sinnoh';
-    }
-  }
-  window.open(url, '_blank', 'noopener');
-};
 
 function buildDPPtMapView() {
   var iframe = document.getElementById('dpc-iframe');
