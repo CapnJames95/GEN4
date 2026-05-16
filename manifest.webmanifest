@@ -1,0 +1,17 @@
+{
+  "name": "Pokémon Gen 4 eGuide",
+  "short_name": "Gen 4 eGuide",
+  "description": "Diamond / Pearl / Platinum / HeartGold / SoulSilver companion — Pokédex, walkthroughs, calculators, tracker, maps.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0d0f1e",
+  "theme_color": "#5599FF",
+  "orientation": "any",
+  "lang": "en",
+  "icons": [
+    { "src": "assets/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "assets/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ],
+  "categories": ["games", "reference", "utilities"]
+}
