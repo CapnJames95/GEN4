@@ -320,6 +320,7 @@ function buildHomePage() {
       items:[
         { icon:'\ud83e\udded', label:'Sinnoh Map',      desc:'Interactive Sinnoh map (Diamond/Pearl/Platinum) with item & berry locations',  games:['FR','LG','R'], action:"closeNavDropdown('navMapsDropdown');showPage('dpptmapview',document.getElementById('navDPPtMapView'));if(!window._dpptmapviewBuilt){buildDPPtMapView();window._dpptmapviewBuilt=true;}" },
         { icon:'\ud83e\udded', label:'Johto Map',       desc:'Interactive Johto IronMON map (HeartGold/SoulSilver) with clickable zones',     games:['S','E'], action:"closeNavDropdown('navMapsDropdown');showPage('hgssmapview',document.getElementById('navHGSSMapView'));if(!window._hgssmapviewBuilt){buildHGSSMapView();window._hgssmapviewBuilt=true;}" },
+        { icon:'\u2197', label:'Sidebar Map (auto)', desc:'Detailed scrollable map for your selected game \u2014 opens in a new tab', action:"openSidebarMap()" },
         { icon:'🗺', label:'Route Browser',   desc:'Select any area to see every Pokémon available', action:"return openPage('routebrowser','navRouteBrowser','navMapsDropdown')" },
       ]
     },
@@ -17367,6 +17368,32 @@ function pbCalc() {
 // constants are all that's needed for the Sinnoh / Johto map iframes.)
 var DPPT_MAP_URL = './DPPtIronmonMap/index.html';
 var HGSS_MAP_URL = './HGSSIronmonMap/index.html';
+
+// ══ External sidebar maps (simplyblgdev) ═════════════════════════
+// Routes to the right map based on the player's selected game.
+// Game slots: FR=Diamond, LG=Pearl, R=Platinum (all → Sinnoh);
+//             S=HeartGold, E=SoulSilver (both → Johto4/HGSS).
+// region override: 'sinnoh' or 'johto4'.
+window.openSidebarMap = function(region) {
+  var url;
+  if (region === 'sinnoh') {
+    url = 'https://simplyblgdev.github.io/pokemon/sinnoh';
+  } else if (region === 'johto4') {
+    url = 'https://simplyblgdev.github.io/pokemon/johto4';
+  } else {
+    // auto-route from current GAME
+    var g = (typeof GAME !== 'undefined') ? GAME : 'all';
+    if (g === 'S' || g === 'E') {
+      url = 'https://simplyblgdev.github.io/pokemon/johto4';
+    } else if (g === 'FR' || g === 'LG' || g === 'R') {
+      url = 'https://simplyblgdev.github.io/pokemon/sinnoh';
+    } else {
+      // 'all' — default to Sinnoh since 3/5 Gen-4 games are Sinnoh-based
+      url = 'https://simplyblgdev.github.io/pokemon/sinnoh';
+    }
+  }
+  window.open(url, '_blank', 'noopener');
+};
 
 function buildDPPtMapView() {
   var iframe = document.getElementById('dpc-iframe');
