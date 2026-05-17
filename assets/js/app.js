@@ -11537,7 +11537,10 @@ function bulbaRenderContent(container, html) {
   // Image lightbox - get full-res URL and block parent <a>
   // Derive full-res URL: strip /thumb/ path and trailing size suffix
   function _bulbaFullRes(src) {
-    // e.g. .../thumb/a/ab/File.png/200px-File.png -> .../a/ab/File.png
+    // Local mirror: .../assets/img/bulba/200px-File.png -> .../assets/img/bulba/File.png
+    var m = src.match(/^(.*\/assets\/img\/bulba\/)\d+px-(.+)$/);
+    if (m) return m[1] + m[2];
+    // Legacy Bulbagarden CDN: .../thumb/a/ab/File.png/200px-File.png -> .../a/ab/File.png
     return src.replace(/\/thumb\/([a-f0-9]\/[a-f0-9]{2}\/[^/]+)\/[^/]+$/, '/$1');
   }
   container.querySelectorAll('img').forEach(function(img){
