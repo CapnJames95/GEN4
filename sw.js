@@ -1,5 +1,5 @@
 /* Service worker — Pokémon Gen 4 eGuide. See GEN2 sw.js for design notes. */
-const CACHE_VERSION = 'gen4-v7';
+const CACHE_VERSION = 'gen4-v8';
 const STATIC_CACHE  = 'gen4-static-' + CACHE_VERSION;
 const RUNTIME_CACHE = 'gen4-runtime-' + CACHE_VERSION;
 
